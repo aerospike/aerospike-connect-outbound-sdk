@@ -1,0 +1,7 @@
+<component name="CopyrightManager">
+  <settings default="outbound-sdk">
+    <module2copyright>
+      <element module="All" copyright="outbound-sdk" />
+    </module2copyright>
+  </settings>
+</component>
