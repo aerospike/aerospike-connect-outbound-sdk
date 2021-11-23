@@ -98,5 +98,5 @@ public interface Transformer {
      * @return the transformed change notification record.
      */
     ChangeNotificationRecord transform(@NonNull ChangeNotificationRecord record,
-                                       @NonNull Map<String, Object> params);
+                                       @NonNull Map<String, Object> params) throws Exception;
 }

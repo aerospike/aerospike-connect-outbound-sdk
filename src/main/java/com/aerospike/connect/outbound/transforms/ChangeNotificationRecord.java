@@ -49,12 +49,12 @@ public class ChangeNotificationRecord {
      * delete operation.
      *
      * <p>
-     * When passed as input to the {@link Transformer} or {@link Formatter}, the
-     * blob and GeoJSON values in top level bins, in maps and lists are stored
-     * as mentioned below
+     * When passed as input to the {@link Formatter}, {@link RecordRouter},
+     * or {@link Transformer} the blob and GeoJSON values in top level bins,
+     * in maps and lists are formatted as mentioned below
      * <ul>
      *     <li>Java blob, C# blob, Python blob, Ruby blob, PHP blob, Erlang
-     *     blob and HLL types; are stored as
+     *     blob and HLL types; are formatted as
      *     {@link com.aerospike.client.Value.BytesValue BytesValue}. The
      *     BytesValue stores the underlying byte array and the
      *     {@link ParticleType}. The
@@ -62,10 +62,10 @@ public class ChangeNotificationRecord {
      *     type of the value: for example the consuming code can choose to
      *     deserialize the Java blob.
      *     </li>
-     *     <li>the GeoJSON types are stored as
+     *     <li>the GeoJSON types are formatted as
      *     {@link com.aerospike.client.Value.GeoJSONValue GeoJSONValue.}
      *     </li>
-     *     <li>plain Byte arrays (<code>byte[]</code>) are stored as
+     *     <li>plain Byte arrays (<code>byte[]</code>) are formatted as
      *     {@link com.aerospike.client.Value.BytesValue BytesValue} with
      *     type as {@link ParticleType#BLOB Blob}.</li>
      * </ul>

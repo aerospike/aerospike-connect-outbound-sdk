@@ -67,5 +67,5 @@ public interface Formatter<T extends OutboundMetadata> {
      */
     OutboundRecord<T> format(@NonNull ChangeNotificationRecord record,
                              @NonNull Map<String, Object> params,
-                             @NonNull OutboundRecord<T> formattedRecord);
+                             @NonNull OutboundRecord<T> formattedRecord) throws Exception;
 }

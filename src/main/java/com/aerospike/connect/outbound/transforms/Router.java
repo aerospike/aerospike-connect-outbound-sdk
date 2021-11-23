@@ -46,5 +46,5 @@ public interface Router<U, V> {
      * @return the route for the record.
      */
     OutboundRoute<V> getRoute(@NonNull U recordData,
-                              @NonNull Map<String, Object> params);
+                              @NonNull Map<String, Object> params) throws Exception;
 }
