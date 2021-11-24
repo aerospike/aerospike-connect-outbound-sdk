@@ -16,32 +16,24 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transforms;
+package com.aerospike.connect.outbound.routing;
 
 /**
- * The operation on the Aerospike record. Aerospike change notification ships
- * records on one of these operations on the record.
+ * The type of the outbound destination.
  */
-public enum AerospikeOperation {
+public enum OutboundRouteType {
     /**
-     * A write on the record.
+     * The outbound destination is a queue.
      */
-    WRITE,
+    QUEUE,
 
     /**
-     * A delete on the record.
+     * The outbound destination is a topic.
      */
-    DELETE,
+    TOPIC,
 
     /**
-     * A durable delete on the record.
+     * The outbound destination is of some other type.
      */
-    DURABLE_DELETE;
-
-    /**
-     * @return true iff the operation is a delete or a durable delete.
-     */
-    public Boolean isDelete() {
-        return this == DELETE || this == DURABLE_DELETE;
-    }
+    OTHER
 }

@@ -16,7 +16,7 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transforms;
+package com.aerospike.connect.outbound;
 
 import java.util.Arrays;
 import java.util.Map;

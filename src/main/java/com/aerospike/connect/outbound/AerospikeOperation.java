@@ -16,15 +16,32 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transforms;
+package com.aerospike.connect.outbound;
 
 /**
- * The metadata associated with the JMS outbound record. There is no metadata
- * associated with the JMS outbound record.
+ * The operation on the Aerospike record. Aerospike change notification ships
+ * records on one of these operations on the record.
  */
-public class JmsOutboundMetadata implements OutboundMetadata {
+public enum AerospikeOperation {
     /**
-     * An instance of JmsOutboundMetadata.
+     * A write on the record.
      */
-    public static JmsOutboundMetadata INSTANCE = new JmsOutboundMetadata();
+    WRITE,
+
+    /**
+     * A delete on the record.
+     */
+    DELETE,
+
+    /**
+     * A durable delete on the record.
+     */
+    DURABLE_DELETE;
+
+    /**
+     * @return true iff the operation is a delete or a durable delete.
+     */
+    public Boolean isDelete() {
+        return this == DELETE || this == DURABLE_DELETE;
+    }
 }

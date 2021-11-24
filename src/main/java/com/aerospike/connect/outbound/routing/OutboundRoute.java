@@ -16,7 +16,7 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transforms;
+package com.aerospike.connect.outbound.routing;
 
 import lombok.NonNull;
 

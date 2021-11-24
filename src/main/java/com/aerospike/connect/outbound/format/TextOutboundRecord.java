@@ -16,27 +16,23 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transforms;
+package com.aerospike.connect.outbound.format;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
-
-import javax.annotation.Nullable;
+import com.aerospike.connect.outbound.format.BytesOutboundRecord;
+import com.aerospike.connect.outbound.format.DefaultTextOutboundRecord;
+import com.aerospike.connect.outbound.format.OutboundMetadata;
 
 /**
- * The metadata associated with the Pulsar outbound record.
+ * TextOutboundRecord represents an outbound record with payload as text.
+ *
+ * <p>
+ * An instance of TextOutboundRecord should be returned by the JMS formatter
+ * when the JMS message should be sent as a JMS TextMessage.
+ * </p>
+ *
+ * @param <T> the type of metadata associated with the outbound record.
+ * @see DefaultTextOutboundRecord
  */
-@AllArgsConstructor
-@EqualsAndHashCode
-@Getter
-@ToString
-public class PulsarOutboundMetadata implements OutboundMetadata {
-    /**
-     * The Pulsar record key. If <code>null</code> then the Aerospike record
-     * digest will be used as the Pulsar record key.
-     */
-    @Nullable
-    private final byte[] key;
+public interface TextOutboundRecord<T extends OutboundMetadata>
+        extends BytesOutboundRecord<T> {
 }

@@ -16,7 +16,9 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transforms;
+package com.aerospike.connect.outbound.routing;
+
+import com.aerospike.connect.outbound.ChangeNotificationMetadata;
 
 /**
  * Route an Aerospike record to an outbound destination.

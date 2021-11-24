@@ -16,36 +16,28 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transforms;
+package com.aerospike.connect.outbound.pulsar;
 
-import com.google.protobuf.ByteString;
+import com.aerospike.connect.outbound.format.OutboundMetadata;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
 import javax.annotation.Nullable;
-import java.util.Map;
 
 /**
- * The metadata associated with the Google Pub/Sub outbound record.
+ * The metadata associated with the Pulsar outbound record.
  */
 @AllArgsConstructor
 @EqualsAndHashCode
 @Getter
 @ToString
-public class PubSubOutboundMetadata implements OutboundMetadata {
+public class PulsarOutboundMetadata implements OutboundMetadata {
     /**
-     * The attributes of the Google Pub/Sub message.
+     * The Pulsar record key. If <code>null</code> then the Aerospike record
+     * digest will be used as the Pulsar record key.
      */
     @Nullable
-    private final Map<String, String> attributes;
-
-    /**
-     * The ordering key of the Google Pub/Sub message. Ordering key can be used
-     * in Google Pub/Sub only when a regional endpoint is specified in the
-     * config for the Aerospike record.
-     */
-    @Nullable
-    private final ByteString orderingKey;
+    private final byte[] key;
 }

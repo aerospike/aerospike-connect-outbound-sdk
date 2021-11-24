@@ -50,8 +50,8 @@
  * custom transform class.
  * </p>
  *
- * @see com.aerospike.connect.outbound.transforms.Router
- * @see com.aerospike.connect.outbound.transforms.Transformer
- * @see com.aerospike.connect.outbound.transforms.Formatter
+ * @see com.aerospike.connect.outbound.routing.Router
+ * @see com.aerospike.connect.outbound.transform.Transformer
+ * @see com.aerospike.connect.outbound.format.Formatter
  */
-package com.aerospike.connect.outbound.transforms;
+package com.aerospike.connect.outbound;

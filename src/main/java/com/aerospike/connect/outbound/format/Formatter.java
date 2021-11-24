@@ -16,8 +16,11 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transforms;
+package com.aerospike.connect.outbound.format;
 
+import com.aerospike.connect.outbound.ChangeNotificationRecord;
+import com.aerospike.connect.outbound.esp.EspOutboundMetadata;
+import com.aerospike.connect.outbound.pulsar.PulsarOutboundMetadata;
 import lombok.NonNull;
 
 import java.util.Map;
@@ -64,6 +67,8 @@ public interface Formatter<T extends OutboundMetadata> {
      *                        unmodifiable map.
      * @param formattedRecord the formatted record.
      * @return the formatted record.
+     *
+     * @throws Exception if failed to format the record.
      */
     OutboundRecord<T> format(@NonNull ChangeNotificationRecord record,
                              @NonNull Map<String, Object> params,

@@ -16,35 +16,48 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transforms;
+package com.aerospike.connect.outbound.routing;
 
+import com.aerospike.connect.outbound.routing.OutboundRoute;
+import com.aerospike.connect.outbound.routing.OutboundRouteType;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-
-import java.util.Map;
+import lombok.ToString;
 
 /**
- * Route records to the outbound destination.
+ * A default implementation of {@link OutboundRoute}.
  *
- * <p>
- * This is the root interface for all the different outbound routers.
- * Implementers should implement one of the derived interfaces - {@link
- * MetadataRouter} or {@link RecordRouter}.
- * </p>
- *
- * @param <U> the input data type to the router.
- * @param <V> the type of the outbound route. Should be a String type for ESP
+ * @param <T> the type of the outbound route. Should be a String type for ESP
  *            (Event Stream Processing), Google Pub/Sub, JMS, Kafka, Pulsar
  *            routes.
  */
-public interface Router<U, V> {
+@AllArgsConstructor
+@EqualsAndHashCode
+@ToString
+public class DefaultOutboundRoute<T> implements OutboundRoute<T> {
     /**
-     * Get the route for the record data.
-     *
-     * @param recordData data of the change notification record.
-     * @param params     the config parameters passed to the router. Is an
-     *                   unmodifiable map.
-     * @return the route for the record.
+     * The type of the outbound route.
      */
-    OutboundRoute<V> getRoute(@NonNull U recordData,
-                              @NonNull Map<String, Object> params) throws Exception;
+    @NonNull
+    private final OutboundRouteType type;
+
+    /**
+     * The outbound route.
+     */
+    @NonNull
+    private final T route;
+
+
+    @NonNull
+    @Override
+    public OutboundRouteType getRouteType() {
+        return type;
+    }
+
+    @NonNull
+    @Override
+    public T getRoute() {
+        return route;
+    }
 }

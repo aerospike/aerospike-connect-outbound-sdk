@@ -16,40 +16,15 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transforms;
-
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.ToString;
-
-import java.util.Map;
+package com.aerospike.connect.outbound.format;
 
 /**
- * The metadata associated with the ESP (Event Stream Processing) outbound
- * record.
+ * Marker interface for the metadata of the outbound records.
+ *
+ * <p>
+ * Metadata is associated with the outbound record. Different metadata is
+ * associated with each of the outbound destinations.
+ * </p>
  */
-@AllArgsConstructor
-@EqualsAndHashCode
-@Getter
-@ToString
-public class EspOutboundMetadata implements OutboundMetadata {
-    /**
-     * The method of the HTTP request.
-     */
-    @NonNull
-    private final String httpMethod;
-
-    /**
-     * The URL path of the HTTP request.
-     */
-    @NonNull
-    private final String urlPath;
-
-    /**
-     * The headers of the HTTP request.
-     */
-    @NonNull
-    private final Map<String, String> headers;
+public interface OutboundMetadata {
 }

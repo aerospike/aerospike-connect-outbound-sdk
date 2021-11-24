@@ -16,27 +16,29 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transforms;
-
-import lombok.EqualsAndHashCode;
-import lombok.NonNull;
-import lombok.ToString;
-
-import javax.annotation.Nullable;
+package com.aerospike.connect.outbound.format;
 
 /**
- * A default implementation of {@link TextOutboundRecord}.
- *
- * @param <T> the type of metadata associated with the outbound record.
+ * Some predefined media types.
  */
-@EqualsAndHashCode(callSuper = true)
-@ToString
-public class DefaultTextOutboundRecord<T extends OutboundMetadata>
-        extends DefaultBytesOutboundRecord<T>
-        implements TextOutboundRecord<T> {
-    public DefaultTextOutboundRecord(@Nullable byte[] payload,
-                                     @NonNull String mediaType,
-                                     @NonNull T metadata) {
-        super(payload, mediaType, metadata);
-    }
+public class MediaType {
+    /**
+     * Avro media type.
+     */
+    public final static String AVRO = "application/avro";
+
+    /**
+     * JSON media type.
+     */
+    public final static String JSON = "application/json";
+
+    /**
+     * MessagePack media type.
+     */
+    public final static String MESSAGE_PACK = "application/x-msgpack";
+
+    /**
+     * Octet stream media type.
+     */
+    public final static String OCTET_STREAM = "application/octet-stream";
 }

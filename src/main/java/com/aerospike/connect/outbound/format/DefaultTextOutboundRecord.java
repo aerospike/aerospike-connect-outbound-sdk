@@ -16,26 +16,27 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transforms;
+package com.aerospike.connect.outbound.format;
+
+import lombok.EqualsAndHashCode;
+import lombok.NonNull;
+import lombok.ToString;
+
+import javax.annotation.Nullable;
 
 /**
- * Route an Aerospike record to an outbound destination.
+ * A default implementation of {@link TextOutboundRecord}.
  *
- * <p>
- * Routers should implement this interface when they require Aerospike record
- * bins to make routing decisions, else they should implement {@link
- * MetadataRouter}.
- * </p>
- *
- * <p>
- * Parsing only the Aerospike record key and metadata is faster than parsing the
- * whole Aerospike record key, metadata and bins. Implementers should choose to
- * implement {@link MetadataRouter} if bins are not required for making routing
- * decisions.
- * </p>
- *
- * @param <T> the type of the outbound route. Should be a String type for ESP,
- *            Google Pub/Sub, JMS, Kafka, Pulsar routes.
+ * @param <T> the type of metadata associated with the outbound record.
  */
-public interface RecordRouter<T> extends Router<ChangeNotificationRecord, T> {
+@EqualsAndHashCode(callSuper = true)
+@ToString
+public class DefaultTextOutboundRecord<T extends OutboundMetadata>
+        extends DefaultBytesOutboundRecord<T>
+        implements TextOutboundRecord<T> {
+    public DefaultTextOutboundRecord(@Nullable byte[] payload,
+                                     @NonNull String mediaType,
+                                     @NonNull T metadata) {
+        super(payload, mediaType, metadata);
+    }
 }

@@ -16,8 +16,10 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transforms;
+package com.aerospike.connect.outbound.transform;
 
+import com.aerospike.connect.outbound.ChangeNotificationRecord;
+import com.aerospike.connect.outbound.format.Formatter;
 import lombok.NonNull;
 
 import java.util.Map;
@@ -96,6 +98,7 @@ public interface Transformer {
      * @param params the params passed to the record from the config. Is an
      *               unmodifiable map.
      * @return the transformed change notification record.
+     * @throws Exception if failed to transform the record.
      */
     ChangeNotificationRecord transform(@NonNull ChangeNotificationRecord record,
                                        @NonNull Map<String, Object> params) throws Exception;

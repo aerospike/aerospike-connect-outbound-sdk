@@ -16,24 +16,48 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transforms;
+package com.aerospike.connect.outbound.format;
+
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.NonNull;
+import lombok.ToString;
 
 import javax.annotation.Nullable;
 
 /**
- * BytesOutboundRecord represents an outbound record with payload as bytes.
+ * A default implementation of {@link BytesOutboundRecord}.
  *
  * @param <T> the type of metadata associated with the outbound record.
- * @see DefaultBytesOutboundRecord
  */
-public interface BytesOutboundRecord<T extends OutboundMetadata>
-        extends OutboundRecord<T> {
-    /**
-     * Get the payload associated with the outbound record which is sent to the
-     * outbound destination.
-     *
-     * @return the payload associated with the outbound record.
-     */
+@AllArgsConstructor
+@EqualsAndHashCode
+@ToString
+public class DefaultBytesOutboundRecord<T extends OutboundMetadata>
+        implements BytesOutboundRecord<T> {
     @Nullable
-    byte[] getPayload();
+    private final byte[] payload;
+
+    @NonNull
+    private final String mediaType;
+
+    @NonNull
+    private final T metadata;
+
+    @Override
+    public byte[] getPayload() {
+        return payload;
+    }
+
+    @NonNull
+    @Override
+    public String getMediaType() {
+        return mediaType;
+    }
+
+    @NonNull
+    @Override
+    public T getMetadata() {
+        return metadata;
+    }
 }

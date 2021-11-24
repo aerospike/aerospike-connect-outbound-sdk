@@ -16,46 +16,37 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transforms;
+package com.aerospike.connect.outbound.pubsub;
 
+import com.aerospike.connect.outbound.format.OutboundMetadata;
+import com.google.protobuf.ByteString;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
-import lombok.NonNull;
+import lombok.Getter;
 import lombok.ToString;
 
+import javax.annotation.Nullable;
+import java.util.Map;
+
 /**
- * A default implementation of {@link OutboundRoute}.
- *
- * @param <T> the type of the outbound route. Should be a String type for ESP
- *            (Event Stream Processing), Google Pub/Sub, JMS, Kafka, Pulsar
- *            routes.
+ * The metadata associated with the Google Pub/Sub outbound record.
  */
 @AllArgsConstructor
 @EqualsAndHashCode
+@Getter
 @ToString
-public class DefaultOutboundRoute<T> implements OutboundRoute<T> {
+public class PubSubOutboundMetadata implements OutboundMetadata {
     /**
-     * The type of the outbound route.
+     * The attributes of the Google Pub/Sub message.
      */
-    @NonNull
-    private final OutboundRouteType type;
+    @Nullable
+    private final Map<String, String> attributes;
 
     /**
-     * The outbound route.
+     * The ordering key of the Google Pub/Sub message. Ordering key can be used
+     * in Google Pub/Sub only when a regional endpoint is specified in the
+     * config for the Aerospike record.
      */
-    @NonNull
-    private final T route;
-
-
-    @NonNull
-    @Override
-    public OutboundRouteType getRouteType() {
-        return type;
-    }
-
-    @NonNull
-    @Override
-    public T getRoute() {
-        return route;
-    }
+    @Nullable
+    private final ByteString orderingKey;
 }

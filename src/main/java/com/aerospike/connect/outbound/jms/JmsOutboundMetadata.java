@@ -16,15 +16,17 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transforms;
+package com.aerospike.connect.outbound.jms;
+
+import com.aerospike.connect.outbound.format.OutboundMetadata;
 
 /**
- * Marker interface for the metadata of the outbound records.
- *
- * <p>
- * Metadata is associated with the outbound record. Different metadata is
- * associated with each of the outbound destinations.
- * </p>
+ * The metadata associated with the JMS outbound record. There is no metadata
+ * associated with the JMS outbound record.
  */
-public interface OutboundMetadata {
+public class JmsOutboundMetadata implements OutboundMetadata {
+    /**
+     * An instance of JmsOutboundMetadata.
+     */
+    public static JmsOutboundMetadata INSTANCE = new JmsOutboundMetadata();
 }

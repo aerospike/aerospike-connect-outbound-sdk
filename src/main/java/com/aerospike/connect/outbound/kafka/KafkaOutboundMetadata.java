@@ -16,16 +16,28 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transforms;
+package com.aerospike.connect.outbound.kafka;
+
+import com.aerospike.connect.outbound.format.OutboundMetadata;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
+import javax.annotation.Nullable;
 
 /**
- * A convenience class to signify the absence of any {@link OutboundMetadata} in
- * the {@link OutboundRecord}.
+ * The metadata associated with the Kafka outbound record.
  */
-public class EmptyOutboundMetadata implements OutboundMetadata {
+@AllArgsConstructor
+@EqualsAndHashCode
+@Getter
+@ToString
+public class KafkaOutboundMetadata implements OutboundMetadata {
     /**
-     * An instance of empty outbound metadata.
+     * The Kafka record key. If <code>null</code> then the Aerospike record
+     * digest will be used as the Kafka record key.
      */
-    public static final EmptyOutboundMetadata INSTANCE =
-            new EmptyOutboundMetadata();
+    @Nullable
+    private final byte[] key;
 }

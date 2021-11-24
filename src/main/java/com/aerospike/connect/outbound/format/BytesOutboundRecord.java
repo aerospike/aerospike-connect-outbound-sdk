@@ -16,24 +16,24 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transforms;
+package com.aerospike.connect.outbound.format;
+
+import javax.annotation.Nullable;
 
 /**
- * The type of the outbound destination.
+ * BytesOutboundRecord represents an outbound record with payload as bytes.
+ *
+ * @param <T> the type of metadata associated with the outbound record.
+ * @see DefaultBytesOutboundRecord
  */
-public enum OutboundRouteType {
+public interface BytesOutboundRecord<T extends OutboundMetadata>
+        extends OutboundRecord<T> {
     /**
-     * The outbound destination is a queue.
+     * Get the payload associated with the outbound record which is sent to the
+     * outbound destination.
+     *
+     * @return the payload associated with the outbound record.
      */
-    QUEUE,
-
-    /**
-     * The outbound destination is a topic.
-     */
-    TOPIC,
-
-    /**
-     * The outbound destination is of some other type.
-     */
-    OTHER
+    @Nullable
+    byte[] getPayload();
 }

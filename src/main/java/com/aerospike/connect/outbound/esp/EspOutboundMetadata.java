@@ -16,48 +16,41 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transforms;
+package com.aerospike.connect.outbound.esp;
 
+import com.aerospike.connect.outbound.format.OutboundMetadata;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 
-import javax.annotation.Nullable;
+import java.util.Map;
 
 /**
- * A default implementation of {@link BytesOutboundRecord}.
- *
- * @param <T> the type of metadata associated with the outbound record.
+ * The metadata associated with the ESP (Event Stream Processing) outbound
+ * record.
  */
 @AllArgsConstructor
 @EqualsAndHashCode
+@Getter
 @ToString
-public class DefaultBytesOutboundRecord<T extends OutboundMetadata>
-        implements BytesOutboundRecord<T> {
-    @Nullable
-    private final byte[] payload;
-
+public class EspOutboundMetadata implements OutboundMetadata {
+    /**
+     * The method of the HTTP request.
+     */
     @NonNull
-    private final String mediaType;
+    private final String httpMethod;
 
+    /**
+     * The URL path of the HTTP request.
+     */
     @NonNull
-    private final T metadata;
+    private final String urlPath;
 
-    @Override
-    public byte[] getPayload() {
-        return payload;
-    }
-
+    /**
+     * The headers of the HTTP request.
+     */
     @NonNull
-    @Override
-    public String getMediaType() {
-        return mediaType;
-    }
-
-    @NonNull
-    @Override
-    public T getMetadata() {
-        return metadata;
-    }
+    private final Map<String, String> headers;
 }
