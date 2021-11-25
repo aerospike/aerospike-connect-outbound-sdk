@@ -21,20 +21,8 @@ package com.aerospike.connect.outbound.routing;
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
 
 /**
- * Route an Aerospike record to an outbound destination.
- *
- * <p>
- * Routers should implement this interface when they require Aerospike record
- * bins to make routing decisions, else they should implement {@link
- * MetadataRouter}.
- * </p>
- *
- * <p>
- * Parsing only the Aerospike record key and metadata is faster than parsing the
- * whole Aerospike record key, metadata and bins. Implementers should choose to
- * implement {@link MetadataRouter} if bins are not required for making routing
- * decisions.
- * </p>
+ * Route an Aerospike record to an outbound destination based on the change
+ * notification record.
  *
  * @param <T> the type of the outbound route. Should be a String type for ESP,
  *            Google Pub/Sub, JMS, Kafka, Pulsar routes.

@@ -27,8 +27,7 @@ import java.util.Map;
  *
  * <p>
  * This is the root interface for all the different outbound routers.
- * Implementers should implement one of the derived interfaces - {@link
- * MetadataRouter} or {@link RecordRouter}.
+ * Implementers should implement one of the derived interfaces - {@link RecordRouter}.
  * </p>
  *
  * @param <U> the input data type to the router.
