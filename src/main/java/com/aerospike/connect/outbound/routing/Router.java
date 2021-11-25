@@ -18,6 +18,7 @@
 
 package com.aerospike.connect.outbound.routing;
 
+import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import lombok.NonNull;
 
 import java.util.Map;
@@ -25,26 +26,20 @@ import java.util.Map;
 /**
  * Route records to the outbound destination.
  *
- * <p>
- * This is the root interface for all the different outbound routers.
- * Implementers should implement one of the derived interfaces - {@link RecordRouter}.
- * </p>
- *
- * @param <U> the input data type to the router.
- * @param <V> the type of the outbound route. Should be a String type for ESP
+ * @param <T> the type of the outbound route. Should be a String type for ESP
  *            (Event Stream Processing), Google Pub/Sub, JMS, Kafka, Pulsar
  *            routes.
  */
-public interface Router<U, V> {
+public interface Router<T> {
     /**
-     * Get the route for the record data.
+     * Get the route for the record.
      *
-     * @param recordData data of the change notification record.
-     * @param params     the config parameters passed to the router. Is an
-     *                   unmodifiable map.
+     * @param record the change notification record.
+     * @param params the params passed to the record from the config. Is an
+     *               unmodifiable map.
      * @return the route for the record.
      * @throws Exception if failed to route the record.
      */
-    OutboundRoute<V> getRoute(@NonNull U recordData,
+    OutboundRoute<T> getRoute(@NonNull ChangeNotificationRecord record,
                               @NonNull Map<String, Object> params) throws Exception;
 }

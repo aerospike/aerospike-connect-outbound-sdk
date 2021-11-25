@@ -20,8 +20,8 @@ package com.aerospike.connect.outbound;
 
 import com.aerospike.client.Key;
 import com.aerospike.connect.outbound.format.Formatter;
-import com.aerospike.connect.outbound.routing.RecordRouter;
 import com.aerospike.connect.outbound.transform.Transformer;
+import com.aerospike.connect.outbound.routing.Router;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -52,7 +52,7 @@ public class ChangeNotificationRecord {
      * delete operation.
      *
      * <p>
-     * When passed as input to the {@link Formatter}, {@link RecordRouter},
+     * When passed as input to the {@link Formatter}, {@link Router},
      * or {@link Transformer} the blob and GeoJSON values in top level bins,
      * in maps and lists are formatted as mentioned below
      * <ul>
