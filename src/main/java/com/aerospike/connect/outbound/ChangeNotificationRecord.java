@@ -29,6 +29,7 @@ import lombok.NonNull;
 import lombok.ToString;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -37,7 +38,6 @@ import java.util.Optional;
  * Aerospike records are inserted, modified or deleted in an Aerospike
  * database.
  */
-@AllArgsConstructor
 @EqualsAndHashCode
 @Getter
 @ToString
@@ -60,9 +60,9 @@ public class ChangeNotificationRecord {
      * delete operation.
      *
      * <p>
-     * When passed as input to the {@link Formatter}, {@link Router},
-     * or {@link Transformer} the blob and GeoJSON values in top level bins,
-     * in maps and lists are formatted as mentioned below
+     * When passed as input to the {@link Formatter}, {@link Router}, or {@link
+     * Transformer} the blob and GeoJSON values in top level bins, in maps and
+     * lists are formatted as mentioned below
      * <ul>
      *     <li>Java blob, C# blob, Python blob, Ruby blob, PHP blob, Erlang
      *     blob and HLL types; are formatted as
@@ -153,5 +153,12 @@ public class ChangeNotificationRecord {
      */
     public Optional<Integer> getTimeToLive() {
         return metadata.getTimeToLive();
+    }
+
+    public ChangeNotificationRecord(
+            @NonNull ChangeNotificationMetadata metadata,
+            @NonNull Map<String, Object> bins) {
+        this.metadata = metadata;
+        this.bins = new HashMap<>(bins);
     }
 }

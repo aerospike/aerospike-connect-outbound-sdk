@@ -40,7 +40,7 @@ public class ChangeNotificationMetadata {
      * Key of the changed record.
      */
     @NonNull
-    Key key;
+    private final Key key;
 
     /**
      * The operation on the record which triggered a ship by Aerospike XDR.
