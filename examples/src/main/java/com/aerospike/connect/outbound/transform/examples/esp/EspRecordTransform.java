@@ -16,7 +16,7 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transforms.examples.esp;
+package com.aerospike.connect.outbound.transform.examples.esp;
 
 import com.aerospike.connect.outbound.ChangeNotificationMetadata;
 import com.aerospike.connect.outbound.ChangeNotificationRecord;

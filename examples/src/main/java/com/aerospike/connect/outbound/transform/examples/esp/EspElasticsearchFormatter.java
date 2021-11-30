@@ -16,7 +16,7 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transforms.examples.esp;
+package com.aerospike.connect.outbound.transform.examples.esp;
 
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
@@ -69,8 +69,8 @@ class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
             String urlPath = toElasticsearchPath(record.getKey().digest,
                     "_doc");
             EspOutboundMetadata metadata = new EspOutboundMetadata("DELETE", urlPath, httpHeaders);
-            return new DefaultBytesOutboundRecord(jsonFormat, MediaType.JSON,
-                    metadata);
+            return new DefaultBytesOutboundRecord<EspOutboundMetadata>(jsonFormat,
+                    MediaType.JSON, metadata);
         }
 
         // Insert/Update a document.
@@ -78,7 +78,7 @@ class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
         String urlPath = toElasticsearchPath(record.getKey().digest, "_doc");
         EspOutboundMetadata metadata = new EspOutboundMetadata("PUT",
                 urlPath, httpHeaders);
-        return new DefaultBytesOutboundRecord(jsonFormat, MediaType.JSON,
+        return new DefaultBytesOutboundRecord<EspOutboundMetadata>(jsonFormat, MediaType.JSON,
                 metadata);
     }
 

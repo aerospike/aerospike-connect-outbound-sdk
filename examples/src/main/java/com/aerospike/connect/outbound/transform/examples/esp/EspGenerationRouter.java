@@ -16,32 +16,42 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transforms.examples.esp;
+package com.aerospike.connect.outbound.transform.examples.esp;
+
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.routing.OutboundRoute;
 import com.aerospike.connect.outbound.routing.Router;
 import lombok.NonNull;
 
+import javax.inject.Singleton;
 import java.util.Map;
+import java.util.Optional;
+
 
 /**
- * Route based on record bins.
+ * Route records by generation number.
  */
-public class EspBinRouter implements Router<String> {
+@Singleton
+public class EspGenerationRouter implements Router<String> {
     @Override
     public OutboundRoute<String> getRoute(
             @NonNull ChangeNotificationRecord record,
-            @NonNull Map<String, Object> params) {
-        Map<String, Object> bins = record.getBins();
+            @NonNull Map<String, Object> params) throws Exception {
+        // Record generation is not shipped by Aerospike XDR versions before
+        // v5.0.0.
+        Optional<Integer> generation = record.getGeneration();
 
-        // Destinations internal and external are to be configured in the
+        // Destinations young and old are to be configured in the
         // "destinations" section of the ESP config.
+        //
+        // "genNumber" is to be set in params option of the ESP config.
 
-        if (bins.containsKey("internal")) {
-            return OutboundRoute.newEspRoute("internal");
+        if (generation.isPresent() &&
+                generation.get() > (int) params.get("genNumber")) {
+            return OutboundRoute.newEspRoute("old");
         }
 
-        return OutboundRoute.newEspRoute("external");
+        return OutboundRoute.newEspRoute("young");
     }
 }

@@ -101,3 +101,6 @@ build/
 
 # Ignore Gradle build output directory
 build
+
+examples/.idea
+examples/dependency-reduced-pom.xml

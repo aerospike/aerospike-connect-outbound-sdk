@@ -24,11 +24,63 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.aerospike</groupId>
-    <artifactId>connect-outbound-transformer-examples</artifactId>
-    <version>1.0.0</version>
+    <artifactId>connect-outbound-transform-examples</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <!-- 1. RUNTIME DEPENDENCIES PACKAGED WITH JAR -->
+
+        <!-- JSON formatting in some examples -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.6.6</version>
+        </dependency>
+
+        <!-- 2. COMPILE ONLY DEPENDENCIES, EXCLUDED IN JAR -->
+
+        <!-- Aerospike client -->
+        <dependency>
+            <groupId>com.aerospike</groupId>
+            <artifactId>aerospike-client</artifactId>
+            <version>5.1.7</version>
+            <scope>provided</scope> <!-- Do not include in JAR -->
+        </dependency>
+
+        <!-- Aerospike outbound SDK -->
+        <dependency>
+            <groupId>com.aerospike</groupId>
+            <artifactId>aerospike-connect-outbound-sdk</artifactId>
+            <version>1.0.0</version>
+            <scope>provided</scope> <!-- Do not include in JAR -->
+        </dependency>
+
+        <!-- lombok annotations -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
+            <scope>provided</scope> <!-- Do not include in JAR -->
+        </dependency>
+
+        <!-- Javax inject annotations -->
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+            <scope>provided</scope> <!-- Do not include in JAR -->
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
+            <!-- Compile to Java 1.8 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -45,52 +97,31 @@
                     </compilerArgs>
                 </configuration>
             </plugin>
+
+            <!-- Shade dependencies to avoid any class dependency conflicts -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <relocations>
+                                <relocation>
+                                    <pattern>com.fasterxml</pattern>
+                                    <shadedPattern>
+                                        com.aerospike.connect.shaded.com.fasterxml
+                                    </shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
-
-    <dependencies>
-        <!-- Aerospike outbound SDK -->
-        <dependency>
-            <groupId>com.aerospike</groupId>
-            <artifactId>aerospike-connect-outbound-sdk</artifactId>
-            <version>1.0.0</version>
-            <scope>provided</scope> <!-- Do not bundle with JAR -->
-        </dependency>
-
-        <!-- Aerospike client -->
-        <dependency>
-            <groupId>com.aerospike</groupId>
-            <artifactId>aerospike-client</artifactId>
-            <version>5.1.7</version>
-            <scope>provided</scope> <!-- Do not bundle with JAR -->
-        </dependency>
-
-        <!-- lombok annotations -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.22</version>
-            <scope>provided</scope> <!-- Do not bundle with JAR -->
-        </dependency>
-
-        <!-- Javax inject annotations -->
-        <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-            <version>1</version>
-            <scope>provided</scope> <!-- Do not bundle with JAR -->
-        </dependency>
-
-        <!-- JSON formatting in some examples -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.6.6</version>
-        </dependency>
-    </dependencies>
-
-    <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
 </project>
