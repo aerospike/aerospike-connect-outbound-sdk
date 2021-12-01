@@ -2,31 +2,36 @@
 
 An outbound SDK for creating custom transforms for streaming connectors.
 
-This package provides a plugin system in Aerospike outbound connectors to
-transform records going to the outbound destination with custom code. There are
-three transforms that can be selectively configured in the outbound
-connectors to apply to the incoming Aerospike change notification records
-dispatched by XDR
-- routing transform to route the record to the outbound destination.
-- record transform to transform the contents of the Aerospike record
-  like add bin, delete bin, modify bin value, modify key, modify metadata
-  (generation, last update time, expiry).
-- format transform to transform the Aerospike record into a custom
-  format written to the outbound destination.
+Aerospike Connect outbound transform provides a plugin system in Aerospike
+outbound connectors to transform incoming XDR change notification records going
+to the outbound destination through custom code.
 
-The transforms can be plugged in selectively at any of the specificity
-levels - at the default level, at the namespace level, at the set level; like the
-rest of the configs in the outbound connectors.
+Three transforms can be configured in any combination in the outbound connectors
+to apply to the incoming Aerospike change notification records dispatched by XDR:
+
+- **Routing transform:** Route the record to the outbound destination.
+- **Record transform:** Transform the contents of the Aerospike record. Transformations include:
+    - Add bin
+    - Delete bin
+    - Change bin value
+    - Change key
+    - Change metadata (generation, last update time, expiry)
+- **Format transform:** Transform the Aerospike record into a custom format
+    written to the outbound destination.
+
+As with other configurations for outbound connectors, you can plug in the transforms at any of the specificity levels (default level, namespace level, or set level).
 
 The transformers are plugged in by specifying the Java class path of the
 custom transform class in the outbound config YAML file. An optional params
 map can be specified which will be passed to the transforming method of the
 custom transform class.
 
+For detailed documentation see [Aerospike connector docs](https://docs.aerospike.com/docs/connect/streaming-from-asdb/message-transform-outbound.html)
 
 ## Usage
 
-Add a dependency to com.aerospike:aerospike-connect-outbound-sdk.
+Add a dependency to this repo in your project. See the build files in the
+[examples](/examples) folder for further details.
 
 ### Maven
 
@@ -35,6 +40,7 @@ Add a dependency to com.aerospike:aerospike-connect-outbound-sdk.
     <groupId>com.aerospike</groupId>
     <artifactId>aerospike-connect-outbound-sdk</artifactId>
     <version>1.0.0</version>
+    <scope>provided</scope>
 </dependency>
 ```
 
@@ -44,7 +50,7 @@ Add a dependency to com.aerospike:aerospike-connect-outbound-sdk.
 
 ```kotlin
 dependencies {
-    api("com.aerospike:aerospike-connect-outbound-sdk:1.0.0")
+    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:1.0.0")
 }
 ```
 
@@ -52,5 +58,10 @@ dependencies {
 
 ```groovy
 dependencies {
-    api "com.aerospike:aerospike-connect-outbound-sdk:1.0.0"
+    compileOnly "com.aerospike:aerospike-connect-outbound-sdk:1.0.0"
 }
+```
+
+## Examples
+
+See [examples](/examples) folder.
