@@ -61,6 +61,22 @@
             <scope>provided</scope> <!-- Do not include in JAR -->
         </dependency>
 
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.26</version>
+            <scope>provided</scope> <!-- Do not include in JAR -->
+        </dependency>
+
+        <!-- Protobuf used in Google Pub/Sub Metadata -->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.13.0</version>
+            <scope>provided</scope> <!-- Do not include in JAR -->
+        </dependency>
+
         <!-- lombok annotations -->
         <dependency>
             <groupId>org.projectlombok</groupId>

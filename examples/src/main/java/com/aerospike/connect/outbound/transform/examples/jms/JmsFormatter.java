@@ -16,14 +16,14 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transform.examples.esp;
+package com.aerospike.connect.outbound.transform.examples.jms;
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
-import com.aerospike.connect.outbound.esp.EspOutboundMetadata;
 import com.aerospike.connect.outbound.format.DefaultTextOutboundRecord;
 import com.aerospike.connect.outbound.format.Formatter;
 import com.aerospike.connect.outbound.format.MediaType;
 import com.aerospike.connect.outbound.format.OutboundRecord;
+import com.aerospike.connect.outbound.jms.JmsOutboundMetadata;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,20 +39,20 @@ import java.util.Map;
  * <pre>
  * format:
  *   mode: custom
- *   class: com.aerospike.connect.outbound.transform.examples.esp.EspFormatter
+ *   class: com.aerospike.connect.outbound.transform.examples.jms.JmsFormatter
  * </pre>
  * </p>
  */
 @Singleton
-public class EspFormatter implements Formatter<EspOutboundMetadata> {
+public class JmsFormatter implements Formatter<JmsOutboundMetadata> {
     private final static Logger logger =
-            LoggerFactory.getLogger(EspFormatter.class.getName());
+            LoggerFactory.getLogger(JmsFormatter.class.getName());
 
     @Override
-    public OutboundRecord<EspOutboundMetadata> format(
+    public OutboundRecord<JmsOutboundMetadata> format(
             @NonNull ChangeNotificationRecord record,
             @NonNull Map<String, Object> params,
-            @NonNull OutboundRecord<EspOutboundMetadata> formattedRecord) {
+            @NonNull OutboundRecord<JmsOutboundMetadata> formattedRecord) {
         logger.debug("Formatting record {}", record.getKey());
 
         // Only write string bins.
@@ -66,7 +66,7 @@ public class EspFormatter implements Formatter<EspOutboundMetadata> {
             }
         }
 
-        return new DefaultTextOutboundRecord<EspOutboundMetadata>(
+        return new DefaultTextOutboundRecord<JmsOutboundMetadata>(
                 payloadBuilder.toString().getBytes(), MediaType.OCTET_STREAM,
                 formattedRecord.getMetadata());
     }

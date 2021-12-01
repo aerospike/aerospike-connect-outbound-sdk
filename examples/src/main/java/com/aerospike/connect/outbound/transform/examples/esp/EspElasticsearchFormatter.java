@@ -28,6 +28,8 @@ import com.aerospike.connect.outbound.format.OutboundRecord;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
 import java.io.UnsupportedEncodingException;
@@ -41,12 +43,30 @@ import java.util.Map;
  * Send Aerospike change notification records to Elasticsearch.
  *
  * <p>
- * The ESP connector should be configured with Elasticsearch destinations.
+ * A snippet of a config for this formatter can be
+ * <pre>
+ * ...
+ * destinations:
+ *   dc1:
+ *     urls:
+ *       - http://elastic.internal.com:9200
+ *     protocol: "HTTP_1_1"
+ *
+ * format:
+ *   mode: custom
+ *   class: com.aerospike.connect.outbound.transform.examples.esp.EspElasticsearchFormatter
+ *   params:
+ *     username: elastic
+ *     password: elastic123
+ * </pre>
  * </p>
  */
 @Singleton
 class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private final static Logger logger =
+            LoggerFactory.getLogger(EspBinRouter.class.getName());
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private final String ELASTICSEARCH_INDEX_NAME = "esp";
 
     @Override
@@ -66,18 +86,21 @@ class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
         // Delete a document.
         // See https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-delete.html
         if (record.getOperation().isDelete()) {
-            String urlPath = toElasticsearchPath(record.getKey().digest,
+            logger.debug("Deleting document for record {}", record.getKey());
+            String path = toElasticsearchPath(record.getKey().digest,
                     "_doc");
-            EspOutboundMetadata metadata = new EspOutboundMetadata("DELETE", urlPath, httpHeaders);
+            EspOutboundMetadata metadata = new EspOutboundMetadata("DELETE", path, httpHeaders);
             return new DefaultBytesOutboundRecord<EspOutboundMetadata>(jsonFormat,
-                    MediaType.JSON, metadata);
+                    MediaType.JSON,
+                    metadata);
         }
 
         // Insert/Update a document.
         // See https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-index_.html
-        String urlPath = toElasticsearchPath(record.getKey().digest, "_doc");
+        logger.debug("Inserting/updating document for record {}", record.getKey());
+        String path = toElasticsearchPath(record.getKey().digest, "_doc");
         EspOutboundMetadata metadata = new EspOutboundMetadata("PUT",
-                urlPath, httpHeaders);
+                path, httpHeaders);
         return new DefaultBytesOutboundRecord<EspOutboundMetadata>(jsonFormat, MediaType.JSON,
                 metadata);
     }

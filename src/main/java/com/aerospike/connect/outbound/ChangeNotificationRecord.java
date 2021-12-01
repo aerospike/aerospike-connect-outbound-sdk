@@ -34,9 +34,8 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * The notification record shipped by Aerospike change notification when
- * Aerospike records are inserted, modified or deleted in an Aerospike
- * database.
+ * A notification record shipped by Aerospike change notification
+ * when records are inserted, modified or deleted in an Aerospike database.
  */
 @EqualsAndHashCode
 @Getter
@@ -56,8 +55,8 @@ public class ChangeNotificationRecord {
     private final Map<String, Object> bins;
 
     /**
-     * Map of bin name to bin value of the record. Will be empty in case of a
-     * delete operation.
+     * An unmodifiable map of bin name to bin value of the record. Will be empty
+     * in case of a delete operation.
      *
      * <p>
      * When passed as input to the {@link Formatter}, {@link Router}, or {@link

@@ -16,14 +16,15 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transform.examples.esp;
+package com.aerospike.connect.outbound.transform.examples.pubsub;
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
-import com.aerospike.connect.outbound.esp.EspOutboundMetadata;
 import com.aerospike.connect.outbound.format.DefaultTextOutboundRecord;
 import com.aerospike.connect.outbound.format.Formatter;
 import com.aerospike.connect.outbound.format.MediaType;
 import com.aerospike.connect.outbound.format.OutboundRecord;
+import com.aerospike.connect.outbound.pubsub.PubSubOutboundMetadata;
+import com.google.protobuf.ByteString;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,22 +38,28 @@ import java.util.Map;
  * <p>
  * A snippet of a config for this formatter can be
  * <pre>
+ * # OPTIONAL. If configured will be passed in PubSubOutboundMetadata to PubSubFormatter.
+ * attributes:
+ *   colour:
+ *     mode: static
+ *     value: RED
+ *
  * format:
  *   mode: custom
- *   class: com.aerospike.connect.outbound.transform.examples.esp.EspFormatter
+ *   class: com.aerospike.connect.outbound.transform.examples.pubsub.PubSubFormatter
  * </pre>
  * </p>
  */
 @Singleton
-public class EspFormatter implements Formatter<EspOutboundMetadata> {
+public class PubSubFormatter implements Formatter<PubSubOutboundMetadata> {
     private final static Logger logger =
-            LoggerFactory.getLogger(EspFormatter.class.getName());
+            LoggerFactory.getLogger(PubSubFormatter.class.getName());
 
     @Override
-    public OutboundRecord<EspOutboundMetadata> format(
+    public OutboundRecord<PubSubOutboundMetadata> format(
             @NonNull ChangeNotificationRecord record,
             @NonNull Map<String, Object> params,
-            @NonNull OutboundRecord<EspOutboundMetadata> formattedRecord) {
+            @NonNull OutboundRecord<PubSubOutboundMetadata> formattedRecord) {
         logger.debug("Formatting record {}", record.getKey());
 
         // Only write string bins.
@@ -66,8 +73,21 @@ public class EspFormatter implements Formatter<EspOutboundMetadata> {
             }
         }
 
-        return new DefaultTextOutboundRecord<EspOutboundMetadata>(
+        // If attribute colour is present add it to the payload as well.
+        Map<String, String> attributes = formattedRecord.getMetadata().getAttributes();
+        if (attributes != null && attributes.containsKey("colour")) {
+            payloadBuilder.append("colour");
+            payloadBuilder.append(":");
+            payloadBuilder.append(attributes.get("colour"));
+            payloadBuilder.append("\n");
+        }
+
+        // Add ordering key.
+        ByteString orderingKey = ByteString.copyFromUtf8("CustomFormatter");
+        PubSubOutboundMetadata metadata = new PubSubOutboundMetadata(attributes, orderingKey);
+
+        return new DefaultTextOutboundRecord<PubSubOutboundMetadata>(
                 payloadBuilder.toString().getBytes(), MediaType.OCTET_STREAM,
-                formattedRecord.getMetadata());
+                metadata);
     }
 }

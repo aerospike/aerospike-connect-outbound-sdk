@@ -16,68 +16,48 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transform.examples.esp;
-
+package com.aerospike.connect.outbound.transform.examples.jms;
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.routing.OutboundRoute;
+import com.aerospike.connect.outbound.routing.OutboundRouteType;
 import com.aerospike.connect.outbound.routing.Router;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Singleton;
 import java.util.Map;
-import java.util.Optional;
-
 
 /**
- * Route records by generation number.
+ * Route based on record bins.
  *
  * <p>
  * A snippet of a config for this router can be
  * <pre>
- * ...
- *
- * destinations:
- *   old:
- *     ...
- *   young:
- *     ...
- *
  * routing:
  *   mode: custom
- *   class: com.aerospike.connect.outbound.transform.examples.esp.EspGenerationRouter
+ *   class: com.aerospike.connect.outbound.transform.examples.jms.JmsBinRouter
  *   params:
- *     genNumber: 100
+ *     internal: true
  * </pre>
  * </p>
  */
-@Singleton
-public class EspGenerationRouter implements Router<String> {
+public class JmsBinRouter implements Router<String> {
     private final static Logger logger =
-            LoggerFactory.getLogger(EspGenerationRouter.class.getName());
+            LoggerFactory.getLogger(JmsBinRouter.class.getName());
 
     @Override
     public OutboundRoute<String> getRoute(
             @NonNull ChangeNotificationRecord record,
             @NonNull Map<String, Object> params) {
-        // Record generation is not shipped by Aerospike XDR versions before
-        // v5.0.0.
-        Optional<Integer> generation = record.getGeneration();
+        Map<String, Object> bins = record.getBins();
 
-        // Destinations young and old are to be configured in the
-        // "destinations" section of the ESP config.
-        //
-        // "genNumber" is to be set in params option of the ESP routing config.
-
-        if (generation.isPresent() &&
-                generation.get() > (int) params.get("genNumber")) {
-            logger.debug("Routing record {} to old", record.getKey());
-            return OutboundRoute.newEspRoute("old");
+        if (bins.containsKey("internal")) {
+            logger.debug("Routing record {} to internal", record.getKey());
+            return OutboundRoute.newJmsRoute(OutboundRouteType.QUEUE, "internal");
         }
 
-        logger.debug("Routing record {} to young", record.getKey());
-        return OutboundRoute.newEspRoute("young");
+        logger.debug("Routing record {} to external", record.getKey());
+        return OutboundRoute.newJmsRoute(OutboundRouteType.QUEUE, "external");
     }
 }

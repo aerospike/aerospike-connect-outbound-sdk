@@ -16,7 +16,7 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transform.examples.esp;
+package com.aerospike.connect.outbound.transform.examples.pubsub;
 
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
@@ -37,26 +37,18 @@ import java.util.Optional;
  * <p>
  * A snippet of a config for this router can be
  * <pre>
- * ...
- *
- * destinations:
- *   old:
- *     ...
- *   young:
- *     ...
- *
  * routing:
  *   mode: custom
- *   class: com.aerospike.connect.outbound.transform.examples.esp.EspGenerationRouter
+ *   class: com.aerospike.connect.outbound.transform.examples.pubsub.PubSubGenerationRouter
  *   params:
  *     genNumber: 100
  * </pre>
  * </p>
  */
 @Singleton
-public class EspGenerationRouter implements Router<String> {
+public class PubSubGenerationRouter implements Router<String> {
     private final static Logger logger =
-            LoggerFactory.getLogger(EspGenerationRouter.class.getName());
+            LoggerFactory.getLogger(PubSubGenerationRouter.class.getName());
 
     @Override
     public OutboundRoute<String> getRoute(
@@ -66,18 +58,15 @@ public class EspGenerationRouter implements Router<String> {
         // v5.0.0.
         Optional<Integer> generation = record.getGeneration();
 
-        // Destinations young and old are to be configured in the
-        // "destinations" section of the ESP config.
-        //
         // "genNumber" is to be set in params option of the ESP routing config.
 
         if (generation.isPresent() &&
                 generation.get() > (int) params.get("genNumber")) {
             logger.debug("Routing record {} to old", record.getKey());
-            return OutboundRoute.newEspRoute("old");
+            return OutboundRoute.newPubSubRoute("old");
         }
 
         logger.debug("Routing record {} to young", record.getKey());
-        return OutboundRoute.newEspRoute("young");
+        return OutboundRoute.newPubSubRoute("young");
     }
 }

@@ -16,12 +16,14 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transform.examples.esp;
+package com.aerospike.connect.outbound.transform.examples.jms;
 
 import com.aerospike.connect.outbound.ChangeNotificationMetadata;
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.transform.Transformer;
 import lombok.NonNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -29,8 +31,19 @@ import java.util.Map;
 
 /**
  * Transform a change notification record.
+ *
+ * <p>
+ * A snippet of a config for this transformer can be
+ * <pre>
+ * custom-transform:
+ *   class: com.aerospike.connect.outbound.transform.examples.jms.JmsRecordTransformer
+ * </pre>
+ * </p>
  */
-public class EspRecordTransform implements Transformer {
+public class JmsRecordTransformer implements Transformer {
+    private final static Logger logger =
+            LoggerFactory.getLogger(JmsFormatter.class.getName());
+
     @Override
     public ChangeNotificationRecord transform(
             @NonNull ChangeNotificationRecord record,
@@ -38,6 +51,9 @@ public class EspRecordTransform implements Transformer {
         // Increment generation in metadata.
         Integer generation = record.getGeneration().isPresent() ?
                 record.getGeneration().get() + 1 : null;
+
+        logger.debug("Updated generation of record {} to {}", record.getKey(),
+                generation);
 
         Long lastUpdateTime = record.getLastUpdateTimeMs().isPresent() ?
                 record.getLastUpdateTimeMs().get() : null;
@@ -50,7 +66,8 @@ public class EspRecordTransform implements Transformer {
                         record.getOperation(), generation, lastUpdateTime,
                         expiryTime);
 
-        // Add a bin.
+        // Add a timestamp bin.
+        // record.getBins() is immutable, create a copy.
         Map<String, Object> bins = new HashMap<>(record.getBins());
         bins.put("timestamp", (new Date()).getTime());
 

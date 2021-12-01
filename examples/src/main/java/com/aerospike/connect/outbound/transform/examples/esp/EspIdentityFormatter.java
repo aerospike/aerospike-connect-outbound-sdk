@@ -19,8 +19,10 @@
 package com.aerospike.connect.outbound.transform.examples.esp;
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
-import com.aerospike.connect.outbound.routing.OutboundRoute;
-import com.aerospike.connect.outbound.routing.Router;
+import com.aerospike.connect.outbound.esp.EspOutboundMetadata;
+import com.aerospike.connect.outbound.format.BytesOutboundRecord;
+import com.aerospike.connect.outbound.format.Formatter;
+import com.aerospike.connect.outbound.format.OutboundRecord;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,46 +30,35 @@ import org.slf4j.LoggerFactory;
 import java.util.Map;
 
 /**
- * Route based on record bins.
+ * An identity formatter.
  *
  * <p>
- * A snippet of a config for this router can be
+ * A snippet of a config for this formatter can be
  * <pre>
- * ...
- *
- * destinations:
- *   internal:
- *     ...
- *   external:
- *     ...
- *
- * routing:
+ * format:
  *   mode: custom
- *   class: com.aerospike.connect.outbound.transform.examples.esp.EspBinRouter
- *   params:
- *     internal: true
+ *   class: com.aerospike.connect.outbound.transform.examples.esp.EspIdentityFormatter
+ *   record-format:
+ *     mode: json # Format record with built-in JSON format.
  * </pre>
  * </p>
  */
-public class EspBinRouter implements Router<String> {
+public class EspIdentityFormatter implements Formatter<EspOutboundMetadata> {
     private final static Logger logger =
-            LoggerFactory.getLogger(EspBinRouter.class.getName());
+            LoggerFactory.getLogger(EspIdentityFormatter.class.getName());
 
     @Override
-    public OutboundRoute<String> getRoute(
+    public OutboundRecord<EspOutboundMetadata> format(
             @NonNull ChangeNotificationRecord record,
-            @NonNull Map<String, Object> params) {
-        Map<String, Object> bins = record.getBins();
-
-        // Destinations internal and external are to be configured in the
-        // "destinations" section of the ESP config.
-
-        if (bins.containsKey("internal")) {
-            logger.debug("Routing record {} to internal", record.getKey());
-            return OutboundRoute.newEspRoute("internal");
+            @NonNull Map<String, Object> params,
+            @NonNull OutboundRecord<EspOutboundMetadata> formattedRecord) {
+        if (logger.isDebugEnabled()) {
+            byte[] payload = ((BytesOutboundRecord<EspOutboundMetadata>) formattedRecord).getPayload();
+            logger.debug("Record {} is formatted to JSON {}", record,
+                    new String(payload));
         }
 
-        logger.debug("Routing record {} to external", record.getKey());
-        return OutboundRoute.newEspRoute("external");
+        // Return the JSON formatted record.
+        return formattedRecord;
     }
 }

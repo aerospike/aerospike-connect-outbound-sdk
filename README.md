@@ -33,6 +33,9 @@ For detailed documentation see [Aerospike connector docs](https://docs.aerospike
 Add a dependency to this repo in your project. See the build files in the
 [examples](/examples) folder for further details.
 
+**NOTE** It is recommended to shade all the custom plugin dependencies to avoid
+class path conflicts with the outbound connectors.
+
 ### Maven
 
 ```xml

@@ -30,11 +30,17 @@ dependencies {
     // Aerospike outbound SDK.
     compileOnly("com.aerospike:aerospike-connect-outbound-sdk:1.0.0")
 
+    // Logging.
+    compileOnly("org.slf4j:slf4j-api:1.7.26")
+
     // Lombok annotations.
     compileOnly("org.projectlombok:lombok:1.18.22")
 
     // Javax inject annotations.
     compileOnly("javax.inject:javax.inject:1")
+
+    // Google Pub/Sub ByteString.
+    compileOnly("com.google.protobuf:protobuf-java:3.13.0")
 }
 
 // Use Java 8.

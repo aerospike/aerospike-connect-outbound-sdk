@@ -4,7 +4,7 @@ Maven or Gradle.
 
 ## Build
 
-All dependencies are shaded to avoid class conflicts with the outbound
+All dependencies are shaded to avoid class path conflicts with the outbound
 connectors.
 
 ### Gradle Build
