@@ -43,10 +43,10 @@ public class EspOutboundMetadata implements OutboundMetadata {
     private final String httpMethod;
 
     /**
-     * The URL path of the HTTP request.
+     * The path of the URL of the HTTP request.
      */
     @NonNull
-    private final String urlPath;
+    private final String path;
 
     /**
      * The headers of the HTTP request.
