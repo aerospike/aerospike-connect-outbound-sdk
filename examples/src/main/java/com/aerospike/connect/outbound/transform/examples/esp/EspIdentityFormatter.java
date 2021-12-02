@@ -41,7 +41,6 @@ import java.util.Map;
  *   record-format:
  *     mode: json # Format record with built-in JSON format.
  * </pre>
- * </p>
  */
 public class EspIdentityFormatter implements Formatter<EspOutboundMetadata> {
     private final static Logger logger =

@@ -41,7 +41,6 @@ import java.util.Map;
  *   mode: custom
  *   class: com.aerospike.connect.outbound.transform.examples.kafka.KafkaFormatter
  * </pre>
- * </p>
  */
 @Singleton
 public class KafkaFormatter implements Formatter<KafkaOutboundMetadata> {

@@ -41,7 +41,6 @@ import java.util.Map;
  *   mode: custom
  *   class: com.aerospike.connect.outbound.transform.examples.pulsar.PulsarFormatter
  * </pre>
- * </p>
  */
 @Singleton
 public class PulsarFormatter implements Formatter<PulsarOutboundMetadata> {

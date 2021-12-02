@@ -39,7 +39,6 @@ import java.util.Map;
  *   params:
  *     internal: true
  * </pre>
- * </p>
  */
 public class PulsarBinRouter implements Router<String> {
     private final static Logger logger =

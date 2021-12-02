@@ -59,7 +59,6 @@ import java.util.Map;
  *     username: elastic
  *     password: elastic123
  * </pre>
- * </p>
  */
 @Singleton
 class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {

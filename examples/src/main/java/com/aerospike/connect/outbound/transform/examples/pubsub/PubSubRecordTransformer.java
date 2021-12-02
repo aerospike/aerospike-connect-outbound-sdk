@@ -38,7 +38,6 @@ import java.util.Map;
  * custom-transform:
  *   class: com.aerospike.connect.outbound.transform.examples.pubsub.PubSubRecordTransformer
  * </pre>
- * </p>
  */
 public class PubSubRecordTransformer implements Transformer {
     private final static Logger logger =

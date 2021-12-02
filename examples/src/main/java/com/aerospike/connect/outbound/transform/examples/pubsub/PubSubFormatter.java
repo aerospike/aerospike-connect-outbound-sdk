@@ -50,7 +50,6 @@ import java.util.Map;
  *   mode: custom
  *   class: com.aerospike.connect.outbound.transform.examples.pubsub.PubSubFormatter
  * </pre>
- * </p>
  */
 @Singleton
 public class PubSubFormatter implements Formatter<PubSubOutboundMetadata> {

@@ -41,7 +41,6 @@ import java.util.Map;
  *   mode: custom
  *   class: com.aerospike.connect.outbound.transform.examples.esp.EspFormatter
  * </pre>
- * </p>
  */
 @Singleton
 public class EspFormatter implements Formatter<EspOutboundMetadata> {

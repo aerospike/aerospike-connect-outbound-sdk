@@ -38,7 +38,6 @@ import java.util.Map;
  * custom-transform:
  *   class: com.aerospike.connect.outbound.transform.examples.kafka.KafkaRecordTransformer
  * </pre>
- * </p>
  */
 public class KafkaRecordTransformer implements Transformer {
     private final static Logger logger =

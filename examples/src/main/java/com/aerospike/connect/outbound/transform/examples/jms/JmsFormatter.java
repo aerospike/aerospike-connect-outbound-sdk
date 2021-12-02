@@ -41,7 +41,6 @@ import java.util.Map;
  *   mode: custom
  *   class: com.aerospike.connect.outbound.transform.examples.jms.JmsFormatter
  * </pre>
- * </p>
  */
 @Singleton
 public class JmsFormatter implements Formatter<JmsOutboundMetadata> {

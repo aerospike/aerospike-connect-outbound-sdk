@@ -42,7 +42,6 @@ import java.util.Map;
  *     mode: json # Format record with built-in JSON format.
  *     asText: true # Should message be dispatched as JMS TextMessage?
  * </pre>
- * </p>
  */
 public class JmsIdentityFormatter implements Formatter<JmsOutboundMetadata> {
     @Override

@@ -40,7 +40,6 @@ import java.util.Map;
  *   params:
  *     internal: true
  * </pre>
- * </p>
  */
 public class JmsBinRouter implements Router<String> {
     private final static Logger logger =
@@ -54,7 +53,8 @@ public class JmsBinRouter implements Router<String> {
 
         if (bins.containsKey("internal")) {
             logger.debug("Routing record {} to internal", record.getKey());
-            return OutboundRoute.newJmsRoute(OutboundRouteType.QUEUE, "internal");
+            return OutboundRoute.newJmsRoute(OutboundRouteType.QUEUE,
+                    "internal");
         }
 
         logger.debug("Routing record {} to external", record.getKey());

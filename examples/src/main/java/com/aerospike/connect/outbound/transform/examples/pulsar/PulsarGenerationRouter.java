@@ -43,7 +43,6 @@ import java.util.Optional;
  *   params:
  *     genNumber: 100
  * </pre>
- * </p>
  */
 @Singleton
 public class PulsarGenerationRouter implements Router<String> {

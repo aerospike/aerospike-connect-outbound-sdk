@@ -38,7 +38,6 @@ import java.util.Map;
  * custom-transform:
  *   class: com.aerospike.connect.outbound.transform.examples.esp.EspRecordTransformer
  * </pre>
- * </p>
  */
 public class EspRecordTransformer implements Transformer {
     private final static Logger logger =

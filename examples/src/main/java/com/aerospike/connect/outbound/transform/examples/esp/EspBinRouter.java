@@ -47,7 +47,6 @@ import java.util.Map;
  *   params:
  *     internal: true
  * </pre>
- * </p>
  */
 public class EspBinRouter implements Router<String> {
     private final static Logger logger =

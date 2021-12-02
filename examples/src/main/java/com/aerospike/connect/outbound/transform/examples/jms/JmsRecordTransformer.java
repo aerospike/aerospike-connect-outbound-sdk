@@ -38,7 +38,6 @@ import java.util.Map;
  * custom-transform:
  *   class: com.aerospike.connect.outbound.transform.examples.jms.JmsRecordTransformer
  * </pre>
- * </p>
  */
 public class JmsRecordTransformer implements Transformer {
     private final static Logger logger =

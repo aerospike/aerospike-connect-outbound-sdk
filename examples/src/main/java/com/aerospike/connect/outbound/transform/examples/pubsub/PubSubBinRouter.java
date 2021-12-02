@@ -39,7 +39,6 @@ import java.util.Map;
  *   params:
  *     internal: true
  * </pre>
- * </p>
  */
 public class PubSubBinRouter implements Router<String> {
     private final static Logger logger =

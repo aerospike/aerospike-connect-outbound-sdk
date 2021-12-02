@@ -43,7 +43,6 @@ import java.util.Optional;
  *   params:
  *     genNumber: 100
  * </pre>
- * </p>
  */
 @Singleton
 public class PubSubGenerationRouter implements Router<String> {

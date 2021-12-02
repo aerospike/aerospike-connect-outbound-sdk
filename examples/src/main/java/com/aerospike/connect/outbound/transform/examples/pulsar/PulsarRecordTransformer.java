@@ -38,7 +38,6 @@ import java.util.Map;
  * custom-transform:
  *   class: com.aerospike.connect.outbound.transform.examples.pulsar.PulsarRecordTransformer
  * </pre>
- * </p>
  */
 public class PulsarRecordTransformer implements Transformer {
     private final static Logger logger =
