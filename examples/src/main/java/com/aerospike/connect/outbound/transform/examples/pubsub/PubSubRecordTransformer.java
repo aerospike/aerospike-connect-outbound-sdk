@@ -42,7 +42,7 @@ import java.util.Map;
  */
 public class PubSubRecordTransformer implements Transformer {
     private final static Logger logger =
-            LoggerFactory.getLogger(PubSubFormatter.class.getName());
+            LoggerFactory.getLogger(PubSubRecordTransformer.class.getName());
 
     @Override
     public ChangeNotificationRecord transform(

@@ -42,7 +42,7 @@ import java.util.Map;
  */
 public class EspRecordTransformer implements Transformer {
     private final static Logger logger =
-            LoggerFactory.getLogger(EspFormatter.class.getName());
+            LoggerFactory.getLogger(EspRecordTransformer.class.getName());
 
     @Override
     public ChangeNotificationRecord transform(

@@ -42,7 +42,7 @@ import java.util.Map;
  */
 public class PulsarRecordTransformer implements Transformer {
     private final static Logger logger =
-            LoggerFactory.getLogger(PulsarFormatter.class.getName());
+            LoggerFactory.getLogger(PulsarRecordTransformer.class.getName());
 
     @Override
     public ChangeNotificationRecord transform(

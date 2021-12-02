@@ -42,7 +42,7 @@ import java.util.Map;
  */
 public class KafkaRecordTransformer implements Transformer {
     private final static Logger logger =
-            LoggerFactory.getLogger(KafkaFormatter.class.getName());
+            LoggerFactory.getLogger(KafkaRecordTransformer.class.getName());
 
     @Override
     public ChangeNotificationRecord transform(

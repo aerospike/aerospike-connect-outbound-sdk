@@ -42,7 +42,7 @@ import java.util.Map;
  */
 public class JmsRecordTransformer implements Transformer {
     private final static Logger logger =
-            LoggerFactory.getLogger(JmsFormatter.class.getName());
+            LoggerFactory.getLogger(JmsRecordTransformer.class.getName());
 
     @Override
     public ChangeNotificationRecord transform(

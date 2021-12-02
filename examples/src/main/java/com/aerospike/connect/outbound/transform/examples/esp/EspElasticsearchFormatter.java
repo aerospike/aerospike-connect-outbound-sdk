@@ -64,7 +64,7 @@ import java.util.Map;
 @Singleton
 class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
     private final static Logger logger =
-            LoggerFactory.getLogger(EspBinRouter.class.getName());
+            LoggerFactory.getLogger(EspElasticsearchFormatter.class.getName());
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final String ELASTICSEARCH_INDEX_NAME = "esp";
@@ -77,8 +77,9 @@ class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
             throws UnsupportedEncodingException, JsonProcessingException {
         // ESP config should be passed the Elasticsearch username, password for
         // BasicAuth.
-        Map<String, String> httpHeaders = toBasicAuthHeader((String) params.get("username"),
-                (String) params.get("password"));
+        Map<String, String> httpHeaders =
+                toBasicAuthHeader((String) params.get("username"),
+                        (String) params.get("password"));
 
         // Format bins as JSON.
         byte[] jsonFormat = toJsonFormat(record.getBins());
@@ -89,39 +90,49 @@ class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
             logger.debug("Deleting document for record {}", record.getKey());
             String path = toElasticsearchPath(record.getKey().digest,
                     "_doc");
-            EspOutboundMetadata metadata = new EspOutboundMetadata("DELETE", path, httpHeaders);
-            return new DefaultBytesOutboundRecord<EspOutboundMetadata>(jsonFormat,
+            EspOutboundMetadata metadata =
+                    new EspOutboundMetadata("DELETE", path, httpHeaders);
+            return new DefaultBytesOutboundRecord<EspOutboundMetadata>(
+                    jsonFormat,
                     MediaType.JSON,
                     metadata);
         }
 
         // Insert/Update a document.
         // See https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-index_.html
-        logger.debug("Inserting/updating document for record {}", record.getKey());
+        logger.debug("Inserting/updating document for record {}",
+                record.getKey());
         String path = toElasticsearchPath(record.getKey().digest, "_doc");
         EspOutboundMetadata metadata = new EspOutboundMetadata("PUT",
                 path, httpHeaders);
-        return new DefaultBytesOutboundRecord<EspOutboundMetadata>(jsonFormat, MediaType.JSON,
+        return new DefaultBytesOutboundRecord<EspOutboundMetadata>(jsonFormat,
+                MediaType.JSON,
                 metadata);
     }
 
 
-    private String toDocId(byte[] aerospikeKeyDigest) throws UnsupportedEncodingException {
+    private String toDocId(byte[] aerospikeKeyDigest)
+            throws UnsupportedEncodingException {
         return URLEncoder.encode(
-                Base64.getEncoder().encodeToString(aerospikeKeyDigest), "UTF-8");
+                Base64.getEncoder().encodeToString(aerospikeKeyDigest),
+                "UTF-8");
     }
 
-    private String toElasticsearchPath(byte[] aerospikeKeyDigest, String api) throws UnsupportedEncodingException {
+    private String toElasticsearchPath(byte[] aerospikeKeyDigest, String api)
+            throws UnsupportedEncodingException {
         String docId = toDocId(aerospikeKeyDigest);
         return ELASTICSEARCH_INDEX_NAME + "/" + api + "/" + docId;
     }
 
-    private byte[] toJsonFormat(Map<String, Object> bins) throws JsonProcessingException {
+    private byte[] toJsonFormat(Map<String, Object> bins)
+            throws JsonProcessingException {
         return objectMapper.writeValueAsBytes(bins);
     }
 
-    private Map<String, String> toBasicAuthHeader(String username, String password) {
-        byte[] usernamePassword = (username + ":" + password).getBytes(StandardCharsets.UTF_8);
+    private Map<String, String> toBasicAuthHeader(String username,
+                                                  String password) {
+        byte[] usernamePassword =
+                (username + ":" + password).getBytes(StandardCharsets.UTF_8);
         String encoded = Base64.getEncoder().encodeToString(usernamePassword);
 
         Map<String, String> authHeader = new HashMap<>();
