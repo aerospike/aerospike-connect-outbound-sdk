@@ -50,7 +50,6 @@ public interface Formatter<T extends OutboundMetadata> {
      * FlatJSON, etc in the config. The {@code formattedRecord} is an instance
      * of {@link TextOutboundRecord} only when the custom formatter is
      * configured with the FlatJSON or JSON inbuilt outbound formats.
-     * </p>
      *
      * <p>
      * The return types should be instances of
@@ -59,11 +58,10 @@ public interface Formatter<T extends OutboundMetadata> {
      *     <li>{@link TextOutboundRecord} for JMS outbound destination when
      *     the JMS message should be sent as a JMS TextMessage.</li>
      * </ul>
-     * </p>
      *
      * @param record          the record to be formatted.
      * @param params          the params for the formatter specified in the
-     *                        config file. <bold>WARN:</bold> It is an
+     *                        config file. <b>WARN:</b> It is an
      *                        unmodifiable map.
      * @param formattedRecord the formatted record.
      * @return the formatted record.

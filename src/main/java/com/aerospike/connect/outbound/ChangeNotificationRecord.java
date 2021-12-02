@@ -79,12 +79,10 @@ public class ChangeNotificationRecord {
      *     {@link com.aerospike.client.Value.BytesValue BytesValue} with
      *     type as {@link ParticleType#BLOB Blob}.</li>
      * </ul>
-     * </p>
      *
      * <p>
      * For details on the bin values to be returned by transformers see
      * {@link Transformer#transform}.
-     * </p>
      *
      * @return an unmodifiable map of bins.
      */

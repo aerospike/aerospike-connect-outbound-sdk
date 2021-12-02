@@ -45,12 +45,13 @@ public interface Transformer {
      * Values}. When the transformed record is used as input to the FlatJSON,
      * JSON, MessagePack inbuilt outbound formats there are differences in their
      * formatting as mentioned below
-     * <table>
+     * <table summary="">
      *     <tr>
      *     <th>Value</th>
      *     <th>Java Type</th>
      *     <th>Aerospike client {@link com.aerospike.client.Value Value} type</th>
      *     </tr>
+     *
      *     <tr>
      *     <td>Geo JSON String</td>
      *     <td>If represented as a Java String it is stored as plain string in
@@ -65,6 +66,7 @@ public interface Transformer {
      *     and lists, in MessagePack outbound format.</li>
      *     </ul>
      *     </td>
+     *     </tr>
      *
      *     <tr>
      *     <td>Java blob, C# blob, Python blob, Ruby blob, PHP blob, Erlang
@@ -90,9 +92,7 @@ public interface Transformer {
      *          in maps and lists, in MessagePack outbound format.</li>
      *      </ul></td>
      *     </tr>
-     *     </tr>
      * </table>
-     * </p>
      *
      * @param record the change notification record.
      * @param params the params passed to the record from the config. Is an
