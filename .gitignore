@@ -104,3 +104,4 @@ build
 
 examples/.idea
 examples/dependency-reduced-pom.xml
+!gradle/wrapper/gradle-wrapper.jar
