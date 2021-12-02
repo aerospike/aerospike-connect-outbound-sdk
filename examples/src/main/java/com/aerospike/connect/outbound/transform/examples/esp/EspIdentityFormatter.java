@@ -53,9 +53,11 @@ public class EspIdentityFormatter implements Formatter<EspOutboundMetadata> {
             @NonNull Map<String, Object> params,
             @NonNull OutboundRecord<EspOutboundMetadata> formattedRecord) {
         if (logger.isDebugEnabled()) {
-            byte[] payload = ((BytesOutboundRecord<EspOutboundMetadata>) formattedRecord).getPayload();
-            logger.debug("Record {} is formatted to JSON {}", record,
-                    new String(payload));
+            ((BytesOutboundRecord<EspOutboundMetadata>) formattedRecord)
+                    .getPayload().ifPresent(payload ->
+                            logger.debug("Record {} is formatted to JSON {}",
+                                    record, new String(payload))
+                    );
         }
 
         // Return the JSON formatted record.

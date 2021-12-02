@@ -43,7 +43,8 @@ import java.util.Map;
  * </pre>
  * </p>
  */
-public class PulsarIdentityFormatter implements Formatter<PulsarOutboundMetadata> {
+public class PulsarIdentityFormatter
+        implements Formatter<PulsarOutboundMetadata> {
     private final static Logger logger =
             LoggerFactory.getLogger(PulsarIdentityFormatter.class.getName());
 
@@ -53,9 +54,11 @@ public class PulsarIdentityFormatter implements Formatter<PulsarOutboundMetadata
             @NonNull Map<String, Object> params,
             @NonNull OutboundRecord<PulsarOutboundMetadata> formattedRecord) {
         if (logger.isDebugEnabled()) {
-            byte[] payload = ((BytesOutboundRecord<PulsarOutboundMetadata>) formattedRecord).getPayload();
-            logger.debug("Record {} is formatted to JSON {}", record,
-                    new String(payload));
+            ((BytesOutboundRecord<PulsarOutboundMetadata>) formattedRecord)
+                    .getPayload().ifPresent(payload ->
+                            logger.debug("Record {} is formatted to JSON {}",
+                                    record, new String(payload))
+                    );
         }
 
         // Return the JSON formatted record.

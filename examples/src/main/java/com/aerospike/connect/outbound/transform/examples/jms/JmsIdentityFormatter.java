@@ -19,13 +19,13 @@
 package com.aerospike.connect.outbound.transform.examples.jms;
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
+import com.aerospike.connect.outbound.format.BytesOutboundRecord;
+import com.aerospike.connect.outbound.format.DefaultBytesOutboundRecord;
+import com.aerospike.connect.outbound.format.DefaultTextOutboundRecord;
 import com.aerospike.connect.outbound.format.Formatter;
 import com.aerospike.connect.outbound.format.OutboundRecord;
-import com.aerospike.connect.outbound.format.TextOutboundRecord;
 import com.aerospike.connect.outbound.jms.JmsOutboundMetadata;
 import lombok.NonNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
@@ -40,25 +40,31 @@ import java.util.Map;
  *   class: com.aerospike.connect.outbound.transform.examples.jms.JmsIdentityFormatter
  *   record-format:
  *     mode: json # Format record with built-in JSON format.
+ *     asText: true # Should message be dispatched as JMS TextMessage?
  * </pre>
  * </p>
  */
 public class JmsIdentityFormatter implements Formatter<JmsOutboundMetadata> {
-    private final static Logger logger =
-            LoggerFactory.getLogger(JmsIdentityFormatter.class.getName());
-
     @Override
     public OutboundRecord<JmsOutboundMetadata> format(
             @NonNull ChangeNotificationRecord record,
             @NonNull Map<String, Object> params,
             @NonNull OutboundRecord<JmsOutboundMetadata> formattedRecord) {
-        if (logger.isDebugEnabled()) {
-            byte[] payload = ((TextOutboundRecord<JmsOutboundMetadata>) formattedRecord).getPayload();
-            logger.debug("Record {} is formatted to JSON {}", record,
-                    new String(payload));
-        }
+        byte[] payload =
+                ((BytesOutboundRecord<JmsOutboundMetadata>) formattedRecord)
+                        .getPayload().orElse(null);
 
-        // Return the JSON formatted record.
-        return formattedRecord;
+        // "asText" should be passed as params in the config.
+        if (params.containsKey("asText") && (boolean) params.get("asText")) {
+            // Will be dispatched as JMS TextMessage.
+            return new DefaultTextOutboundRecord<JmsOutboundMetadata>(
+                    payload, formattedRecord.getMediaType(),
+                    formattedRecord.getMetadata());
+        } else {
+            // Will be dispatched as JMS BytesMessage.
+            return new DefaultBytesOutboundRecord<JmsOutboundMetadata>(
+                    payload, formattedRecord.getMediaType(),
+                    formattedRecord.getMetadata());
+        }
     }
 }

@@ -18,6 +18,11 @@
 
 repositories {
     mavenCentral()
+
+    maven {
+        // TODO - REMOVE ON RELEASE.
+        url = uri("https://oss.sonatype.org/content/repositories/snapshots")
+    }
 }
 
 dependencies {
@@ -28,7 +33,8 @@ dependencies {
     compileOnly("com.aerospike:aerospike-client:5.1.7")
 
     // Aerospike outbound SDK.
-    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:1.0.0")
+    // TODO: update to 1.0.0 on release.
+    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:0.9.0-SNAPSHOT")
 
     // Logging.
     compileOnly("org.slf4j:slf4j-api:1.7.26")
@@ -43,7 +49,8 @@ dependencies {
     compileOnly("com.google.protobuf:protobuf-java:3.13.0")
 }
 
-// Use Java 8.
+// Plugin should be compiled with the same/compatible Java version running
+// the outbound connector.
 val compileJava: JavaCompile by tasks
 compileJava.targetCompatibility = "1.8"
 compileJava.options.apply {

@@ -19,6 +19,7 @@
 package com.aerospike.connect.outbound.format;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 /**
  * BytesOutboundRecord represents an outbound record with payload as bytes.
@@ -34,6 +35,5 @@ public interface BytesOutboundRecord<T extends OutboundMetadata>
      *
      * @return the payload associated with the outbound record.
      */
-    @Nullable
-    byte[] getPayload();
+    Optional<byte[]> getPayload();
 }

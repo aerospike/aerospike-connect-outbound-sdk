@@ -19,7 +19,8 @@ to apply to the incoming Aerospike change notification records dispatched by XDR
 - **Format transform:** Transform the Aerospike record into a custom format
     written to the outbound destination.
 
-As with other configurations for outbound connectors, you can plug in the transforms at any of the specificity levels (default level, namespace level, or set level).
+As with other configurations for outbound connectors, you can plug in the
+transforms at any of the specificity levels (default level, namespace level, or set level).
 
 The transformers are plugged in by specifying the Java class path of the
 custom transform class in the outbound config YAML file. An optional params
@@ -30,8 +31,10 @@ For detailed documentation see [Aerospike connector docs](https://docs.aerospike
 
 ## Usage
 
-Add a dependency to this repo in your project. See the build files in the
-[examples](/examples) folder for further details.
+Add a dependency to this repo in your project. The plugin should be compiled
+with the same/compatible Java version running the outbound connector.
+
+See the build files in the [examples](/examples) folder for further details.
 
 **NOTE** It is recommended to shade all the custom plugin dependencies to avoid
 class path conflicts with the outbound connectors.

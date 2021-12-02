@@ -44,6 +44,8 @@ import java.util.Map;
  *     mode: static
  *     value: RED
  *
+ * regional-endpoint: us-east1-pubsub.googleapis.com:443
+ *
  * format:
  *   mode: custom
  *   class: com.aerospike.connect.outbound.transform.examples.pubsub.PubSubFormatter
@@ -74,17 +76,21 @@ public class PubSubFormatter implements Formatter<PubSubOutboundMetadata> {
         }
 
         // If attribute colour is present add it to the payload as well.
-        Map<String, String> attributes = formattedRecord.getMetadata().getAttributes();
-        if (attributes != null && attributes.containsKey("colour")) {
-            payloadBuilder.append("colour");
-            payloadBuilder.append(":");
-            payloadBuilder.append(attributes.get("colour"));
-            payloadBuilder.append("\n");
-        }
+        formattedRecord.getMetadata().getAttributes().ifPresent(attributes -> {
+            if (attributes.containsKey("colour")) {
+                payloadBuilder.append("colour");
+                payloadBuilder.append(":");
+                payloadBuilder.append(attributes.get("colour"));
+                payloadBuilder.append("\n");
+            }
+        });
 
-        // Add ordering key.
+        // Add ordering key. "regional-endpoint" should be configured for this
+        // record in the config.
         ByteString orderingKey = ByteString.copyFromUtf8("CustomFormatter");
-        PubSubOutboundMetadata metadata = new PubSubOutboundMetadata(attributes, orderingKey);
+        PubSubOutboundMetadata metadata = new PubSubOutboundMetadata(
+                formattedRecord.getMetadata().getAttributes().orElse(null),
+                orderingKey);
 
         return new DefaultTextOutboundRecord<PubSubOutboundMetadata>(
                 payloadBuilder.toString().getBytes(), MediaType.OCTET_STREAM,

@@ -43,7 +43,8 @@ import java.util.Map;
  * </pre>
  * </p>
  */
-public class KafkaIdentityFormatter implements Formatter<KafkaOutboundMetadata> {
+public class KafkaIdentityFormatter
+        implements Formatter<KafkaOutboundMetadata> {
     private final static Logger logger =
             LoggerFactory.getLogger(KafkaIdentityFormatter.class.getName());
 
@@ -53,9 +54,11 @@ public class KafkaIdentityFormatter implements Formatter<KafkaOutboundMetadata> 
             @NonNull Map<String, Object> params,
             @NonNull OutboundRecord<KafkaOutboundMetadata> formattedRecord) {
         if (logger.isDebugEnabled()) {
-            byte[] payload = ((BytesOutboundRecord<KafkaOutboundMetadata>) formattedRecord).getPayload();
-            logger.debug("Record {} is formatted to JSON {}", record,
-                    new String(payload));
+            ((BytesOutboundRecord<KafkaOutboundMetadata>) formattedRecord)
+                    .getPayload().ifPresent(payload ->
+                            logger.debug("Record {} is formatted to JSON {}",
+                                    record, new String(payload))
+                    );
         }
 
         // Return the JSON formatted record.

@@ -96,6 +96,7 @@ public class ChangeNotificationRecord {
      * Helper method for {@link ChangeNotificationMetadata#getOperation()
      * getMetadata().getKey()}
      *
+     * @return the key of the change notification record.
      * @see ChangeNotificationMetadata#getKey()
      */
     @NonNull
@@ -107,6 +108,7 @@ public class ChangeNotificationRecord {
      * Helper method for {@link ChangeNotificationMetadata#getOperation()
      * getMetadata().getOpertaion()}
      *
+     * @return the operation of the change notification record.
      * @see ChangeNotificationMetadata#getOperation()
      */
     @NonNull
@@ -118,6 +120,7 @@ public class ChangeNotificationRecord {
      * Helper method for {@link ChangeNotificationMetadata#getOperation()
      * getMetadata().getGeneration()}
      *
+     * @return the generation of the change notification record.
      * @see ChangeNotificationMetadata#getGeneration()
      */
     public Optional<Integer> getGeneration() {
@@ -128,6 +131,7 @@ public class ChangeNotificationRecord {
      * Helper method for {@link ChangeNotificationMetadata#getOperation()
      * getMetadata().getLastUpdateTimeMs()}
      *
+     * @return the last update time of the change notification record.
      * @see ChangeNotificationMetadata#getLastUpdateTimeMs()
      */
     public Optional<Long> getLastUpdateTimeMs() {
@@ -138,6 +142,7 @@ public class ChangeNotificationRecord {
      * Helper method for {@link ChangeNotificationMetadata#getOperation()
      * getMetadata().getExpiryTime()}
      *
+     * @return the expiry time of the change notification record.
      * @see ChangeNotificationMetadata#getExpiryTime()
      */
     public Optional<Integer> getExpiryTime() {
@@ -148,6 +153,8 @@ public class ChangeNotificationRecord {
      * Helper method for {@link ChangeNotificationMetadata#getOperation()
      * getMetadata().getTimeToLive()}
      *
+     * @return the time-to-live (seconds from now) of the change notification
+     * record.
      * @see ChangeNotificationMetadata#getTimeToLive()
      */
     public Optional<Integer> getTimeToLive() {

@@ -27,11 +27,21 @@
     <artifactId>connect-outbound-transform-examples</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <!-- Plugin should be compiled with the same/compatible Java version
+         running the outbound connector -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
+
+    <!-- TODO - REMOVE ON RELEASE -->
+    <repositories>
+        <repository>
+            <id>sonatype</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <!-- 1. RUNTIME DEPENDENCIES PACKAGED WITH JAR -->
@@ -43,7 +53,8 @@
             <version>2.6.6</version>
         </dependency>
 
-        <!-- 2. COMPILE ONLY DEPENDENCIES, EXCLUDED IN JAR -->
+        <!-- 2. COMPILE ONLY DEPENDENCIES, INCLUDED AT RUNTIME BY
+             OUTBOUND CONNECTOR, EXCLUDED IN JAR -->
 
         <!-- Aerospike client -->
         <dependency>
@@ -57,7 +68,8 @@
         <dependency>
             <groupId>com.aerospike</groupId>
             <artifactId>aerospike-connect-outbound-sdk</artifactId>
-            <version>1.0.0</version>
+            <version>0.9.0-SNAPSHOT
+            </version> <!-- TODO: update to 1.0.0 on release. -->
             <scope>provided</scope> <!-- Do not include in JAR -->
         </dependency>
 

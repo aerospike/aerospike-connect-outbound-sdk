@@ -21,12 +21,7 @@ package com.aerospike.connect.outbound.jms;
 import com.aerospike.connect.outbound.format.OutboundMetadata;
 
 /**
- * The metadata associated with the JMS outbound record. There is no metadata
- * associated with the JMS outbound record.
+ * Empty metadata associated with the JMS outbound record.
  */
 public class JmsOutboundMetadata implements OutboundMetadata {
-    /**
-     * An instance of JmsOutboundMetadata.
-     */
-    public static JmsOutboundMetadata INSTANCE = new JmsOutboundMetadata();
 }

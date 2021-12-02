@@ -43,7 +43,8 @@ import java.util.Map;
  * </pre>
  * </p>
  */
-public class PubSubIdentityFormatter implements Formatter<PubSubOutboundMetadata> {
+public class PubSubIdentityFormatter
+        implements Formatter<PubSubOutboundMetadata> {
     private final static Logger logger =
             LoggerFactory.getLogger(PubSubIdentityFormatter.class.getName());
 
@@ -53,9 +54,11 @@ public class PubSubIdentityFormatter implements Formatter<PubSubOutboundMetadata
             @NonNull Map<String, Object> params,
             @NonNull OutboundRecord<PubSubOutboundMetadata> formattedRecord) {
         if (logger.isDebugEnabled()) {
-            byte[] payload = ((BytesOutboundRecord<PubSubOutboundMetadata>) formattedRecord).getPayload();
-            logger.debug("Record {} is formatted to JSON {}", record,
-                    new String(payload));
+            ((BytesOutboundRecord<PubSubOutboundMetadata>) formattedRecord)
+                    .getPayload().ifPresent(payload ->
+                            logger.debug("Record {} is formatted to JSON {}",
+                                    record, new String(payload))
+                    );
         }
 
         // Return the JSON formatted record.

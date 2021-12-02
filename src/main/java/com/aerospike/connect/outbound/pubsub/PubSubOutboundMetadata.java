@@ -27,6 +27,7 @@ import lombok.ToString;
 
 import javax.annotation.Nullable;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * The metadata associated with the Google Pub/Sub outbound record.
@@ -49,4 +50,24 @@ public class PubSubOutboundMetadata implements OutboundMetadata {
      */
     @Nullable
     private final ByteString orderingKey;
+
+    /**
+     * Get the attributes of the Google Pub/Sub message.
+     *
+     * @return the attributes.
+     */
+    public Optional<Map<String, String>> getAttributes() {
+        return Optional.ofNullable(attributes);
+    }
+
+    /**
+     * Get the ordering key of the Google Pub/Sub message. Ordering key can
+     * be  used in Google Pub/Sub only when a regional endpoint is specified in
+     * the config for the Aerospike record.
+     *
+     * @return the ordering key.
+     */
+    public Optional<ByteString> getOrderingKey(){
+        return Optional.ofNullable(orderingKey);
+    }
 }

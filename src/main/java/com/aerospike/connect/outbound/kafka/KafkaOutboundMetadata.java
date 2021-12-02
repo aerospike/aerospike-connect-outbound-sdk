@@ -25,6 +25,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 /**
  * The metadata associated with the Kafka outbound record.
@@ -40,4 +41,15 @@ public class KafkaOutboundMetadata implements OutboundMetadata {
      */
     @Nullable
     private final byte[] key;
+
+
+    /**
+     * Get the key of the Kafka record. If missing then the Aerospike record
+     * digest will be used as the Kafka record key.
+     *
+     * @return the key of the Kafka record.
+     */
+    public Optional<byte[]> getKey() {
+        return Optional.ofNullable(key);
+    }
 }

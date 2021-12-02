@@ -24,6 +24,7 @@ import lombok.NonNull;
 import lombok.ToString;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 /**
  * A default implementation of {@link BytesOutboundRecord}.
@@ -45,8 +46,8 @@ public class DefaultBytesOutboundRecord<T extends OutboundMetadata>
     private final T metadata;
 
     @Override
-    public byte[] getPayload() {
-        return payload;
+    public Optional<byte[]> getPayload() {
+        return Optional.ofNullable(payload);
     }
 
     @NonNull

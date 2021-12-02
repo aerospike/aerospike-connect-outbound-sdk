@@ -25,6 +25,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 /**
  * The metadata associated with the Pulsar outbound record.
@@ -40,4 +41,14 @@ public class PulsarOutboundMetadata implements OutboundMetadata {
      */
     @Nullable
     private final byte[] key;
+
+    /**
+     * Get the key of the Pulsar record. If missing then the Aerospike record
+     * digest will be used as the Pulsar record key.
+     *
+     * @return the key of the Pulsar record.
+     */
+    public Optional<byte[]> getKey() {
+        return Optional.ofNullable(key);
+    }
 }
