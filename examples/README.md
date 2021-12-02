@@ -4,8 +4,9 @@ Maven or Gradle.
 
 ## Build
 
-All dependencies are shaded to avoid class path conflicts with the outbound
-connectors.
+The plugin should be compiled with the same/compatible Java version running
+the outbound connector. And all dependencies are shaded to avoid class path
+conflicts with the outbound connectors.
 
 ### Gradle Build
 
