@@ -54,16 +54,11 @@ public class PulsarRecordTransformer implements Transformer {
         logger.debug("Updated generation of record {} to {}", record.getKey(),
                 generation);
 
-        Long lastUpdateTime = record.getLastUpdateTimeMs().isPresent() ?
-                record.getLastUpdateTimeMs().get() : null;
-
-        Integer expiryTime = record.getExpiryTime().isPresent() ?
-                record.getExpiryTime().get() : null;
-
         ChangeNotificationMetadata metadata =
                 new ChangeNotificationMetadata(record.getKey(),
-                        record.getOperation(), generation, lastUpdateTime,
-                        expiryTime);
+                        record.getOperation(), generation,
+                        record.getLastUpdateTimeMs().orElse(null),
+                        record.getExpiryTime().orElse(null));
 
         // Add a timestamp bin.
         // record.getBins() is immutable, create a copy.
