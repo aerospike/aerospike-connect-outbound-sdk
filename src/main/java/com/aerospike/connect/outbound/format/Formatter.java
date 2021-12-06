@@ -46,15 +46,18 @@ public interface Formatter<T extends OutboundMetadata> {
      * The {@code formattedRecord} is an instance of either {@link
      * BytesOutboundRecord} or {@link TextOutboundRecord}. The {@code payload}
      * in the {@code formattedRecord} is {@code null} unless the custom
-     * formatter is configured with one of the inbuilt outbound formats - AVRO,
+     * formatter is configured with one of the built-in outbound formats - AVRO,
      * FlatJSON, etc in the config. The {@code formattedRecord} is an instance
      * of {@link TextOutboundRecord} only when the custom formatter is
-     * configured with the FlatJSON or JSON inbuilt outbound formats.
+     * configured with the FlatJSON or JSON built-in outbound formats.
      *
      * <p>
      * The return types should be instances of
      * <ul>
-     *     <li>{@link BytesOutboundRecord} for all the outbound destinations.</li>
+     *     <li>{@link BytesOutboundRecord} for all the outbound destinations.
+     *     For JMS outbound destination the message will be sent as a JMS
+     *     BytesMessage.
+     *     </li>
      *     <li>{@link TextOutboundRecord} for JMS outbound destination when
      *     the JMS message should be sent as a JMS TextMessage.</li>
      * </ul>

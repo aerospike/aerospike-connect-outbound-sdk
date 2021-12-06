@@ -30,7 +30,7 @@ import java.util.Map;
  *
  * <p>
  * The transformed record is either passed as input to a {@link Formatter} or is
- * processed into one of the inbuilt outbound formats - Avro, MessagePack, etc.
+ * processed into one of the built-in outbound formats - Avro, MessagePack, etc.
  * </p>
  */
 public interface Transformer {
@@ -43,7 +43,7 @@ public interface Transformer {
      * The returned {@link ChangeNotificationRecord} bins can contain plain Java
      * objects or/and Aerospike client {@link com.aerospike.client.Value
      * Values}. When the transformed record is used as input to the FlatJSON,
-     * JSON, MessagePack inbuilt outbound formats there are differences in their
+     * JSON, MessagePack built-in outbound formats there are differences in their
      * formatting as mentioned below
      * <table summary="">
      *     <tr>
