@@ -40,7 +40,7 @@ import java.util.Map;
  * <pre>
  * format:
  *   mode: custom
- *   class: com.aerospike.connect.outbound.transform.examples.pulsar.PulsarFormatter
+ *   class: com.aerospike.connect.outbound.transform.examples.pulsar.PulsarKeyValueFormatter
  *   params:
  *     separator: ":"
  * </pre>

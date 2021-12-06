@@ -39,7 +39,7 @@ import java.util.Map;
  * <p>
  * A snippet of a config for this formatter can be
  * <pre>
- * # OPTIONAL. If configured will be passed in PubSubOutboundMetadata to PubSubFormatter.
+ * # OPTIONAL. If configured will be passed in PubSubOutboundMetadata to PubSubKeyValueFormatter.
  * attributes:
  *   colour:
  *     mode: static
@@ -49,7 +49,7 @@ import java.util.Map;
  *
  * format:
  *   mode: custom
- *   class: com.aerospike.connect.outbound.transform.examples.pubsub.PubSubFormatter
+ *   class: com.aerospike.connect.outbound.transform.examples.pubsub.PubSubKeyValueFormatter
  * </pre>
  */
 @Singleton

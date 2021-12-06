@@ -40,7 +40,7 @@ import java.util.Map;
  * <pre>
  * format:
  *   mode: custom
- *   class: com.aerospike.connect.outbound.transform.examples.esp.EspFormatter
+ *   class: com.aerospike.connect.outbound.transform.examples.esp.EspKeyValueFormatter
  *   params:
  *     separator: ":"
  * </pre>

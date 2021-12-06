@@ -44,7 +44,7 @@ import java.util.Map;
  * <pre>
  * format:
  *   mode: custom
- *   class: com.aerospike.connect.outbound.transform.examples.pulsar.PulsarIdentityFormatter
+ *   class: com.aerospike.connect.outbound.transform.examples.pulsar.PulsarWrapBuiltinJsonFormatter
  *   payload-format:
  *     mode: json # Format record with built-in JSON format.
  * </pre>

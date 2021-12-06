@@ -44,7 +44,7 @@ import java.util.Map;
  * <pre>
  * format:
  *   mode: custom
- *   class: com.aerospike.connect.outbound.transform.examples.pubsub.PubSubIdentityFormatter
+ *   class: com.aerospike.connect.outbound.transform.examples.pubsub.PubSubWrapBuiltinJsonFormatter
  *   payload-format:
  *     mode: json # Format record with built-in JSON format.
  * </pre>

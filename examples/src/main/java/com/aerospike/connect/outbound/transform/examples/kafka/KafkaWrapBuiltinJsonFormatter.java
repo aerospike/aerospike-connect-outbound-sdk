@@ -44,7 +44,7 @@ import java.util.Map;
  * <pre>
  * format:
  *   mode: custom
- *   class: com.aerospike.connect.outbound.transform.examples.kafka.KafkaIdentityFormatter
+ *   class: com.aerospike.connect.outbound.transform.examples.kafka.KafkaWrapBuiltinJsonFormatter
  *   payload-format:
  *     mode: json # Format record with built-in JSON format.
  * </pre>

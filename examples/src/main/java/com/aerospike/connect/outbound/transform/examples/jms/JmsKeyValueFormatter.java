@@ -40,7 +40,7 @@ import java.util.Map;
  * <pre>
  * format:
  *   mode: custom
- *   class: com.aerospike.connect.outbound.transform.examples.jms.JmsFormatter
+ *   class: com.aerospike.connect.outbound.transform.examples.jms.JmsKeyValueFormatter
  *   params:
  *     separator: ":"
  * </pre>

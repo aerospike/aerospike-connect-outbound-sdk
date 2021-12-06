@@ -38,7 +38,7 @@ import java.util.Map;
  * <pre>
  * format:
  *   mode: custom
- *   class: com.aerospike.connect.outbound.transform.examples.jms.JmsIdentityFormatter
+ *   class: com.aerospike.connect.outbound.transform.examples.jms.JmsMessageTypeFormatter
  *   payload-format:
  *     mode: json # Format record with built-in JSON format.
  *   params:
