@@ -20,17 +20,24 @@ package com.aerospike.connect.outbound.transform.examples.pubsub;
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.format.BytesOutboundRecord;
+import com.aerospike.connect.outbound.format.DefaultBytesOutboundRecord;
 import com.aerospike.connect.outbound.format.Formatter;
+import com.aerospike.connect.outbound.format.MediaType;
 import com.aerospike.connect.outbound.format.OutboundRecord;
 import com.aerospike.connect.outbound.pubsub.PubSubOutboundMetadata;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
- * An identity formatter.
+ * PubSubWrapBuiltinJsonFormatter wraps the built-in JSON format with additional
+ * metadata.
  *
  * <p>
  * A snippet of a config for this formatter can be
@@ -38,29 +45,38 @@ import java.util.Map;
  * format:
  *   mode: custom
  *   class: com.aerospike.connect.outbound.transform.examples.pubsub.PubSubIdentityFormatter
- *   record-format:
+ *   payload-format:
  *     mode: json # Format record with built-in JSON format.
  * </pre>
  */
-public class PubSubIdentityFormatter
+public class PubSubWrapBuiltinJsonFormatter
         implements Formatter<PubSubOutboundMetadata> {
     private final static Logger logger =
-            LoggerFactory.getLogger(PubSubIdentityFormatter.class.getName());
+            LoggerFactory.getLogger(
+                    PubSubWrapBuiltinJsonFormatter.class.getName());
+    private final static ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public OutboundRecord<PubSubOutboundMetadata> format(
             @NonNull ChangeNotificationRecord record,
             @NonNull Map<String, Object> params,
-            @NonNull OutboundRecord<PubSubOutboundMetadata> formattedRecord) {
-        if (logger.isDebugEnabled()) {
-            ((BytesOutboundRecord<PubSubOutboundMetadata>) formattedRecord)
-                    .getPayload().ifPresent(payload ->
-                            logger.debug("Record {} is formatted to JSON {}",
-                                    record, new String(payload))
-                    );
-        }
+            @NonNull OutboundRecord<PubSubOutboundMetadata> formattedRecord)
+            throws JsonProcessingException {
+        logger.debug("Formatting record {}", record.getKey());
 
-        // Return the JSON formatted record.
-        return formattedRecord;
+        byte[] payload =
+                ((BytesOutboundRecord<PubSubOutboundMetadata>) formattedRecord)
+                        .getPayload()
+                        .orElseThrow(IllegalArgumentException::new);
+
+        // Wrap JSON with timestamp.
+        Map<String, Object> jsonRecord = new HashMap<String, Object>();
+        jsonRecord.put("timestamp", new Date().getTime());
+        jsonRecord.put("recordPayload", new String(payload));
+        byte[] jsonRecordPayload = objectMapper.writeValueAsBytes(jsonRecord);
+
+        return new DefaultBytesOutboundRecord<PubSubOutboundMetadata>(
+                jsonRecordPayload, MediaType.JSON,
+                formattedRecord.getMetadata());
     }
 }

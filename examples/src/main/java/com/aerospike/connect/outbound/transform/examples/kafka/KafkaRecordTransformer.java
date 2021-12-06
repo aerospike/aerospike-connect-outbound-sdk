@@ -25,18 +25,22 @@ import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Transform a change notification record.
+ * KafkaRecordTransformer updates generation and adds bins passed in the config
+ * to the change notification record.
  *
  * <p>
  * A snippet of a config for this transformer can be
  * <pre>
  * custom-transform:
  *   class: com.aerospike.connect.outbound.transform.examples.kafka.KafkaRecordTransformer
+ *   params:
+ *     bins:
+ *       colour: RED
+ *       shade: light
  * </pre>
  */
 public class KafkaRecordTransformer implements Transformer {
@@ -60,10 +64,15 @@ public class KafkaRecordTransformer implements Transformer {
                         record.getLastUpdateTimeMs().orElse(null),
                         record.getExpiryTime().orElse(null));
 
-        // Add a timestamp bin.
         // record.getBins() is immutable, create a copy.
         Map<String, Object> bins = new HashMap<>(record.getBins());
-        bins.put("timestamp", (new Date()).getTime());
+
+        // Add bins passed as params in config.
+        if (params.containsKey("bins")) {
+            @SuppressWarnings("unchecked") Map<String, Object> paramBins =
+                    (Map<String, Object>) params.get("bins");
+            bins.putAll(paramBins);
+        }
 
         return new ChangeNotificationRecord(metadata, bins);
     }

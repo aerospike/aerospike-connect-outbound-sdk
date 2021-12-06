@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Map;
 
 /**
- * Route based on record bins.
+ * JmsBinRouter routes change notification records based on bin "region".
  *
  * <p>
  * A snippet of a config for this router can be
@@ -37,8 +37,6 @@ import java.util.Map;
  * routing:
  *   mode: custom
  *   class: com.aerospike.connect.outbound.transform.examples.jms.JmsBinRouter
- *   params:
- *     internal: true
  * </pre>
  */
 public class JmsBinRouter implements Router<String> {
@@ -51,13 +49,14 @@ public class JmsBinRouter implements Router<String> {
             @NonNull Map<String, Object> params) {
         Map<String, Object> bins = record.getBins();
 
-        if (bins.containsKey("internal")) {
-            logger.debug("Routing record {} to internal", record.getKey());
+        Object region = bins.get("region");
+        if (region instanceof String) {
+            logger.debug("Routing record {} to {}", record.getKey(), region);
             return OutboundRoute.newJmsRoute(OutboundRouteType.QUEUE,
-                    "internal");
+                    (String) region);
         }
 
-        logger.debug("Routing record {} to external", record.getKey());
-        return OutboundRoute.newJmsRoute(OutboundRouteType.QUEUE, "external");
+        logger.debug("Routing record {} to default", record.getKey());
+        return OutboundRoute.newJmsRoute(OutboundRouteType.QUEUE, "default");
     }
 }

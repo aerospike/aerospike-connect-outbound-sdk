@@ -19,54 +19,53 @@
 package com.aerospike.connect.outbound.transform.examples.jms;
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
+import com.aerospike.connect.outbound.format.BytesOutboundRecord;
+import com.aerospike.connect.outbound.format.DefaultBytesOutboundRecord;
 import com.aerospike.connect.outbound.format.DefaultTextOutboundRecord;
 import com.aerospike.connect.outbound.format.Formatter;
-import com.aerospike.connect.outbound.format.MediaType;
 import com.aerospike.connect.outbound.format.OutboundRecord;
 import com.aerospike.connect.outbound.jms.JmsOutboundMetadata;
 import lombok.NonNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import javax.inject.Singleton;
 import java.util.Map;
 
 /**
- * Format incoming change notification record as key value pairs.
+ * JmsMessageTypeFormatter dispatches built-in JSON formatted record as JMS
+ * TextMessage or JMS ByteMessage based on config params.
  *
  * <p>
  * A snippet of a config for this formatter can be
  * <pre>
  * format:
  *   mode: custom
- *   class: com.aerospike.connect.outbound.transform.examples.jms.JmsFormatter
+ *   class: com.aerospike.connect.outbound.transform.examples.jms.JmsIdentityFormatter
+ *   payload-format:
+ *     mode: json # Format record with built-in JSON format.
+ *   params:
+ *     asText: true # Should message be dispatched as JMS TextMessage?
  * </pre>
  */
-@Singleton
-public class JmsFormatter implements Formatter<JmsOutboundMetadata> {
-    private final static Logger logger =
-            LoggerFactory.getLogger(JmsFormatter.class.getName());
-
+public class JmsMessageTypeFormatter implements Formatter<JmsOutboundMetadata> {
     @Override
     public OutboundRecord<JmsOutboundMetadata> format(
             @NonNull ChangeNotificationRecord record,
             @NonNull Map<String, Object> params,
             @NonNull OutboundRecord<JmsOutboundMetadata> formattedRecord) {
-        logger.debug("Formatting record {}", record.getKey());
+        byte[] payload =
+                ((BytesOutboundRecord<JmsOutboundMetadata>) formattedRecord)
+                        .getPayload().orElse(null);
 
-        // Only write string bins.
-        StringBuilder payloadBuilder = new StringBuilder();
-        for (Map.Entry<String, Object> bin : record.getBins().entrySet()) {
-            if (bin.getValue() instanceof String) {
-                payloadBuilder.append(bin.getKey());
-                payloadBuilder.append(":");
-                payloadBuilder.append(bin.getValue());
-                payloadBuilder.append("\n");
-            }
+        // "asText" should be passed as params in the config.
+        if (params.containsKey("asText") && (boolean) params.get("asText")) {
+            // Will be dispatched as JMS TextMessage.
+            return new DefaultTextOutboundRecord<JmsOutboundMetadata>(
+                    payload, formattedRecord.getMediaType(),
+                    formattedRecord.getMetadata());
+        } else {
+            // Will be dispatched as JMS BytesMessage.
+            return new DefaultBytesOutboundRecord<JmsOutboundMetadata>(
+                    payload, formattedRecord.getMediaType(),
+                    formattedRecord.getMetadata());
         }
-
-        return new DefaultTextOutboundRecord<JmsOutboundMetadata>(
-                payloadBuilder.toString().getBytes(), MediaType.OCTET_STREAM,
-                formattedRecord.getMetadata());
     }
 }

@@ -5,8 +5,8 @@ Maven or Gradle.
 ## Build
 
 The plugin should be compiled with the same/compatible Java version running
-the outbound connector. And all dependencies are shaded to avoid class path
-conflicts with the outbound connectors.
+the outbound connector. And all dependencies should be shaded to avoid class
+path conflicts with the outbound connectors.
 
 ### Gradle Build
 
@@ -25,3 +25,8 @@ Run maven phase `package`. This phase builds the JAR at
 ```shell
 mvn package
 ```
+
+## Deploy the custom code
+
+Copy the generated JARs to `/opt/aerospike-<outbound-connector>/usr-lib`
+directory before starting the outbound connector.

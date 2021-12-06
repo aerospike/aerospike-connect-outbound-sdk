@@ -40,7 +40,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Send Aerospike change notification records to Elasticsearch.
+ * EspElasticsearchFormatter formats change notification events as Elasticsearch
+ * delete or write document requests.
  *
  * <p>
  * A snippet of a config for this formatter can be
@@ -105,8 +106,7 @@ class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
         EspOutboundMetadata metadata = new EspOutboundMetadata("PUT",
                 path, httpHeaders);
         return new DefaultBytesOutboundRecord<EspOutboundMetadata>(jsonFormat,
-                MediaType.JSON,
-                metadata);
+                MediaType.JSON, metadata);
     }
 
 

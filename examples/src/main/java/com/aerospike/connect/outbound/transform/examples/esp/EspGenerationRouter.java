@@ -32,7 +32,7 @@ import java.util.Optional;
 
 
 /**
- * Route records by generation number.
+ * EspGenerationRouter routes records by generation number.
  *
  * <p>
  * A snippet of a config for this router can be

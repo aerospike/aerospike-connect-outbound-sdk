@@ -32,7 +32,7 @@ import java.util.Optional;
 
 
 /**
- * Route records by generation number.
+ * PubSubGenerationRouter routes records by generation number.
  *
  * <p>
  * A snippet of a config for this router can be
@@ -57,7 +57,8 @@ public class PubSubGenerationRouter implements Router<String> {
         // v5.0.0.
         Optional<Integer> generation = record.getGeneration();
 
-        // "genNumber" is to be set in params option of the ESP routing config.
+        // "genNumber" is to be set in params option of the PubSub routing
+        // config.
 
         if (generation.isPresent() &&
                 generation.get() > (int) params.get("genNumber")) {

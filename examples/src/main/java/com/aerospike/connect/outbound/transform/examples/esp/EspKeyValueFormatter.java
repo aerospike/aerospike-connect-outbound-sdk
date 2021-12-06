@@ -16,15 +16,14 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transform.examples.pubsub;
+package com.aerospike.connect.outbound.transform.examples.esp;
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
+import com.aerospike.connect.outbound.esp.EspOutboundMetadata;
 import com.aerospike.connect.outbound.format.DefaultTextOutboundRecord;
 import com.aerospike.connect.outbound.format.Formatter;
 import com.aerospike.connect.outbound.format.MediaType;
 import com.aerospike.connect.outbound.format.OutboundRecord;
-import com.aerospike.connect.outbound.pubsub.PubSubOutboundMetadata;
-import com.google.protobuf.ByteString;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,66 +32,46 @@ import javax.inject.Singleton;
 import java.util.Map;
 
 /**
- * Format incoming change notification record as key value pairs.
+ * EspKeyValueFormatter formats change notification record as bin value pairs
+ * separated by newlines.
  *
  * <p>
  * A snippet of a config for this formatter can be
  * <pre>
- * # OPTIONAL. If configured will be passed in PubSubOutboundMetadata to PubSubFormatter.
- * attributes:
- *   colour:
- *     mode: static
- *     value: RED
- *
- * regional-endpoint: us-east1-pubsub.googleapis.com:443
- *
  * format:
  *   mode: custom
- *   class: com.aerospike.connect.outbound.transform.examples.pubsub.PubSubFormatter
+ *   class: com.aerospike.connect.outbound.transform.examples.esp.EspFormatter
+ *   params:
+ *     separator: ":"
  * </pre>
  */
 @Singleton
-public class PubSubFormatter implements Formatter<PubSubOutboundMetadata> {
+public class EspKeyValueFormatter implements Formatter<EspOutboundMetadata> {
     private final static Logger logger =
-            LoggerFactory.getLogger(PubSubFormatter.class.getName());
+            LoggerFactory.getLogger(EspKeyValueFormatter.class.getName());
 
     @Override
-    public OutboundRecord<PubSubOutboundMetadata> format(
+    public OutboundRecord<EspOutboundMetadata> format(
             @NonNull ChangeNotificationRecord record,
             @NonNull Map<String, Object> params,
-            @NonNull OutboundRecord<PubSubOutboundMetadata> formattedRecord) {
+            @NonNull OutboundRecord<EspOutboundMetadata> formattedRecord) {
         logger.debug("Formatting record {}", record.getKey());
 
         // Only write string bins.
         StringBuilder payloadBuilder = new StringBuilder();
+        String separator =
+                (String) params.getOrDefault("separator", ":");
         for (Map.Entry<String, Object> bin : record.getBins().entrySet()) {
             if (bin.getValue() instanceof String) {
                 payloadBuilder.append(bin.getKey());
-                payloadBuilder.append(":");
+                payloadBuilder.append(separator);
                 payloadBuilder.append(bin.getValue());
-                payloadBuilder.append("\n");
+                payloadBuilder.append(System.lineSeparator());
             }
         }
 
-        // If attribute colour is present add it to the payload as well.
-        formattedRecord.getMetadata().getAttributes().ifPresent(attributes -> {
-            if (attributes.containsKey("colour")) {
-                payloadBuilder.append("colour");
-                payloadBuilder.append(":");
-                payloadBuilder.append(attributes.get("colour"));
-                payloadBuilder.append("\n");
-            }
-        });
-
-        // Add ordering key. "regional-endpoint" should be configured for this
-        // record in the config.
-        ByteString orderingKey = ByteString.copyFromUtf8("CustomFormatter");
-        PubSubOutboundMetadata metadata = new PubSubOutboundMetadata(
-                formattedRecord.getMetadata().getAttributes().orElse(null),
-                orderingKey);
-
-        return new DefaultTextOutboundRecord<PubSubOutboundMetadata>(
+        return new DefaultTextOutboundRecord<EspOutboundMetadata>(
                 payloadBuilder.toString().getBytes(), MediaType.OCTET_STREAM,
-                metadata);
+                formattedRecord.getMetadata());
     }
 }

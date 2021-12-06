@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Map;
 
 /**
- * Route based on record bins.
+ * EspBinRouter routes change notification records based on bin "region".
  *
  * <p>
  * A snippet of a config for this router can be
@@ -44,8 +44,6 @@ import java.util.Map;
  * routing:
  *   mode: custom
  *   class: com.aerospike.connect.outbound.transform.examples.esp.EspBinRouter
- *   params:
- *     internal: true
  * </pre>
  */
 public class EspBinRouter implements Router<String> {
@@ -61,7 +59,8 @@ public class EspBinRouter implements Router<String> {
         // Destinations internal and external are to be configured in the
         // "destinations" section of the ESP config.
 
-        if (bins.containsKey("internal")) {
+        Object region = bins.get("region");
+        if ("internal".equals(region)) {
             logger.debug("Routing record {} to internal", record.getKey());
             return OutboundRoute.newEspRoute("internal");
         }

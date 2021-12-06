@@ -20,53 +20,63 @@ package com.aerospike.connect.outbound.transform.examples.esp;
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.esp.EspOutboundMetadata;
-import com.aerospike.connect.outbound.format.DefaultTextOutboundRecord;
+import com.aerospike.connect.outbound.format.BytesOutboundRecord;
+import com.aerospike.connect.outbound.format.DefaultBytesOutboundRecord;
 import com.aerospike.connect.outbound.format.Formatter;
 import com.aerospike.connect.outbound.format.MediaType;
 import com.aerospike.connect.outbound.format.OutboundRecord;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Singleton;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Format incoming change notification record as key value pairs.
+ * EspWrapBuiltinJsonFormatter wraps the built-in JSON format with additional
+ * metadata.
  *
  * <p>
  * A snippet of a config for this formatter can be
  * <pre>
  * format:
  *   mode: custom
- *   class: com.aerospike.connect.outbound.transform.examples.esp.EspFormatter
+ *   class: com.aerospike.connect.outbound.transform.examples.esp.EspIdentityFormatter
+ *   payload-format:
+ *     mode: json # Format record with built-in JSON format.
  * </pre>
  */
-@Singleton
-public class EspFormatter implements Formatter<EspOutboundMetadata> {
+public class EspWrapBuiltinJsonFormatter
+        implements Formatter<EspOutboundMetadata> {
     private final static Logger logger =
-            LoggerFactory.getLogger(EspFormatter.class.getName());
+            LoggerFactory.getLogger(
+                    EspWrapBuiltinJsonFormatter.class.getName());
+    private final static ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public OutboundRecord<EspOutboundMetadata> format(
             @NonNull ChangeNotificationRecord record,
             @NonNull Map<String, Object> params,
-            @NonNull OutboundRecord<EspOutboundMetadata> formattedRecord) {
+            @NonNull OutboundRecord<EspOutboundMetadata> formattedRecord)
+            throws JsonProcessingException {
         logger.debug("Formatting record {}", record.getKey());
 
-        // Only write string bins.
-        StringBuilder payloadBuilder = new StringBuilder();
-        for (Map.Entry<String, Object> bin : record.getBins().entrySet()) {
-            if (bin.getValue() instanceof String) {
-                payloadBuilder.append(bin.getKey());
-                payloadBuilder.append(":");
-                payloadBuilder.append(bin.getValue());
-                payloadBuilder.append("\n");
-            }
-        }
+        byte[] payload =
+                ((BytesOutboundRecord<EspOutboundMetadata>) formattedRecord)
+                        .getPayload()
+                        .orElseThrow(IllegalArgumentException::new);
 
-        return new DefaultTextOutboundRecord<EspOutboundMetadata>(
-                payloadBuilder.toString().getBytes(), MediaType.OCTET_STREAM,
+        // Wrap JSON with timestamp.
+        Map<String, Object> jsonRecord = new HashMap<String, Object>();
+        jsonRecord.put("timestamp", new Date().getTime());
+        jsonRecord.put("recordPayload", new String(payload));
+        byte[] jsonRecordPayload = objectMapper.writeValueAsBytes(jsonRecord);
+
+        return new DefaultBytesOutboundRecord<EspOutboundMetadata>(
+                jsonRecordPayload, MediaType.JSON,
                 formattedRecord.getMetadata());
     }
 }

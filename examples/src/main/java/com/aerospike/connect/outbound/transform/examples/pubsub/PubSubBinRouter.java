@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Map;
 
 /**
- * Route based on record bins.
+ * PubSubBinRouter routes change notification records based on bin "region".
  *
  * <p>
  * A snippet of a config for this router can be
@@ -36,8 +36,6 @@ import java.util.Map;
  * routing:
  *   mode: custom
  *   class: com.aerospike.connect.outbound.transform.examples.pubsub.PubSubBinRouter
- *   params:
- *     internal: true
  * </pre>
  */
 public class PubSubBinRouter implements Router<String> {
@@ -50,12 +48,13 @@ public class PubSubBinRouter implements Router<String> {
             @NonNull Map<String, Object> params) {
         Map<String, Object> bins = record.getBins();
 
-        if (bins.containsKey("internal")) {
-            logger.debug("Routing record {} to internal", record.getKey());
-            return OutboundRoute.newPubSubRoute("internal");
+        Object region = bins.get("region");
+        if (region instanceof String) {
+            logger.debug("Routing record {} to {}", record.getKey(), region);
+            return OutboundRoute.newPubSubRoute((String) region);
         }
 
-        logger.debug("Routing record {} to external", record.getKey());
-        return OutboundRoute.newPubSubRoute("external");
+        logger.debug("Routing record {} to default", record.getKey());
+        return OutboundRoute.newPubSubRoute("default");
     }
 }
