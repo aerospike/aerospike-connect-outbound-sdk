@@ -26,6 +26,8 @@ import com.aerospike.connect.outbound.format.Formatter;
 import com.aerospike.connect.outbound.format.OutboundRecord;
 import com.aerospike.connect.outbound.jms.JmsOutboundMetadata;
 import lombok.NonNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
@@ -46,11 +48,17 @@ import java.util.Map;
  * </pre>
  */
 public class JmsMessageTypeFormatter implements Formatter<JmsOutboundMetadata> {
+    private final static Logger logger =
+            LoggerFactory.getLogger(JmsMessageTypeFormatter.class.getName());
+
     @Override
     public OutboundRecord<JmsOutboundMetadata> format(
             @NonNull ChangeNotificationRecord record,
             @NonNull Map<String, Object> params,
             @NonNull OutboundRecord<JmsOutboundMetadata> formattedRecord) {
+        logger.debug("Formatting record {}", record.getKey());
+
+
         byte[] payload =
                 ((BytesOutboundRecord<JmsOutboundMetadata>) formattedRecord)
                         .getPayload().orElse(null);
