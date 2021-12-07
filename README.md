@@ -23,7 +23,7 @@ custom transform class in the outbound config YAML file. An optional params
 map can be specified which will be passed to the transforming method of the
 custom transform class.
 
-For detailed documentation see [Aerospike connector docs](https://docs.aerospike.com/docs/connect/streaming-from-asdb/message-transform-outbound.html)
+For detailed documentation see [Aerospike connector docs](https://docs.aerospike.com/docs/connect/streaming-from-asdb/outbound-message-transform.html)
 
 ## Usage
 
