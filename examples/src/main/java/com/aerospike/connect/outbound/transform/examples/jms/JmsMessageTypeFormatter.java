@@ -60,10 +60,11 @@ public class JmsMessageTypeFormatter implements Formatter<JmsOutboundMetadata> {
             @NonNull OutboundRecord<JmsOutboundMetadata> formattedRecord) {
         logger.debug("Formatting record {}", record.getKey());
 
-
         byte[] payload =
                 ((BytesOutboundRecord<JmsOutboundMetadata>) formattedRecord)
-                        .getPayload().orElse(null);
+                        .getPayload()
+                        .orElseThrow(() -> new IllegalArgumentException(
+                                "payload missing, expected json payload"));
 
         // "asText" should be passed as params in the config.
         if (params.containsKey("asText") && (boolean) params.get("asText")) {
