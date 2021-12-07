@@ -31,6 +31,7 @@ import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Singleton;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,6 +50,7 @@ import java.util.Map;
  *     mode: json # Format record with built-in JSON format.
  * </pre>
  */
+@Singleton
 public class KafkaWrapBuiltinJsonFormatter
         implements Formatter<KafkaOutboundMetadata> {
     private final static Logger logger =
@@ -67,7 +69,8 @@ public class KafkaWrapBuiltinJsonFormatter
         byte[] payload =
                 ((BytesOutboundRecord<KafkaOutboundMetadata>) formattedRecord)
                         .getPayload()
-                        .orElseThrow(IllegalArgumentException::new);
+                        .orElseThrow(() -> new IllegalArgumentException(
+                                "payload missing, expected json payload"));
 
         // Wrap JSON with timestamp.
         Map<String, Object> jsonRecord = new HashMap<String, Object>();

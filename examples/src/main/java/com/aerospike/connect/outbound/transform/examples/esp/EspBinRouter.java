@@ -25,6 +25,7 @@ import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Singleton;
 import java.util.Map;
 
 /**
@@ -46,6 +47,7 @@ import java.util.Map;
  *   class: com.aerospike.connect.outbound.transform.examples.esp.EspBinRouter
  * </pre>
  */
+@Singleton
 public class EspBinRouter implements Router<String> {
     private final static Logger logger =
             LoggerFactory.getLogger(EspBinRouter.class.getName());

@@ -25,6 +25,7 @@ import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Singleton;
 import java.util.Map;
 
 /**
@@ -38,6 +39,7 @@ import java.util.Map;
  *   class: com.aerospike.connect.outbound.transform.examples.pubsub.PubSubBinRouter
  * </pre>
  */
+@Singleton
 public class PubSubBinRouter implements Router<String> {
     private final static Logger logger =
             LoggerFactory.getLogger(PubSubBinRouter.class.getName());

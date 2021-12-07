@@ -26,6 +26,7 @@ import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Singleton;
 import java.util.Map;
 
 /**
@@ -39,6 +40,7 @@ import java.util.Map;
  *   class: com.aerospike.connect.outbound.transform.examples.jms.JmsBinRouter
  * </pre>
  */
+@Singleton
 public class JmsBinRouter implements Router<String> {
     private final static Logger logger =
             LoggerFactory.getLogger(JmsBinRouter.class.getName());

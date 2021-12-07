@@ -29,6 +29,7 @@ import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Singleton;
 import java.util.Map;
 
 /**
@@ -47,6 +48,7 @@ import java.util.Map;
  *     asText: true # Should message be dispatched as JMS TextMessage?
  * </pre>
  */
+@Singleton
 public class JmsMessageTypeFormatter implements Formatter<JmsOutboundMetadata> {
     private final static Logger logger =
             LoggerFactory.getLogger(JmsMessageTypeFormatter.class.getName());
