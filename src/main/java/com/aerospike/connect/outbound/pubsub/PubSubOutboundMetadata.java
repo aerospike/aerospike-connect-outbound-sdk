@@ -61,13 +61,13 @@ public class PubSubOutboundMetadata implements OutboundMetadata {
     }
 
     /**
-     * Get the ordering key of the Google Pub/Sub message. Ordering key can
-     * be  used in Google Pub/Sub only when a regional endpoint is specified in
-     * the config for the Aerospike record.
+     * Get the ordering key of the Google Pub/Sub message. Ordering key can be
+     * used in Google Pub/Sub only when a regional endpoint is specified in the
+     * config for the Aerospike record.
      *
      * @return the ordering key.
      */
-    public Optional<ByteString> getOrderingKey(){
+    public Optional<ByteString> getOrderingKey() {
         return Optional.ofNullable(orderingKey);
     }
 }

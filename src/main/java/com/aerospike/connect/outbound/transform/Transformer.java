@@ -30,8 +30,8 @@ import java.util.Map;
  *
  * <p>
  * The transformed record is either passed as input to a {@link Formatter} or is
- * processed into one of the built-in outbound formats - Avro, MessagePack, etc.
- * </p>
+ * processed into one of the built-in outbound formats - Avro, MessagePack,
+ * etc.
  */
 public interface Transformer {
     /**
@@ -40,11 +40,21 @@ public interface Transformer {
      * expiry).
      *
      * <p>
+     * To skip dispatching the change notification record to the outbound
+     * destination return instances of {@link SkipChangeNotificationRecord}.
+     *
+     * <p>
+     * When an exception is thrown by this method, the record is acknowledged
+     * with temporary error to Aerospike XDR change notification. Aerospike XDR
+     * change notification will resend the change notification record on a
+     * temporary error.
+     *
+     * <p>
      * The returned {@link ChangeNotificationRecord} bins can contain plain Java
      * objects or/and Aerospike client {@link com.aerospike.client.Value
      * Values}. When the transformed record is used as input to the FlatJSON,
-     * JSON, MessagePack built-in outbound formats there are differences in their
-     * formatting as mentioned below
+     * JSON, MessagePack built-in outbound formats there are differences in
+     * their formatting as mentioned below
      * <table summary="">
      *     <tr>
      *     <th>Value</th>
@@ -98,8 +108,11 @@ public interface Transformer {
      * @param params the params passed to the record from the config. Is an
      *               unmodifiable map.
      * @return the transformed change notification record.
-     * @throws Exception if failed to transform the record.
+     * @throws Exception if failed to transform the record. The record is
+     *                   acknowledged with temporary error to Aerospike XDR
+     *                   change notification.
      */
     ChangeNotificationRecord transform(@NonNull ChangeNotificationRecord record,
-                                       @NonNull Map<String, Object> params) throws Exception;
+                                       @NonNull Map<String, Object> params)
+            throws Exception;
 }

@@ -18,7 +18,6 @@
 
 package com.aerospike.connect.outbound.format;
 
-import javax.annotation.Nullable;
 import java.util.Optional;
 
 /**

@@ -19,7 +19,6 @@
 package com.aerospike.connect.outbound;
 
 import com.aerospike.client.Key;
-import com.aerospike.client.Operation;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

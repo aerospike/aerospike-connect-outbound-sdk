@@ -18,17 +18,12 @@
 
 package com.aerospike.connect.outbound.format;
 
-import com.aerospike.connect.outbound.format.BytesOutboundRecord;
-import com.aerospike.connect.outbound.format.DefaultTextOutboundRecord;
-import com.aerospike.connect.outbound.format.OutboundMetadata;
-
 /**
  * TextOutboundRecord represents an outbound record with payload as text.
  *
  * <p>
  * An instance of TextOutboundRecord should be returned by the JMS formatter
  * when the JMS message should be sent as a JMS TextMessage.
- * </p>
  *
  * @param <T> the type of metadata associated with the outbound record.
  * @see DefaultTextOutboundRecord

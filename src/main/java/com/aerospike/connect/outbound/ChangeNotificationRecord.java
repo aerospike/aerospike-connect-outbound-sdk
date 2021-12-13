@@ -20,9 +20,8 @@ package com.aerospike.connect.outbound;
 
 import com.aerospike.client.Key;
 import com.aerospike.connect.outbound.format.Formatter;
-import com.aerospike.connect.outbound.transform.Transformer;
 import com.aerospike.connect.outbound.routing.Router;
-import lombok.AllArgsConstructor;
+import com.aerospike.connect.outbound.transform.Transformer;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
@@ -34,8 +33,8 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * A notification record shipped by Aerospike change notification
- * when records are inserted, modified or deleted in an Aerospike database.
+ * A notification record shipped by Aerospike change notification when records
+ * are inserted, modified or deleted in an Aerospike database.
  */
 @EqualsAndHashCode
 @Getter
@@ -91,7 +90,7 @@ public class ChangeNotificationRecord {
     }
 
     /**
-     * Helper method for {@link ChangeNotificationMetadata#getOperation()
+     * Helper method for {@link ChangeNotificationMetadata#getKey()
      * getMetadata().getKey()}
      *
      * @return the key of the change notification record.
@@ -115,7 +114,7 @@ public class ChangeNotificationRecord {
     }
 
     /**
-     * Helper method for {@link ChangeNotificationMetadata#getOperation()
+     * Helper method for {@link ChangeNotificationMetadata#getGeneration()
      * getMetadata().getGeneration()}
      *
      * @return the generation of the change notification record.
@@ -126,7 +125,7 @@ public class ChangeNotificationRecord {
     }
 
     /**
-     * Helper method for {@link ChangeNotificationMetadata#getOperation()
+     * Helper method for {@link ChangeNotificationMetadata#getLastUpdateTimeMs()
      * getMetadata().getLastUpdateTimeMs()}
      *
      * @return the last update time of the change notification record.
@@ -137,7 +136,7 @@ public class ChangeNotificationRecord {
     }
 
     /**
-     * Helper method for {@link ChangeNotificationMetadata#getOperation()
+     * Helper method for {@link ChangeNotificationMetadata#getExpiryTime()
      * getMetadata().getExpiryTime()}
      *
      * @return the expiry time of the change notification record.
@@ -148,7 +147,7 @@ public class ChangeNotificationRecord {
     }
 
     /**
-     * Helper method for {@link ChangeNotificationMetadata#getOperation()
+     * Helper method for {@link ChangeNotificationMetadata#getTimeToLive()
      * getMetadata().getTimeToLive()}
      *
      * @return the time-to-live (seconds from now) of the change notification

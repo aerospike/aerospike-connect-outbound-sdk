@@ -21,7 +21,7 @@ package com.aerospike.connect.outbound.routing;
 import lombok.NonNull;
 
 /**
- * The route of the outbound destination.
+ * The route to the outbound destination.
  *
  * @param <T> the type of the outbound route. Should be a String type for ESP
  *            (Event Stream Processing), Google Pub/Sub, JMS, Kafka, Pulsar
@@ -45,7 +45,7 @@ public interface OutboundRoute<T> {
     T getRoute();
 
     /**
-     * Create an outbound route for an ESP (Event Stream Processing)
+     * Create an outbound route to an ESP (Event Stream Processing)
      * destination.
      *
      * @param destination the destination name configured in ESP config.
@@ -56,18 +56,19 @@ public interface OutboundRoute<T> {
     }
 
     /**
-     * Create an outbound route for a JMS destination.
+     * Create an outbound route to a JMS destination.
      *
      * @param type        type of the JMS destination.
      * @param destination the JMS destination name.
      * @return the outbound route for a JMS destination.
      */
-    static DefaultOutboundRoute<String> newJmsRoute(OutboundRouteType type, String destination) {
+    static DefaultOutboundRoute<String> newJmsRoute(OutboundRouteType type,
+                                                    String destination) {
         return new DefaultOutboundRoute<>(type, destination);
     }
 
     /**
-     * Create an outbound route for a Kafka topic.
+     * Create an outbound route to a Kafka topic.
      *
      * @param topic the Kafka topic name.
      * @return the outbound route for a Kafka topic.
@@ -77,7 +78,7 @@ public interface OutboundRoute<T> {
     }
 
     /**
-     * Create an outbound route for a Pulsar topic.
+     * Create an outbound route to a Pulsar topic.
      *
      * @param topic the Pulsar topic name.
      * @return the outbound route for a Pulsar topic.
@@ -87,7 +88,7 @@ public interface OutboundRoute<T> {
     }
 
     /**
-     * Create an outbound route for a Google Pub/Sub destination.
+     * Create an outbound route to a Google Pub/Sub destination.
      *
      * @param topic the Google Pub/Sub topic name.
      * @return the outbound route for a Google Pub/Sub topic.

@@ -26,7 +26,6 @@
  * The transforms can be plugged in selectively at any of the specificity levels
  * - at the default level, at the namespace level, at the set level; like the
  * rest of the configs in the outbound connectors.
- * </p>
  *
  * <p>
  * There are three transforms that can be selectively configured in the outbound
@@ -41,14 +40,12 @@
  *     <li>format transform to transform the Aerospike record into a custom
  *     format written to the outbound destination.</li>
  * </ul>
- * </p>
  *
  * <p>
  * The transformers are plugged in by specifying the Java class path of the
  * custom transform class in the outbound config YAML file. An optional params
  * map can be specified which will be passed to the transforming method of the
  * custom transform class.
- * </p>
  *
  * @see com.aerospike.connect.outbound.routing.Router
  * @see com.aerospike.connect.outbound.transform.Transformer

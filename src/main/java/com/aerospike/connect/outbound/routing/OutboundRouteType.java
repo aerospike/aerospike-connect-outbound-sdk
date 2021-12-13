@@ -33,6 +33,13 @@ public enum OutboundRouteType {
     TOPIC,
 
     /**
+     * Skip dispatching the change notification record to the outbound
+     * destination. The change notification record is acknowledged as
+     * successfully handled to Aerospike XDR change notification.
+     */
+    SKIP,
+
+    /**
      * The outbound destination is of some other type.
      */
     OTHER

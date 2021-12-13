@@ -34,12 +34,26 @@ public interface Router<T> {
     /**
      * Get the route for the record.
      *
+     * <p>
+     * If the returned route has route type {@link OutboundRouteType#SKIP SKIP}
+     * then the change notification record is skipped, and not dispatched to the
+     * outbound destination.
+     *
+     * <p>
+     * When an exception is thrown by this method, the record is acknowledged
+     * with temporary error to Aerospike XDR change notification. Aerospike XDR
+     * change notification will resend the change notification record on a
+     * temporary error.
+     *
      * @param record the change notification record.
      * @param params the params passed to the record from the config. Is an
      *               unmodifiable map.
      * @return the route for the record.
-     * @throws Exception if failed to route the record.
+     * @throws Exception if failed to route the record. The record is
+     *                   acknowledged with temporary error to Aerospike XDR
+     *                   change notification.
      */
     OutboundRoute<T> getRoute(@NonNull ChangeNotificationRecord record,
-                              @NonNull Map<String, Object> params) throws Exception;
+                              @NonNull Map<String, Object> params)
+            throws Exception;
 }

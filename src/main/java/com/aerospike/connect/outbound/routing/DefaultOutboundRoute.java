@@ -18,8 +18,6 @@
 
 package com.aerospike.connect.outbound.routing;
 
-import com.aerospike.connect.outbound.routing.OutboundRoute;
-import com.aerospike.connect.outbound.routing.OutboundRouteType;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;

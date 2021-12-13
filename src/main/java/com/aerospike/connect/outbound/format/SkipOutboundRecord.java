@@ -18,12 +18,27 @@
 
 package com.aerospike.connect.outbound.format;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.ToString;
+
 /**
- * Marker interface for the metadata of the outbound records.
- *
- * <p>
- * Metadata is associated with the outbound record. Different metadata is
- * associated with each of the outbound destinations.
+ * {@link Formatter}s should return instances of this class to skip dispatching
+ * the change notification record to the outbound destination. The change
+ * notification record is acknowledged as successfully handled to Aerospike XDR
+ * change notification.
  */
-public interface OutboundMetadata {
+@AllArgsConstructor
+@EqualsAndHashCode
+@Getter
+@ToString
+public class SkipOutboundRecord<T extends OutboundMetadata>
+        implements OutboundRecord<T> {
+    @NonNull
+    private final String mediaType;
+
+    @NonNull
+    private final T metadata;
 }

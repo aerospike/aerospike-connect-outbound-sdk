@@ -34,7 +34,6 @@ import java.util.Map;
  * outbound destination - like {@link EspOutboundMetadata} for ESP (Event Stream
  * Processing) destination, {@link PulsarOutboundMetadata} for Pulsar
  * destination, etc.
- * </p>
  *
  * @param <T> the metadata associated with the outbound record.
  */
@@ -60,18 +59,28 @@ public interface Formatter<T extends OutboundMetadata> {
      *     </li>
      *     <li>{@link TextOutboundRecord} for JMS outbound destination when
      *     the JMS message should be sent as a JMS TextMessage.</li>
+     *     <li>{@link SkipOutboundRecord} to skip dispatching the change
+     *     notification record to the outbound destination.</li>
      * </ul>
+     *
+     * <p>
+     * When an exception is thrown by this method, the record is acknowledged
+     * with temporary error to Aerospike XDR change notification. Aerospike XDR
+     * change notification will resend the change notification record on a
+     * temporary error.
      *
      * @param record          the record to be formatted.
      * @param params          the params for the formatter specified in the
-     *                        config file. <b>WARN:</b> It is an
-     *                        unmodifiable map.
+     *                        config file. <b>WARN:</b> It is an unmodifiable
+     *                        map.
      * @param formattedRecord the formatted record.
      * @return the formatted record.
-     *
-     * @throws Exception if failed to format the record.
+     * @throws Exception if failed to format the record. The record is
+     *                   acknowledged with temporary error to Aerospike XDR
+     *                   change notification.
      */
     OutboundRecord<T> format(@NonNull ChangeNotificationRecord record,
                              @NonNull Map<String, Object> params,
-                             @NonNull OutboundRecord<T> formattedRecord) throws Exception;
+                             @NonNull OutboundRecord<T> formattedRecord)
+            throws Exception;
 }
