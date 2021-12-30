@@ -25,7 +25,11 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 
+import javax.annotation.Nullable;
+import java.net.URI;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * The metadata associated with the ESP (Event Stream Processing) outbound
@@ -43,14 +47,137 @@ public class EspOutboundMetadata implements OutboundMetadata {
     private final String httpMethod;
 
     /**
-     * The path of the URL of the HTTP request.
+     * The set of HTTP status codes indicating a successful response. If it is
+     * not specified then the status codes specified in the ESP destination
+     * config are used.
      */
-    @NonNull
+    @Nullable
+    private final Set<Integer> successStatusCodes;
+
+    /**
+     * The path component of the relative URL resolved against the base URL (ESP
+     * destination URL) to get the target URL. See {@link
+     * java.net.URI#resolve(URI)} and
+     * <a href="https://datatracker.ietf.org/doc/html/rfc3986/#section-5.4">examples</a>.
+     *
+     * <p>
+     * Should be in non percent-encoded, plain human readable form.
+     */
+    @Nullable
     private final String path;
+
+    /**
+     * The query component of the relative URL resolved against the base URL
+     * (ESP destination URL) to get the target URL. See {@link
+     * java.net.URI#resolve(URI)} and
+     * <a href="https://datatracker.ietf.org/doc/html/rfc3986/#section-5.4">examples</a>.
+     *
+     * <p>
+     * Should be in non percent-encoded, plain human readable form.
+     */
+    @Nullable
+    private final String query;
 
     /**
      * The headers of the HTTP request.
      */
-    @NonNull
+    @Nullable
     private final Map<String, String> headers;
+
+
+    /**
+     * Get the headers of the HTTP request.
+     *
+     * @return the HTTP headers.
+     */
+    public Optional<Map<String, String>> getHeaders() {
+        return Optional.ofNullable(headers);
+    }
+
+    /**
+     * Get the set of HTTP status codes indicating a successful response. If it
+     * is not specified then the status codes specified in the ESP destination
+     * config are used.
+     *
+     * @return set of HTTP status codes indicating a successful response.
+     */
+    public Optional<Set<Integer>> getSuccessStatusCodes() {
+        return Optional.ofNullable(successStatusCodes);
+    }
+
+    /**
+     * Get the path component of the relative URL resolved against the base URL
+     * (ESP destination URL) to get the target URL. See {@link
+     * java.net.URI#resolve(URI)} and
+     * <a href="https://datatracker.ietf.org/doc/html/rfc3986/#section-5.4">examples</a>.
+     *
+     * <p>
+     * Should be in non percent-encoded, plain human readable form.
+     *
+     * @return the path component of the relative URL.
+     */
+    public Optional<String> getPath() {
+        return Optional.ofNullable(path);
+    }
+
+    /**
+     * Get the query component of the relative URL resolved against the base URL
+     * (ESP destination URL) to get the target URL. See {@link
+     * java.net.URI#resolve(URI)} and
+     * <a href="https://datatracker.ietf.org/doc/html/rfc3986/#section-5.4">examples</a>.
+     *
+     * <p>
+     * Should be in non percent-encoded, plain human readable form.
+     *
+     * @return the query component of the relative URL.
+     */
+    public Optional<String> getQuery() {
+        return Optional.ofNullable(query);
+    }
+
+
+    /**
+     * @return a new builder.
+     */
+    public static Builder newBuilder(@NonNull String httpMethod) {
+        return new Builder(httpMethod);
+    }
+
+    public static class Builder {
+        private String httpMethod;
+        private String path;
+        private String query;
+        private Map<String, String> headers;
+        private Set<Integer> successStatusCodes;
+
+        public Builder(@NonNull String httpMethod) {
+            this.httpMethod = httpMethod;
+        }
+
+        public Builder setPath(@Nullable String path) {
+            this.path = path;
+            return this;
+        }
+
+        public Builder setQuery(@Nullable String query) {
+            this.query = query;
+            return this;
+        }
+
+        public Builder setHeaders(@Nullable Map<String, String> headers) {
+            this.headers = headers;
+            return this;
+        }
+
+        public Builder setSuccessStatusCodes(
+                @Nullable Set<Integer> successStatusCodes) {
+            this.successStatusCodes = successStatusCodes;
+            return this;
+        }
+
+        public EspOutboundMetadata build() {
+            return new EspOutboundMetadata(httpMethod, successStatusCodes,
+                    path, query, headers);
+        }
+    }
 }

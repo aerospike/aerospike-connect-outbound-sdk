@@ -91,7 +91,10 @@ class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
             String path = toElasticsearchPath(record.getKey().digest,
                     "_doc");
             EspOutboundMetadata metadata =
-                    new EspOutboundMetadata("DELETE", path, httpHeaders);
+                    EspOutboundMetadata.newBuilder("DELETE")
+                            .setPath(path)
+                            .setHeaders(httpHeaders)
+                            .build();
             return new DefaultBytesOutboundRecord<EspOutboundMetadata>(
                     jsonFormat,
                     MediaType.JSON,
@@ -103,8 +106,10 @@ class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
         logger.debug("Inserting/updating document for record {}",
                 record.getKey());
         String path = toElasticsearchPath(record.getKey().digest, "_doc");
-        EspOutboundMetadata metadata = new EspOutboundMetadata("PUT",
-                path, httpHeaders);
+        EspOutboundMetadata metadata = EspOutboundMetadata.newBuilder("PUT")
+                .setPath(path)
+                .setHeaders(httpHeaders)
+                .build();
         return new DefaultBytesOutboundRecord<EspOutboundMetadata>(jsonFormat,
                 MediaType.JSON, metadata);
     }
