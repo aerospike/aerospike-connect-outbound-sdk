@@ -21,6 +21,7 @@ package com.aerospike.connect.outbound.transform.examples.esp;
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.esp.EspOutboundMetadata;
+import com.aerospike.connect.outbound.esp.HttpMethod;
 import com.aerospike.connect.outbound.format.DefaultBytesOutboundRecord;
 import com.aerospike.connect.outbound.format.Formatter;
 import com.aerospike.connect.outbound.format.MediaType;
@@ -91,7 +92,7 @@ class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
             String path = toElasticsearchPath(record.getKey().digest,
                     "_doc");
             EspOutboundMetadata metadata =
-                    EspOutboundMetadata.newBuilder("DELETE")
+                    EspOutboundMetadata.newBuilder(HttpMethod.DELETE)
                             .setPath(path)
                             .setHeaders(httpHeaders)
                             .build();
@@ -106,10 +107,11 @@ class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
         logger.debug("Inserting/updating document for record {}",
                 record.getKey());
         String path = toElasticsearchPath(record.getKey().digest, "_doc");
-        EspOutboundMetadata metadata = EspOutboundMetadata.newBuilder("PUT")
-                .setPath(path)
-                .setHeaders(httpHeaders)
-                .build();
+        EspOutboundMetadata metadata =
+                EspOutboundMetadata.newBuilder(HttpMethod.PUT)
+                        .setPath(path)
+                        .setHeaders(httpHeaders)
+                        .build();
         return new DefaultBytesOutboundRecord<EspOutboundMetadata>(jsonFormat,
                 MediaType.JSON, metadata);
     }

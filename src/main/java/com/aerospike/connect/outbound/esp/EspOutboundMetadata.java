@@ -44,7 +44,7 @@ public class EspOutboundMetadata implements OutboundMetadata {
      * The method of the HTTP request.
      */
     @NonNull
-    private final String httpMethod;
+    private final HttpMethod httpMethod;
 
     /**
      * The set of HTTP status codes indicating a successful response. If it is
@@ -137,20 +137,23 @@ public class EspOutboundMetadata implements OutboundMetadata {
 
 
     /**
+     * Create a new EspOutboundMetadata builder.
+     *
+     * @param httpMethod the HTTP method of the ESP metadata
      * @return a new builder.
      */
-    public static Builder newBuilder(@NonNull String httpMethod) {
+    public static Builder newBuilder(@NonNull HttpMethod httpMethod) {
         return new Builder(httpMethod);
     }
 
     public static class Builder {
-        private String httpMethod;
+        private HttpMethod httpMethod;
         private String path;
         private String query;
         private Map<String, String> headers;
         private Set<Integer> successStatusCodes;
 
-        public Builder(@NonNull String httpMethod) {
+        public Builder(@NonNull HttpMethod httpMethod) {
             this.httpMethod = httpMethod;
         }
 
