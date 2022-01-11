@@ -23,12 +23,14 @@ import com.aerospike.connect.outbound.format.BytesOutboundRecord;
 import com.aerospike.connect.outbound.format.DefaultBytesOutboundRecord;
 import com.aerospike.connect.outbound.format.DefaultTextOutboundRecord;
 import com.aerospike.connect.outbound.format.Formatter;
+import com.aerospike.connect.outbound.format.FormatterConfig;
 import com.aerospike.connect.outbound.format.OutboundRecord;
 import com.aerospike.connect.outbound.jms.JmsOutboundMetadata;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Map;
 
@@ -53,10 +55,19 @@ public class JmsMessageTypeFormatter implements Formatter<JmsOutboundMetadata> {
     private final static Logger logger =
             LoggerFactory.getLogger(JmsMessageTypeFormatter.class.getName());
 
+    /**
+     * Params set in the config.
+     */
+    private final Map<String, Object> configParams;
+
+    @Inject
+    public JmsMessageTypeFormatter(FormatterConfig formatterConfig) {
+        this.configParams = formatterConfig.getParams();
+    }
+
     @Override
     public OutboundRecord<JmsOutboundMetadata> format(
             @NonNull ChangeNotificationRecord record,
-            @NonNull Map<String, Object> params,
             @NonNull OutboundRecord<JmsOutboundMetadata> formattedRecord) {
         logger.debug("Formatting record {}", record.getKey());
 
@@ -67,7 +78,8 @@ public class JmsMessageTypeFormatter implements Formatter<JmsOutboundMetadata> {
                                 "payload missing, expected json payload"));
 
         // "asText" should be passed as params in the config.
-        if (params.containsKey("asText") && (boolean) params.get("asText")) {
+        if (configParams.containsKey("asText") &&
+                (boolean) configParams.get("asText")) {
             // Will be dispatched as JMS TextMessage.
             return new DefaultTextOutboundRecord<JmsOutboundMetadata>(
                     payload, formattedRecord.getMediaType(),

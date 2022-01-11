@@ -21,8 +21,6 @@ package com.aerospike.connect.outbound.routing;
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import lombok.NonNull;
 
-import java.util.Map;
-
 /**
  * Route records to the outbound destination.
  *
@@ -46,14 +44,11 @@ public interface Router<T> {
      * temporary error.
      *
      * @param record the change notification record.
-     * @param params the params passed to the record from the config. Is an
-     *               unmodifiable map.
      * @return the route for the record.
      * @throws Exception if failed to route the record. The record is
      *                   acknowledged with temporary error to Aerospike XDR
      *                   change notification.
      */
-    OutboundRoute<T> getRoute(@NonNull ChangeNotificationRecord record,
-                              @NonNull Map<String, Object> params)
+    OutboundRoute<T> getRoute(@NonNull ChangeNotificationRecord record)
             throws Exception;
 }

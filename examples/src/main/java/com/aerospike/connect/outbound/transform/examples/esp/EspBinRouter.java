@@ -54,8 +54,7 @@ public class EspBinRouter implements Router<String> {
 
     @Override
     public OutboundRoute<String> getRoute(
-            @NonNull ChangeNotificationRecord record,
-            @NonNull Map<String, Object> params) {
+            @NonNull ChangeNotificationRecord record) {
         Map<String, Object> bins = record.getBins();
 
         // Destinations internal and external are to be configured in the

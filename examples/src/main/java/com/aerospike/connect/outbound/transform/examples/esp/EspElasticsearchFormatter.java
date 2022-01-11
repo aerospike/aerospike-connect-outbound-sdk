@@ -24,6 +24,7 @@ import com.aerospike.connect.outbound.esp.EspOutboundMetadata;
 import com.aerospike.connect.outbound.esp.HttpMethod;
 import com.aerospike.connect.outbound.format.DefaultBytesOutboundRecord;
 import com.aerospike.connect.outbound.format.Formatter;
+import com.aerospike.connect.outbound.format.FormatterConfig;
 import com.aerospike.connect.outbound.format.MediaType;
 import com.aerospike.connect.outbound.format.OutboundRecord;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -32,6 +33,7 @@ import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -67,20 +69,30 @@ class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
     private final static Logger logger =
             LoggerFactory.getLogger(EspElasticsearchFormatter.class.getName());
 
+    /**
+     * Params set in the config.
+     */
+    private final Map<String, Object> configParams;
+
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final String ELASTICSEARCH_INDEX_NAME = "esp";
+
+
+    @Inject
+    public EspElasticsearchFormatter(FormatterConfig formatterConfig) {
+        this.configParams = formatterConfig.getParams();
+    }
 
     @Override
     public OutboundRecord<EspOutboundMetadata> format(
             @NonNull ChangeNotificationRecord record,
-            @NonNull Map<String, Object> params,
             @NonNull OutboundRecord<EspOutboundMetadata> formattedRecord)
             throws UnsupportedEncodingException, JsonProcessingException {
         // ESP config should be passed the Elasticsearch username, password for
         // BasicAuth.
         Map<String, String> httpHeaders =
-                toBasicAuthHeader((String) params.get("username"),
-                        (String) params.get("password"));
+                toBasicAuthHeader((String) configParams.get("username"),
+                        (String) configParams.get("password"));
 
         // Format bins as JSON.
         byte[] jsonFormat = toJsonFormat(record.getBins());

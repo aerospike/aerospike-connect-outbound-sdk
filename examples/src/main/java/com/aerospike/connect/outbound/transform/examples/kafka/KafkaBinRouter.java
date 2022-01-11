@@ -46,8 +46,7 @@ public class KafkaBinRouter implements Router<String> {
 
     @Override
     public OutboundRoute<String> getRoute(
-            @NonNull ChangeNotificationRecord record,
-            @NonNull Map<String, Object> params) {
+            @NonNull ChangeNotificationRecord record) {
         Map<String, Object> bins = record.getBins();
 
         Object region = bins.get("region");

@@ -22,10 +22,12 @@ package com.aerospike.connect.outbound.transform.examples.pulsar;
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.routing.OutboundRoute;
 import com.aerospike.connect.outbound.routing.Router;
+import com.aerospike.connect.outbound.routing.RouterConfig;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Map;
 import java.util.Optional;
@@ -49,10 +51,20 @@ public class PulsarGenerationRouter implements Router<String> {
     private final static Logger logger =
             LoggerFactory.getLogger(PulsarGenerationRouter.class.getName());
 
+
+    /**
+     * Params set in the config.
+     */
+    private final Map<String, Object> configParams;
+
+    @Inject
+    public PulsarGenerationRouter(RouterConfig routerConfig) {
+        this.configParams = routerConfig.getParams();
+    }
+
     @Override
     public OutboundRoute<String> getRoute(
-            @NonNull ChangeNotificationRecord record,
-            @NonNull Map<String, Object> params) {
+            @NonNull ChangeNotificationRecord record) {
         // Record generation is not shipped by Aerospike XDR versions before
         // v5.0.0.
         Optional<Integer> generation = record.getGeneration();
@@ -61,7 +73,7 @@ public class PulsarGenerationRouter implements Router<String> {
         // config.
 
         if (generation.isPresent() &&
-                generation.get() > (int) params.get("genNumber")) {
+                generation.get() > (int) configParams.get("genNumber")) {
             logger.debug("Routing record {} to old", record.getKey());
             return OutboundRoute.newPulsarRoute("old");
         }

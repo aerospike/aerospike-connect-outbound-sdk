@@ -61,7 +61,6 @@ public class PubSubWrapBuiltinJsonFormatter
     @Override
     public OutboundRecord<PubSubOutboundMetadata> format(
             @NonNull ChangeNotificationRecord record,
-            @NonNull Map<String, Object> params,
             @NonNull OutboundRecord<PubSubOutboundMetadata> formattedRecord)
             throws JsonProcessingException {
         logger.debug("Formatting record {}", record.getKey());

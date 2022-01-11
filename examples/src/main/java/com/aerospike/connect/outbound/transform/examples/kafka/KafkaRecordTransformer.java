@@ -21,10 +21,12 @@ package com.aerospike.connect.outbound.transform.examples.kafka;
 import com.aerospike.connect.outbound.ChangeNotificationMetadata;
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.transform.Transformer;
+import com.aerospike.connect.outbound.transform.TransformerConfig;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,10 +51,19 @@ public class KafkaRecordTransformer implements Transformer {
     private final static Logger logger =
             LoggerFactory.getLogger(KafkaRecordTransformer.class.getName());
 
+    /**
+     * Params set in the config.
+     */
+    private final Map<String, Object> configParams;
+
+    @Inject
+    public KafkaRecordTransformer(TransformerConfig transformerConfig) {
+        this.configParams = transformerConfig.getParams();
+    }
+
     @Override
     public ChangeNotificationRecord transform(
-            @NonNull ChangeNotificationRecord record,
-            @NonNull Map<String, Object> params) {
+            @NonNull ChangeNotificationRecord record) {
         // Increment generation in metadata.
         Integer generation = record.getGeneration().isPresent() ?
                 record.getGeneration().get() + 1 : null;
@@ -70,9 +81,9 @@ public class KafkaRecordTransformer implements Transformer {
         Map<String, Object> bins = new HashMap<>(record.getBins());
 
         // Add bins passed as params in config.
-        if (params.containsKey("bins")) {
+        if (configParams.containsKey("bins")) {
             @SuppressWarnings("unchecked") Map<String, Object> paramBins =
-                    (Map<String, Object>) params.get("bins");
+                    (Map<String, Object>) configParams.get("bins");
             bins.putAll(paramBins);
         }
 

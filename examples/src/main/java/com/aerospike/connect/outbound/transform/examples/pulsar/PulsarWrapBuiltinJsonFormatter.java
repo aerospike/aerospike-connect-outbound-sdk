@@ -61,7 +61,6 @@ public class PulsarWrapBuiltinJsonFormatter
     @Override
     public OutboundRecord<PulsarOutboundMetadata> format(
             @NonNull ChangeNotificationRecord record,
-            @NonNull Map<String, Object> params,
             @NonNull OutboundRecord<PulsarOutboundMetadata> formattedRecord)
             throws JsonProcessingException {
         logger.debug("Formatting record {}", record.getKey());

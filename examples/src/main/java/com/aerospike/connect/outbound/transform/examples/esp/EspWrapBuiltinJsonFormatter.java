@@ -61,7 +61,6 @@ public class EspWrapBuiltinJsonFormatter
     @Override
     public OutboundRecord<EspOutboundMetadata> format(
             @NonNull ChangeNotificationRecord record,
-            @NonNull Map<String, Object> params,
             @NonNull OutboundRecord<EspOutboundMetadata> formattedRecord)
             throws JsonProcessingException {
         logger.debug("Formatting record {}", record.getKey());

@@ -22,8 +22,6 @@ import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.format.Formatter;
 import lombok.NonNull;
 
-import java.util.Map;
-
 /**
  * Transform the Aerospike record like add bin, delete bin, modify bin value,
  * modify key, modify metadata (generation, last update time, expiry).
@@ -105,14 +103,11 @@ public interface Transformer {
      * </table>
      *
      * @param record the change notification record.
-     * @param params the params passed to the record from the config. Is an
-     *               unmodifiable map.
      * @return the transformed change notification record.
      * @throws Exception if failed to transform the record. The record is
      *                   acknowledged with temporary error to Aerospike XDR
      *                   change notification.
      */
-    ChangeNotificationRecord transform(@NonNull ChangeNotificationRecord record,
-                                       @NonNull Map<String, Object> params)
+    ChangeNotificationRecord transform(@NonNull ChangeNotificationRecord record)
             throws Exception;
 }

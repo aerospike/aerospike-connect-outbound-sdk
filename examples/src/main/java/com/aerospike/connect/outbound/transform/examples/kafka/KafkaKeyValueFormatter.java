@@ -21,6 +21,7 @@ package com.aerospike.connect.outbound.transform.examples.kafka;
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.format.DefaultTextOutboundRecord;
 import com.aerospike.connect.outbound.format.Formatter;
+import com.aerospike.connect.outbound.format.FormatterConfig;
 import com.aerospike.connect.outbound.format.MediaType;
 import com.aerospike.connect.outbound.format.OutboundRecord;
 import com.aerospike.connect.outbound.kafka.KafkaOutboundMetadata;
@@ -28,6 +29,7 @@ import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Map;
 
@@ -51,17 +53,26 @@ public class KafkaKeyValueFormatter
     private final static Logger logger =
             LoggerFactory.getLogger(KafkaKeyValueFormatter.class.getName());
 
+    /**
+     * Params set in the config.
+     */
+    private final Map<String, Object> configParams;
+
+    @Inject
+    public KafkaKeyValueFormatter(FormatterConfig formatterConfig) {
+        this.configParams = formatterConfig.getParams();
+    }
+
     @Override
     public OutboundRecord<KafkaOutboundMetadata> format(
             @NonNull ChangeNotificationRecord record,
-            @NonNull Map<String, Object> params,
             @NonNull OutboundRecord<KafkaOutboundMetadata> formattedRecord) {
         logger.debug("Formatting record {}", record.getKey());
 
         // Only write string bins.
         StringBuilder payloadBuilder = new StringBuilder();
         String separator =
-                (String) params.getOrDefault("separator", ":");
+                (String) configParams.getOrDefault("separator", ":");
         for (Map.Entry<String, Object> bin : record.getBins().entrySet()) {
             if (bin.getValue() instanceof String) {
                 payloadBuilder.append(bin.getKey());

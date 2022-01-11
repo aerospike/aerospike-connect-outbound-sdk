@@ -23,8 +23,6 @@ import com.aerospike.connect.outbound.esp.EspOutboundMetadata;
 import com.aerospike.connect.outbound.pulsar.PulsarOutboundMetadata;
 import lombok.NonNull;
 
-import java.util.Map;
-
 /**
  * Format the Aerospike record into an outbound record for the outbound
  * destination.
@@ -70,9 +68,6 @@ public interface Formatter<T extends OutboundMetadata> {
      * temporary error.
      *
      * @param record          the record to be formatted.
-     * @param params          the params for the formatter specified in the
-     *                        config file. <b>WARN:</b> It is an unmodifiable
-     *                        map.
      * @param formattedRecord the formatted record.
      * @return the formatted record.
      * @throws Exception if failed to format the record. The record is
@@ -80,7 +75,6 @@ public interface Formatter<T extends OutboundMetadata> {
      *                   change notification.
      */
     OutboundRecord<T> format(@NonNull ChangeNotificationRecord record,
-                             @NonNull Map<String, Object> params,
                              @NonNull OutboundRecord<T> formattedRecord)
             throws Exception;
 }
