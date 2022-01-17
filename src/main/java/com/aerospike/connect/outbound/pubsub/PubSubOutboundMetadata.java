@@ -52,6 +52,13 @@ public class PubSubOutboundMetadata implements OutboundMetadata {
     private final ByteString orderingKey;
 
     /**
+     * The regional endpoint the Google Pub/Sub message should be published to.
+     * Not applicable in Google Pub/Sub Lite, and it is ignored.
+     */
+    @Nullable
+    private final String regionalEndpoint;
+
+    /**
      * Get the attributes of the Google Pub/Sub message.
      *
      * @return the attributes.
@@ -69,5 +76,15 @@ public class PubSubOutboundMetadata implements OutboundMetadata {
      */
     public Optional<ByteString> getOrderingKey() {
         return Optional.ofNullable(orderingKey);
+    }
+
+    /**
+     * Get the regional endpoint the Google Pub/Sub message should be published
+     * to. Not applicable in Google Pub/Sub Lite, and it is ignored.
+     *
+     * @return the regional endpoint.
+     */
+    public Optional<String> getRegionalEndpoint() {
+        return Optional.ofNullable(regionalEndpoint);
     }
 }
