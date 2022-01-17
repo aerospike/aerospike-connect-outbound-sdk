@@ -20,6 +20,7 @@ package com.aerospike.connect.outbound.transform.examples.pubsub;
 
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
+import com.aerospike.connect.outbound.pubsub.PubSubOutboundRoute;
 import com.aerospike.connect.outbound.routing.OutboundRoute;
 import com.aerospike.connect.outbound.routing.Router;
 import com.aerospike.connect.outbound.routing.RouterConfig;
@@ -47,7 +48,7 @@ import java.util.Optional;
  * </pre>
  */
 @Singleton
-public class PubSubGenerationRouter implements Router<String> {
+public class PubSubGenerationRouter implements Router<PubSubOutboundRoute> {
     private final static Logger logger =
             LoggerFactory.getLogger(PubSubGenerationRouter.class.getName());
 
@@ -62,7 +63,7 @@ public class PubSubGenerationRouter implements Router<String> {
     }
 
     @Override
-    public OutboundRoute<String> getRoute(
+    public OutboundRoute<PubSubOutboundRoute> getRoute(
             @NonNull ChangeNotificationRecord record) {
         // Record generation is not shipped by Aerospike XDR versions before
         // v5.0.0.
@@ -74,10 +75,10 @@ public class PubSubGenerationRouter implements Router<String> {
         if (generation.isPresent() &&
                 generation.get() > (int) configParams.get("genNumber")) {
             logger.debug("Routing record {} to old", record.getKey());
-            return OutboundRoute.newPubSubRoute("old");
+            return OutboundRoute.newPubSubRoute("old", null);
         }
 
         logger.debug("Routing record {} to young", record.getKey());
-        return OutboundRoute.newPubSubRoute("young");
+        return OutboundRoute.newPubSubRoute("young", null);
     }
 }

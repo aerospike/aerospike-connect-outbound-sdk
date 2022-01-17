@@ -19,6 +19,7 @@
 package com.aerospike.connect.outbound.transform.examples.pubsub;
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
+import com.aerospike.connect.outbound.pubsub.PubSubOutboundRoute;
 import com.aerospike.connect.outbound.routing.OutboundRoute;
 import com.aerospike.connect.outbound.routing.Router;
 import lombok.NonNull;
@@ -40,22 +41,22 @@ import java.util.Map;
  * </pre>
  */
 @Singleton
-public class PubSubBinRouter implements Router<String> {
+public class PubSubBinRouter implements Router<PubSubOutboundRoute> {
     private final static Logger logger =
             LoggerFactory.getLogger(PubSubBinRouter.class.getName());
 
     @Override
-    public OutboundRoute<String> getRoute(
+    public OutboundRoute<PubSubOutboundRoute> getRoute(
             @NonNull ChangeNotificationRecord record) {
         Map<String, Object> bins = record.getBins();
 
         Object region = bins.get("region");
         if (region instanceof String) {
             logger.debug("Routing record {} to {}", record.getKey(), region);
-            return OutboundRoute.newPubSubRoute((String) region);
+            return OutboundRoute.newPubSubRoute((String) region, null);
         }
 
         logger.debug("Routing record {} to default", record.getKey());
-        return OutboundRoute.newPubSubRoute("default");
+        return OutboundRoute.newPubSubRoute("default", null);
     }
 }

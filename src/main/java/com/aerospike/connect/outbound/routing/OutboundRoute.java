@@ -18,7 +18,10 @@
 
 package com.aerospike.connect.outbound.routing;
 
+import com.aerospike.connect.outbound.pubsub.PubSubOutboundRoute;
 import lombok.NonNull;
+
+import javax.annotation.Nullable;
 
 /**
  * The route to the outbound destination.
@@ -90,10 +93,13 @@ public interface OutboundRoute<T> {
     /**
      * Create an outbound route to a Google Pub/Sub destination.
      *
-     * @param topic the Google Pub/Sub topic name.
+     * @param topic            the Google Pub/Sub topic name.
+     * @param regionalEndpoint the regional endpoint to publish the message to.
      * @return the outbound route for a Google Pub/Sub topic.
      */
-    static DefaultOutboundRoute<String> newPubSubRoute(String topic) {
-        return new DefaultOutboundRoute<>(OutboundRouteType.TOPIC, topic);
+    static DefaultOutboundRoute<PubSubOutboundRoute> newPubSubRoute(
+            String topic, @Nullable String regionalEndpoint) {
+        return new DefaultOutboundRoute<>(OutboundRouteType.TOPIC,
+                new PubSubOutboundRoute(topic, regionalEndpoint));
     }
 }

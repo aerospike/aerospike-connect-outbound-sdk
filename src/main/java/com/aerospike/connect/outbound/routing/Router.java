@@ -19,14 +19,15 @@
 package com.aerospike.connect.outbound.routing;
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
+import com.aerospike.connect.outbound.pubsub.PubSubOutboundRoute;
 import lombok.NonNull;
 
 /**
  * Route records to the outbound destination.
  *
  * @param <T> the type of the outbound route. Should be a String type for ESP
- *            (Event Stream Processing), Google Pub/Sub, JMS, Kafka, Pulsar
- *            routes.
+ *            (Event Stream Processing), JMS, Kafka, Pulsar routes; and a {@link
+ *            PubSubOutboundRoute PubSubOutboundRoute} type for Google Pub/Sub.
  */
 public interface Router<T> {
     /**

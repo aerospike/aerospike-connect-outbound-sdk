@@ -105,9 +105,7 @@ public class PubSubKeyValueFormatter
         ByteString orderingKey = ByteString.copyFromUtf8("CustomFormatter");
         PubSubOutboundMetadata metadata = new PubSubOutboundMetadata(
                 formattedRecord.getMetadata().getAttributes().orElse(null),
-                orderingKey,
-                formattedRecord.getMetadata().getRegionalEndpoint()
-                        .orElse(null));
+                orderingKey);
 
         return new DefaultTextOutboundRecord<PubSubOutboundMetadata>(
                 payloadBuilder.toString().getBytes(), MediaType.OCTET_STREAM,
