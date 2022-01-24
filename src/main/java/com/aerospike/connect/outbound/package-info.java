@@ -23,29 +23,29 @@
  * outbound destination record.
  *
  * <p>
- * The transforms can be plugged in selectively at any of the specificity levels
- * - at the default level, at the namespace level, at the set level; like the
- * rest of the configs in the outbound connectors.
+ * The transformers can be plugged in selectively at any of the specificity
+ * levels - at the default level, at the namespace level, at the set level;
+ * like the rest of the configs in the outbound connectors.
  *
  * <p>
- * There are three transforms that can be selectively configured in the outbound
- * connectors to apply to the incoming Aerospike change notification records
- * dispatched by XDR
+ * There are three transformers that can be selectively configured in the
+ * outbound connectors to apply to the incoming Aerospike change notification
+ * records dispatched by XDR
  * <ul>
- *     <li>routing transform to route the record to the outbound
+ *     <li>routing transformer to route the record to the outbound
  *     destination.</li>
- *     <li>record transform to transform the contents of the Aerospike record
+ *     <li>record transformer to transform the contents of the Aerospike record
  *     like add bin, delete bin, modify bin value, modify key, modify metadata
  *     (generation, last update time, expiry).</li>
- *     <li>format transform to transform the Aerospike record into a custom
+ *     <li>format transformer to transform the Aerospike record into a custom
  *     format written to the outbound destination.</li>
  * </ul>
  *
  * <p>
  * The transformers are plugged in by specifying the Java class path of the
- * custom transform class in the outbound config YAML file. An optional params
+ * custom transformer class in the outbound config YAML file. An optional params
  * map can be specified which will be passed to the transforming method of the
- * custom transform class.
+ * custom transformer class.
  *
  * @see com.aerospike.connect.outbound.routing.Router
  * @see com.aerospike.connect.outbound.transformer.Transformer

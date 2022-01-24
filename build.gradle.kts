@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright 2012-2021 Aerospike, Inc.
+ *  Copyright 2012-2022 Aerospike, Inc.
  *
  *  Portions may be licensed to Aerospike, Inc. under one or more contributor
  *  license agreements WHICH ARE COMPATIBLE WITH THE APACHE LICENSE, VERSION 2.0.
@@ -205,9 +205,9 @@ allprojects {
 
         tasks.withType<PublishToMavenRepository>().configureEach {
             onlyIf {
-                // Upload if snap shot version.
+                // Upload if snapshot version.
                 // If a proper release version upload only when release task is
-                // present. This prevents re-releasing re builds of released
+                // present. This prevents re-releasing re-builds of released
                 // version.
                 isSnapshotVersion(project.version) || hasReleaseTask()
             }

@@ -1,27 +1,27 @@
 # Aerospike Connect Outbound SDK
 
-An outbound SDK for creating custom transforms for streaming connectors.
+An outbound SDK for creating custom transformers for streaming connectors.
 
-Aerospike Connect outbound transform provides a plugin system in Aerospike
+Aerospike Connect outbound transformer provides a plugin system in Aerospike
 outbound connectors to transform incoming XDR change notification records
 dispatched to the outbound destination with custom code.
 
-Three transforms can be configured in any combination in the outbound connectors
+Three transformers can be configured in any combination in the outbound connectors
 to apply to the incoming Aerospike change notification records dispatched by XDR:
 
-- **Routing transform:** Route the record to the outbound destination.
-- **Record transform:** Transform the contents of the Aerospike record. Transformations include:
+- **Routing transformer:** Route the record to the outbound destination.
+- **Record transformer:** Transform the contents of the Aerospike record. Transformations include:
     - Add bin
     - Delete bin
     - Change bin value
     - Change key
     - Change metadata (generation, last update time, expiry)
-- **Format transform:** Transform the Aerospike record into a custom format written to the outbound destination.
+- **Format transformer:** Transform the Aerospike record into a custom format written to the outbound destination.
 
 The transformers are plugged in by specifying the Java class path of the
-custom transform class in the outbound config YAML file. An optional params
+custom transformer class in the outbound config YAML file. An optional params
 map can be specified which will be passed to the transforming method of the
-custom transform class.
+custom transformer class.
 
 For detailed documentation see [Aerospike connector docs](https://docs.aerospike.com/docs/connect/streaming-from-asdb/outbound-message-transform.html)
 

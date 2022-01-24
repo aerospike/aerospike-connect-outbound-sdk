@@ -1,5 +1,5 @@
-An example project with outbound message transforms for ESP (Event Stream
-Processing), Pulsar, etc outbound connectors. The project can be built with
+An example project with outbound message transformers for ESP (Event Stream
+Processing), Pulsar, etc. outbound connectors. The project can be built with
 Maven or Gradle.
 
 ## Build
@@ -11,7 +11,7 @@ conflicts with the outbound connectors.
 ### Gradle Build
 
 Run task `shadowJar`. This task builds the JAR at
-`build/libs/connect-outbound-transform-examples-1.0.0-SNAPSHOT-all.jar`
+`build/libs/connect-outbound-transformer-examples-1.0.0-SNAPSHOT-all.jar`
 
 ```shell
 ./gradlew shadowJar
@@ -20,7 +20,7 @@ Run task `shadowJar`. This task builds the JAR at
 ### Maven Build
 
 Run maven phase `package`. This phase builds the JAR at
-`target/connect-outbound-transform-examples-1.0.0-SNAPSHOT.jar`.
+`target/connect-outbound-transformer-examples-1.0.0-SNAPSHOT.jar`.
 
 ```shell
 mvn package

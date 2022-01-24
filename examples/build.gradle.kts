@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright 2012-2021 Aerospike, Inc.
+ *  Copyright 2012-2022 Aerospike, Inc.
  *
  *  Portions may be licensed to Aerospike, Inc. under one or more contributor
  *  license agreements WHICH ARE COMPATIBLE WITH THE APACHE LICENSE, VERSION 2.0.
@@ -30,7 +30,7 @@ dependencies {
     api("com.fasterxml.jackson.core:jackson-databind:2.6.6")
 
     // Aerospike client.
-    compileOnly("com.aerospike:aerospike-client:5.1.7")
+    compileOnly("com.aerospike:aerospike-client:5.1.8")
 
     // Aerospike outbound SDK.
     // TODO: update to 1.0.0 on release.
