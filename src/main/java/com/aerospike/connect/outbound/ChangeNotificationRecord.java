@@ -21,7 +21,7 @@ package com.aerospike.connect.outbound;
 import com.aerospike.client.Key;
 import com.aerospike.connect.outbound.format.Formatter;
 import com.aerospike.connect.outbound.routing.Router;
-import com.aerospike.connect.outbound.transform.Transformer;
+import com.aerospike.connect.outbound.transformer.Transformer;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;

@@ -16,7 +16,7 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transform;
+package com.aerospike.connect.outbound.transformer;
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.format.Formatter;

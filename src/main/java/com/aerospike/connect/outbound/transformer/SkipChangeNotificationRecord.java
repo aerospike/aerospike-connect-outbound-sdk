@@ -16,7 +16,7 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transform;
+package com.aerospike.connect.outbound.transformer;
 
 import com.aerospike.client.Key;
 import com.aerospike.connect.outbound.AerospikeOperation;
@@ -39,6 +39,6 @@ public class SkipChangeNotificationRecord extends ChangeNotificationRecord {
     public SkipChangeNotificationRecord() {
         super(new ChangeNotificationMetadata(new Key("", "", ""),
                         AerospikeOperation.WRITE, null, null, null),
-                new HashMap<String, Object>());
+                new HashMap<>());
     }
 }

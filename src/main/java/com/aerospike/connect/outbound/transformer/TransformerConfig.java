@@ -16,7 +16,7 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.transform;
+package com.aerospike.connect.outbound.transformer;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

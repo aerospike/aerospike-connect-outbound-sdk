@@ -48,7 +48,7 @@
  * custom transform class.
  *
  * @see com.aerospike.connect.outbound.routing.Router
- * @see com.aerospike.connect.outbound.transform.Transformer
+ * @see com.aerospike.connect.outbound.transformer.Transformer
  * @see com.aerospike.connect.outbound.format.Formatter
  */
 package com.aerospike.connect.outbound;
