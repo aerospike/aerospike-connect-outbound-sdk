@@ -75,7 +75,8 @@ public class PulsarRecordTransformer implements Transformer {
                 new ChangeNotificationMetadata(record.getMetadata().getKey(),
                         record.getMetadata().getOperation(), generation,
                         record.getMetadata().getLastUpdateTimeMs().orElse(null),
-                        record.getMetadata().getExpiryTime().orElse(null));
+                        record.getMetadata().getExpiryTime().orElse(null), record.getMetadata().getRecordExistsAction(),
+                        record.getMetadata().getGenerationPolicy());
 
         // record.getBins() is immutable, create a copy.
         Map<String, Object> bins = new HashMap<>(record.getBins());

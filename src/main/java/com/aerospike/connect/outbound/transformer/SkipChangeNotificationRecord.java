@@ -19,6 +19,8 @@
 package com.aerospike.connect.outbound.transformer;
 
 import com.aerospike.client.Key;
+import com.aerospike.client.policy.GenerationPolicy;
+import com.aerospike.client.policy.RecordExistsAction;
 import com.aerospike.connect.outbound.AerospikeOperation;
 import com.aerospike.connect.outbound.ChangeNotificationMetadata;
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
@@ -38,7 +40,8 @@ import java.util.HashMap;
 public class SkipChangeNotificationRecord extends ChangeNotificationRecord {
     public SkipChangeNotificationRecord() {
         super(new ChangeNotificationMetadata(new Key("", "", ""),
-                        AerospikeOperation.WRITE, null, null, null),
+                        AerospikeOperation.WRITE, null, null, null,
+                        RecordExistsAction.UPDATE, GenerationPolicy.NONE),
                 new HashMap<>());
     }
 }

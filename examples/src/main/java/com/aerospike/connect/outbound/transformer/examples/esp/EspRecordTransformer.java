@@ -68,14 +68,17 @@ public class EspRecordTransformer implements Transformer {
         Integer generation = record.getMetadata().getGeneration().isPresent() ?
                 record.getMetadata().getGeneration().get() + 1 : null;
 
-        logger.debug("Updated generation of record {} to {}", record.getMetadata().getKey(),
+        logger.debug("Updated generation of record {} to {}",
+                record.getMetadata().getKey(),
                 generation);
 
         ChangeNotificationMetadata metadata =
                 new ChangeNotificationMetadata(record.getMetadata().getKey(),
                         record.getMetadata().getOperation(), generation,
                         record.getMetadata().getLastUpdateTimeMs().orElse(null),
-                        record.getMetadata().getExpiryTime().orElse(null));
+                        record.getMetadata().getExpiryTime().orElse(null),
+                        record.getMetadata().getRecordExistsAction(),
+                        record.getMetadata().getGenerationPolicy());
 
         // record.getBins() is immutable, create a copy.
         Map<String, Object> bins = new HashMap<>(record.getBins());

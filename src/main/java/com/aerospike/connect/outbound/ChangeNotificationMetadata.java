@@ -19,6 +19,8 @@
 package com.aerospike.connect.outbound;
 
 import com.aerospike.client.Key;
+import com.aerospike.client.policy.GenerationPolicy;
+import com.aerospike.client.policy.RecordExistsAction;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -71,6 +73,18 @@ public class ChangeNotificationMetadata {
      */
     @Nullable
     private final Integer expiryTime;
+
+    /**
+     * The record exists action shipped by XDR.
+     */
+    @NonNull
+    private final RecordExistsAction recordExistsAction;
+
+    /**
+     * The generation policy shipped by XDR.
+     */
+    @NonNull
+    private final GenerationPolicy generationPolicy;
 
     /**
      * Get the generation of the record. It is not shipped by Aerospike XDR

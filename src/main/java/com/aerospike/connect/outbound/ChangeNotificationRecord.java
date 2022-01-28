@@ -27,7 +27,6 @@ import lombok.NonNull;
 import lombok.ToString;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -43,13 +42,6 @@ public class ChangeNotificationRecord {
      */
     @NonNull
     private final ChangeNotificationMetadata metadata;
-
-    /**
-     * Map of bin name to bin value of the record. Will be empty in case of a
-     * delete operation.
-     */
-    @NonNull
-    private final Map<String, Object> bins;
 
     /**
      * An unmodifiable map of bin name to bin value of the record. Will be empty
@@ -80,17 +72,14 @@ public class ChangeNotificationRecord {
      * <p>
      * For details on the bin values to be returned by transformers see
      * {@link Transformer#transform}.
-     *
-     * @return an unmodifiable map of bins.
      */
-    public Map<String, Object> getBins() {
-        return Collections.unmodifiableMap(bins);
-    }
-
+    @NonNull
+    private final Map<String, Object> bins;
+    
     public ChangeNotificationRecord(
             @NonNull ChangeNotificationMetadata metadata,
             @NonNull Map<String, Object> bins) {
         this.metadata = metadata;
-        this.bins = new HashMap<>(bins);
+        this.bins = Collections.unmodifiableMap(bins);
     }
 }
