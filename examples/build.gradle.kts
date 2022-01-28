@@ -31,6 +31,9 @@ configurations.all {
 }
 
 dependencies {
+    // Aerospike client.
+    compileOnly("com.aerospike:aerospike-client:5.1.11")
+
     // JSON formatting in some examples.
     api("com.fasterxml.jackson.core:jackson-databind:2.13.1")
 
