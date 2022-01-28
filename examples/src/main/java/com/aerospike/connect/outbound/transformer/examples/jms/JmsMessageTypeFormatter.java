@@ -69,7 +69,7 @@ public class JmsMessageTypeFormatter implements Formatter<JmsOutboundMetadata> {
     public OutboundRecord<JmsOutboundMetadata> format(
             @NonNull ChangeNotificationRecord record,
             @NonNull OutboundRecord<JmsOutboundMetadata> formattedRecord) {
-        logger.debug("Formatting record {}", record.getKey());
+        logger.debug("Formatting record {}", record.getMetadata().getKey());
 
         byte[] payload =
                 ((BytesOutboundRecord<JmsOutboundMetadata>) formattedRecord)

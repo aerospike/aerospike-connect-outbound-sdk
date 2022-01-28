@@ -16,6 +16,8 @@
  *  the License.
  */
 
+@file:Suppress("UnstableApiUsage")
+
 import net.researchgate.release.ReleaseExtension
 import java.net.URI
 
@@ -39,7 +41,7 @@ plugins {
     java
 
     // Gradle version 6.6 compatible with 5.1.x, see https://github.com/freefair/gradle-plugins#compatibility-matrix.
-    id( "io.freefair.lombok") version "5.1.1"
+    id("io.freefair.lombok") version "5.1.1"
 }
 
 allprojects {
@@ -69,22 +71,22 @@ allprojects {
     group = "com.aerospike"
 
     // Common dependency versions.
-    extra["jupiterVersion"] = "5.4.2"
+    extra["jupiterVersion"] = "5.8.2"
 
     dependencies {
         // JSR 305 for annotations
         compileOnly("com.google.code.findbugs:jsr305:3.0.2")
 
         // Aerospike Java Client
-        compileOnly("com.aerospike:aerospike-client:5.1.8")
-
-        // Google Pub/Sub.
-        compileOnly("com.google.protobuf:protobuf-java:3.13.0")
+        compileOnly("com.aerospike:aerospike-client:5.1.11")
 
         // Common test dependencies.
-        testImplementation("org.junit.jupiter:junit-jupiter-api:${project.extra["jupiterVersion"]}")
-        testImplementation("org.junit.jupiter:junit-jupiter-params:${project.extra["jupiterVersion"]}")
-        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${project.extra["jupiterVersion"]}")
+        testImplementation(
+            "org.junit.jupiter:junit-jupiter-api:${project.extra["jupiterVersion"]}")
+        testImplementation(
+            "org.junit.jupiter:junit-jupiter-params:${project.extra["jupiterVersion"]}")
+        testRuntimeOnly(
+            "org.junit.jupiter:junit-jupiter-engine:${project.extra["jupiterVersion"]}")
     }
 
     val compileJava: JavaCompile by tasks
@@ -114,11 +116,11 @@ allprojects {
      */
     fun Test.configureTestTask() {
         val args = mutableListOf(
-                "-XX:MaxPermSize=512m",
-                "-Xmx4g",
-                "-Xms512m",
-                "-Djava.security.egd=file:/dev/./urandom",
-                "-Dproject.version=${project.version}"
+            "-XX:MaxPermSize=512m",
+            "-Xmx4g",
+            "-Xms512m",
+            "-Djava.security.egd=file:/dev/./urandom",
+            "-Dproject.version=${project.version}"
         )
 
 
@@ -129,7 +131,9 @@ allprojects {
 
         // Pass all project versions
         project.parent?.subprojects?.forEach {
-            args += "-D${it.name.replace("\\W".toRegex(), ".")}.version=${it.version}"
+            args += "-D${
+                it.name.replace("\\W".toRegex(), ".")
+            }.version=${it.version}"
         }
 
         jvmArgs = args
@@ -154,9 +158,12 @@ allprojects {
     publishing {
         repositories {
             maven {
-                val releaseRepo = URI("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
-                val snapshotRepo = URI("https://oss.sonatype.org/content/repositories/snapshots/")
-                url = if (!isSnapshotVersion(project.version)) releaseRepo else snapshotRepo
+                val releaseRepo =
+                    URI("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+                val snapshotRepo =
+                    URI("https://oss.sonatype.org/content/repositories/snapshots/")
+                url = if (!isSnapshotVersion(
+                        project.version)) releaseRepo else snapshotRepo
                 credentials {
                     username = project.properties["ossrhUsername"] as? String
                     password = project.properties["ossrhPassword"] as? String
@@ -178,20 +185,27 @@ allprojects {
                 }
                 pom {
                     name.set("Aerospike Connect Outbound SDK")
-                    description.set("Outbound connector SDK for change notification transformers.")
-                    url.set("https://github.com/aerospike/aerospike-connect-outbound-sdk")
+                    description.set(
+                        "Outbound connector SDK for change notification transformers.")
+                    url.set(
+                        "https://github.com/aerospike/aerospike-connect-outbound-sdk")
                     licenses {
                         license {
                             name.set("The Apache License, Version 2.0")
-                            url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                            url.set(
+                                "https://www.apache.org/licenses/LICENSE-2.0" +
+                                        ".txt")
                         }
                     }
                     scm {
-                        connection.set("scm:git@github.com:aerospike/aerospike-connect-outbound-sdk.git")
-                        developerConnection.set("scm:git@github.com:aerospike/aerospike-connect-outbound-sdk.git")
-                        url.set("htps://github.com/aerospike/aerospike-connect-outbound-sdk")
+                        connection.set(
+                            "scm:git@github.com:aerospike/aerospike-connect-outbound-sdk.git")
+                        developerConnection.set(
+                            "scm:git@github.com:aerospike/aerospike-connect-outbound-sdk.git")
+                        url.set(
+                            "htps://github.com/aerospike/aerospike-connect-outbound-sdk")
                     }
-                    developers{
+                    developers {
                         developer {
                             name.set("Aerospike")
                             email.set("developers@aerospike.com")

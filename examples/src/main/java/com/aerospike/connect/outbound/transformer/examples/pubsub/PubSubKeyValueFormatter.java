@@ -25,7 +25,6 @@ import com.aerospike.connect.outbound.format.FormatterConfig;
 import com.aerospike.connect.outbound.format.MediaType;
 import com.aerospike.connect.outbound.format.OutboundRecord;
 import com.aerospike.connect.outbound.pubsub.PubSubOutboundMetadata;
-import com.google.protobuf.ByteString;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,7 +74,7 @@ public class PubSubKeyValueFormatter
     public OutboundRecord<PubSubOutboundMetadata> format(
             @NonNull ChangeNotificationRecord record,
             @NonNull OutboundRecord<PubSubOutboundMetadata> formattedRecord) {
-        logger.debug("Formatting record {}", record.getKey());
+        logger.debug("Formatting record {}", record.getMetadata().getKey());
 
         // Only write string bins.
         StringBuilder payloadBuilder = new StringBuilder();
@@ -102,7 +101,7 @@ public class PubSubKeyValueFormatter
 
         // Add ordering key. "regional-endpoint" should be configured for this
         // record in the config.
-        ByteString orderingKey = ByteString.copyFromUtf8("CustomFormatter");
+        String orderingKey = "CustomFormatter";
         PubSubOutboundMetadata metadata = new PubSubOutboundMetadata(
                 formattedRecord.getMetadata().getAttributes().orElse(null),
                 orderingKey);

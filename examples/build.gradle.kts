@@ -25,28 +25,29 @@ repositories {
     }
 }
 
+configurations.all {
+    // Check for updates every build
+    resolutionStrategy.cacheChangingModulesFor(0, "seconds")
+}
+
 dependencies {
     // JSON formatting in some examples.
-    api("com.fasterxml.jackson.core:jackson-databind:2.6.6")
-
-    // Aerospike client.
-    compileOnly("com.aerospike:aerospike-client:5.1.8")
+    api("com.fasterxml.jackson.core:jackson-databind:2.13.1")
 
     // Aerospike outbound SDK.
     // TODO: update to 1.0.0 on release.
-    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:0.9.0-SNAPSHOT")
+    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:0.9.0-SNAPSHOT") {
+        isChanging = true
+    }
 
     // Logging.
-    compileOnly("org.slf4j:slf4j-api:1.7.26")
+    compileOnly("org.slf4j:slf4j-api:1.7.33")
 
-    // Lombok annotations.
+    // Lombok's annotations.
     compileOnly("org.projectlombok:lombok:1.18.22")
 
     // Javax inject annotations.
     compileOnly("javax.inject:javax.inject:1")
-
-    // Google Pub/Sub ByteString.
-    compileOnly("com.google.protobuf:protobuf-java:3.13.0")
 }
 
 // Plugin should be compiled with the same/compatible Java version running

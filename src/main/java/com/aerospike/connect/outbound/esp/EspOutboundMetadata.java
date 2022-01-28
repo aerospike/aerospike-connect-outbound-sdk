@@ -61,7 +61,7 @@ public class EspOutboundMetadata implements OutboundMetadata {
      * <a href="https://datatracker.ietf.org/doc/html/rfc3986/#section-5.4">examples</a>.
      *
      * <p>
-     * Should be in non percent-encoded, plain human readable form.
+     * Should be in non percent-encoded, plain human-readable form.
      */
     @Nullable
     private final String path;
@@ -73,7 +73,7 @@ public class EspOutboundMetadata implements OutboundMetadata {
      * <a href="https://datatracker.ietf.org/doc/html/rfc3986/#section-5.4">examples</a>.
      *
      * <p>
-     * Should be in non percent-encoded, plain human readable form.
+     * Should be in non percent-encoded, plain human-readable form.
      */
     @Nullable
     private final String query;
@@ -112,7 +112,7 @@ public class EspOutboundMetadata implements OutboundMetadata {
      * <a href="https://datatracker.ietf.org/doc/html/rfc3986/#section-5.4">examples</a>.
      *
      * <p>
-     * Should be in non percent-encoded, plain human readable form.
+     * Should be in non percent-encoded, plain human-readable form.
      *
      * @return the path component of the relative URL.
      */
@@ -127,7 +127,7 @@ public class EspOutboundMetadata implements OutboundMetadata {
      * <a href="https://datatracker.ietf.org/doc/html/rfc3986/#section-5.4">examples</a>.
      *
      * <p>
-     * Should be in non percent-encoded, plain human readable form.
+     * Should be in non percent-encoded, plain human-readable form.
      *
      * @return the query component of the relative URL.
      */
@@ -142,12 +142,12 @@ public class EspOutboundMetadata implements OutboundMetadata {
      * @param httpMethod the HTTP method of the ESP metadata
      * @return a new builder.
      */
-    public static Builder newBuilder(@NonNull HttpMethod httpMethod) {
+    public static Builder builder(@NonNull HttpMethod httpMethod) {
         return new Builder(httpMethod);
     }
 
     public static class Builder {
-        private HttpMethod httpMethod;
+        private final HttpMethod httpMethod;
         private String path;
         private String query;
         private Map<String, String> headers;

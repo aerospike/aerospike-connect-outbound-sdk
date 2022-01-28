@@ -52,11 +52,11 @@ public class PubSubBinRouter implements Router<PubSubOutboundRoute> {
 
         Object region = bins.get("region");
         if (region instanceof String) {
-            logger.debug("Routing record {} to {}", record.getKey(), region);
+            logger.debug("Routing record {} to {}", record.getMetadata().getKey(), region);
             return OutboundRoute.newPubSubRoute((String) region, null);
         }
 
-        logger.debug("Routing record {} to default", record.getKey());
+        logger.debug("Routing record {} to default", record.getMetadata().getKey());
         return OutboundRoute.newPubSubRoute("default", null);
     }
 }

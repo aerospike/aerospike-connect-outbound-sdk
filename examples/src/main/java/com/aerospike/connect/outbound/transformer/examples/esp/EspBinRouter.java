@@ -62,11 +62,11 @@ public class EspBinRouter implements Router<String> {
 
         Object region = bins.get("region");
         if ("internal".equals(region)) {
-            logger.debug("Routing record {} to internal", record.getKey());
+            logger.debug("Routing record {} to internal", record.getMetadata().getKey());
             return OutboundRoute.newEspRoute("internal");
         }
 
-        logger.debug("Routing record {} to external", record.getKey());
+        logger.debug("Routing record {} to external", record.getMetadata().getKey());
         return OutboundRoute.newEspRoute("external");
     }
 }

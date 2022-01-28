@@ -68,6 +68,7 @@ import java.util.Map;
 class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
     private final static Logger logger =
             LoggerFactory.getLogger(EspElasticsearchFormatter.class.getName());
+    private static final String ELASTICSEARCH_INDEX_NAME = "esp";
 
     /**
      * Params set in the config.
@@ -75,8 +76,6 @@ class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
     private final Map<String, Object> configParams;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final String ELASTICSEARCH_INDEX_NAME = "esp";
-
 
     @Inject
     public EspElasticsearchFormatter(FormatterConfig formatterConfig) {
@@ -99,12 +98,14 @@ class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
 
         // Delete a document.
         // See https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-delete.html
-        if (record.getOperation().isDelete()) {
-            logger.debug("Deleting document for record {}", record.getKey());
-            String path = toElasticsearchPath(record.getKey().digest,
-                    "_doc");
+        if (record.getMetadata().getOperation().isDelete()) {
+            logger.debug("Deleting document for record {}",
+                    record.getMetadata().getKey());
+            String path =
+                    toElasticsearchPath(record.getMetadata().getKey().digest,
+                            "_doc");
             EspOutboundMetadata metadata =
-                    EspOutboundMetadata.newBuilder(HttpMethod.DELETE)
+                    EspOutboundMetadata.builder(HttpMethod.DELETE)
                             .setPath(path)
                             .setHeaders(httpHeaders)
                             .build();
@@ -117,10 +118,11 @@ class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
         // Insert/Update a document.
         // See https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-index_.html
         logger.debug("Inserting/updating document for record {}",
-                record.getKey());
-        String path = toElasticsearchPath(record.getKey().digest, "_doc");
+                record.getMetadata().getKey());
+        String path = toElasticsearchPath(record.getMetadata().getKey().digest,
+                "_doc");
         EspOutboundMetadata metadata =
-                EspOutboundMetadata.newBuilder(HttpMethod.PUT)
+                EspOutboundMetadata.builder(HttpMethod.PUT)
                         .setPath(path)
                         .setHeaders(httpHeaders)
                         .build();

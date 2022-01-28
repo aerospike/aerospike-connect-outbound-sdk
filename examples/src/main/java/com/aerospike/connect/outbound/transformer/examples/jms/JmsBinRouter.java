@@ -52,12 +52,12 @@ public class JmsBinRouter implements Router<String> {
 
         Object region = bins.get("region");
         if (region instanceof String) {
-            logger.debug("Routing record {} to {}", record.getKey(), region);
+            logger.debug("Routing record {} to {}", record.getMetadata().getKey(), region);
             return OutboundRoute.newJmsRoute(OutboundRouteType.QUEUE,
                     (String) region);
         }
 
-        logger.debug("Routing record {} to default", record.getKey());
+        logger.debug("Routing record {} to default", record.getMetadata().getKey());
         return OutboundRoute.newJmsRoute(OutboundRouteType.QUEUE, "default");
     }
 }

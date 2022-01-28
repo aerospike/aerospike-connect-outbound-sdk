@@ -63,7 +63,7 @@ public class PulsarWrapBuiltinJsonFormatter
             @NonNull ChangeNotificationRecord record,
             @NonNull OutboundRecord<PulsarOutboundMetadata> formattedRecord)
             throws JsonProcessingException {
-        logger.debug("Formatting record {}", record.getKey());
+        logger.debug("Formatting record {}", record.getMetadata().getKey());
 
         byte[] payload =
                 ((BytesOutboundRecord<PulsarOutboundMetadata>) formattedRecord)

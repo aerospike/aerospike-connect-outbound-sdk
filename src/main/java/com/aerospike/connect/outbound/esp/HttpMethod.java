@@ -23,5 +23,5 @@ package com.aerospike.connect.outbound.esp;
  * connector.
  */
 public enum HttpMethod {
-    DELETE, GET, HEAD, PATCH, POST, PUT;
+    DELETE, GET, HEAD, PATCH, POST, PUT
 }

@@ -71,19 +71,19 @@ public class EspSkipRouter implements Router<String> {
             @NonNull ChangeNotificationRecord record) {
         // Record generation is not shipped by Aerospike XDR versions before
         // v5.0.0.
-        Optional<Integer> generation = record.getGeneration();
+        Optional<Integer> generation = record.getMetadata().getGeneration();
 
         // "genNumber" is to be set in params option of the ESP routing config.
         if (generation.isPresent() &&
                 generation.get() > (int) configParams.get("genNumber")) {
-            logger.debug("Skipping record {}", record.getKey());
+            logger.debug("Skipping record {}", record.getMetadata().getKey());
             return new DefaultOutboundRoute<>(OutboundRouteType.SKIP, "");
         }
 
 
         // Destinations default is to be configured in the "destinations"
         // section of the ESP config.
-        logger.debug("Routing record {} to default", record.getKey());
+        logger.debug("Routing record {} to default", record.getMetadata().getKey());
         return OutboundRoute.newEspRoute("default");
     }
 }

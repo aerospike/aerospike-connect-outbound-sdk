@@ -43,7 +43,7 @@ import java.util.Map;
 public class KafkaBinRouter implements Router<String> {
     private final static Logger logger =
             LoggerFactory.getLogger(KafkaBinRouter.class.getName());
-
+ 
     @Override
     public OutboundRoute<String> getRoute(
             @NonNull ChangeNotificationRecord record) {
@@ -51,11 +51,11 @@ public class KafkaBinRouter implements Router<String> {
 
         Object region = bins.get("region");
         if (region instanceof String) {
-            logger.debug("Routing record {} to {}", record.getKey(), region);
+            logger.debug("Routing record {} to {}", record.getMetadata().getKey(), region);
             return OutboundRoute.newKafkaRoute((String) region);
         }
 
-        logger.debug("Routing record {} to default", record.getKey());
+        logger.debug("Routing record {} to default", record.getMetadata().getKey());
         return OutboundRoute.newKafkaRoute("default");
     }
 }

@@ -74,7 +74,7 @@ public class EspGenerationRouter implements Router<String> {
             @NonNull ChangeNotificationRecord record) {
         // Record generation is not shipped by Aerospike XDR versions before
         // v5.0.0.
-        Optional<Integer> generation = record.getGeneration();
+        Optional<Integer> generation = record.getMetadata().getGeneration();
 
         // Destinations young and old are to be configured in the
         // "destinations" section of the ESP config.
@@ -83,11 +83,11 @@ public class EspGenerationRouter implements Router<String> {
 
         if (generation.isPresent() &&
                 generation.get() > (int) configParams.get("genNumber")) {
-            logger.debug("Routing record {} to old", record.getKey());
+            logger.debug("Routing record {} to old", record.getMetadata().getKey());
             return OutboundRoute.newEspRoute("old");
         }
 
-        logger.debug("Routing record {} to young", record.getKey());
+        logger.debug("Routing record {} to young", record.getMetadata().getKey());
         return OutboundRoute.newEspRoute("young");
     }
 }

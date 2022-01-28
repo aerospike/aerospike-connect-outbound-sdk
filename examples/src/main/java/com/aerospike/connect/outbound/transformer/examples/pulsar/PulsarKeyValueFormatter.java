@@ -67,7 +67,7 @@ public class PulsarKeyValueFormatter
     public OutboundRecord<PulsarOutboundMetadata> format(
             @NonNull ChangeNotificationRecord record,
             @NonNull OutboundRecord<PulsarOutboundMetadata> formattedRecord) {
-        logger.debug("Formatting record {}", record.getKey());
+        logger.debug("Formatting record {}", record.getMetadata().getKey());
 
         // Only write string bins.
         StringBuilder payloadBuilder = new StringBuilder();

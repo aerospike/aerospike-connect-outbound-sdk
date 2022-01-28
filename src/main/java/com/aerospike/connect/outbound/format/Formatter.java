@@ -44,7 +44,7 @@ public interface Formatter<T extends OutboundMetadata> {
      * BytesOutboundRecord} or {@link TextOutboundRecord}. The {@code payload}
      * in the {@code formattedRecord} is {@code null} unless the custom
      * formatter is configured with one of the built-in outbound formats - AVRO,
-     * FlatJSON, etc in the config. The {@code formattedRecord} is an instance
+     * FlatJSON, etc. in the config. The {@code formattedRecord} is an instance
      * of {@link TextOutboundRecord} only when the custom formatter is
      * configured with the FlatJSON or JSON built-in outbound formats.
      *

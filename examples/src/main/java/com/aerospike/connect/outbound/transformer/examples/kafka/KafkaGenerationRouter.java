@@ -66,18 +66,18 @@ public class KafkaGenerationRouter implements Router<String> {
             @NonNull ChangeNotificationRecord record) {
         // Record generation is not shipped by Aerospike XDR versions before
         // v5.0.0.
-        Optional<Integer> generation = record.getGeneration();
+        Optional<Integer> generation = record.getMetadata().getGeneration();
 
         // "genNumber" is to be set in params option of the Kafka routing
         // config.
 
         if (generation.isPresent() &&
                 generation.get() > (int) configParams.get("genNumber")) {
-            logger.debug("Routing record {} to old", record.getKey());
+            logger.debug("Routing record {} to old", record.getMetadata().getKey());
             return OutboundRoute.newKafkaRoute("old");
         }
 
-        logger.debug("Routing record {} to young", record.getKey());
+        logger.debug("Routing record {} to young", record.getMetadata().getKey());
         return OutboundRoute.newKafkaRoute("young");
     }
 }

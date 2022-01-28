@@ -65,7 +65,7 @@ public class EspKeyValueFormatter implements Formatter<EspOutboundMetadata> {
     public OutboundRecord<EspOutboundMetadata> format(
             @NonNull ChangeNotificationRecord record,
             @NonNull OutboundRecord<EspOutboundMetadata> formattedRecord) {
-        logger.debug("Formatting record {}", record.getKey());
+        logger.debug("Formatting record {}", record.getMetadata().getKey());
 
         // Only write string bins.
         StringBuilder payloadBuilder = new StringBuilder();

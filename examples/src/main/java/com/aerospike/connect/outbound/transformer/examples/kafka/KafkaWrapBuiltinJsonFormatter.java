@@ -63,7 +63,7 @@ public class KafkaWrapBuiltinJsonFormatter
             @NonNull ChangeNotificationRecord record,
             @NonNull OutboundRecord<KafkaOutboundMetadata> formattedRecord)
             throws JsonProcessingException {
-        logger.debug("Formatting record {}", record.getKey());
+        logger.debug("Formatting record {}", record.getMetadata().getKey());
 
         byte[] payload =
                 ((BytesOutboundRecord<KafkaOutboundMetadata>) formattedRecord)

@@ -68,17 +68,17 @@ public class KafkaSkipFormatter implements Formatter<KafkaOutboundMetadata> {
     public OutboundRecord<KafkaOutboundMetadata> format(
             @NonNull ChangeNotificationRecord record,
             @NonNull OutboundRecord<KafkaOutboundMetadata> formattedRecord) {
-        logger.debug("Formatting record {}", record.getKey());
+        logger.debug("Formatting record {}", record.getMetadata().getKey());
 
         // Record generation is not shipped by Aerospike XDR versions before
         // v5.0.0.
-        Optional<Integer> generation = record.getGeneration();
+        Optional<Integer> generation = record.getMetadata().getGeneration();
 
         // "genNumber" is to be set in params option of the Kafka formatter
         // config.
         if (generation.isPresent() &&
                 generation.get() > (int) configParams.get("genNumber")) {
-            logger.debug("Skipping record {}", record.getKey());
+            logger.debug("Skipping record {}", record.getMetadata().getKey());
             return new SkipOutboundRecord<>(MediaType.OCTET_STREAM,
                     formattedRecord.getMetadata());
         }

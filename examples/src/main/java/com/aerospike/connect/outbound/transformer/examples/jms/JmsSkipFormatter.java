@@ -68,17 +68,17 @@ public class JmsSkipFormatter implements Formatter<JmsOutboundMetadata> {
     public OutboundRecord<JmsOutboundMetadata> format(
             @NonNull ChangeNotificationRecord record,
             @NonNull OutboundRecord<JmsOutboundMetadata> formattedRecord) {
-        logger.debug("Formatting record {}", record.getKey());
+        logger.debug("Formatting record {}", record.getMetadata().getKey());
 
         // Record generation is not shipped by Aerospike XDR versions before
         // v5.0.0.
-        Optional<Integer> generation = record.getGeneration();
+        Optional<Integer> generation = record.getMetadata().getGeneration();
 
         // "genNumber" is to be set in params option of the JMS formatter
         // config.
         if (generation.isPresent() &&
                 generation.get() > (int) configParams.get("genNumber")) {
-            logger.debug("Skipping record {}", record.getKey());
+            logger.debug("Skipping record {}", record.getMetadata().getKey());
             return new SkipOutboundRecord<>(MediaType.OCTET_STREAM,
                     formattedRecord.getMetadata());
         }

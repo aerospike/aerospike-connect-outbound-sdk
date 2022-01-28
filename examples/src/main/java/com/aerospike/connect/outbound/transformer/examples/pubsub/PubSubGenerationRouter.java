@@ -67,18 +67,18 @@ public class PubSubGenerationRouter implements Router<PubSubOutboundRoute> {
             @NonNull ChangeNotificationRecord record) {
         // Record generation is not shipped by Aerospike XDR versions before
         // v5.0.0.
-        Optional<Integer> generation = record.getGeneration();
+        Optional<Integer> generation = record.getMetadata().getGeneration();
 
         // "genNumber" is to be set in params option of the PubSub routing
         // config.
 
         if (generation.isPresent() &&
                 generation.get() > (int) configParams.get("genNumber")) {
-            logger.debug("Routing record {} to old", record.getKey());
+            logger.debug("Routing record {} to old", record.getMetadata().getKey());
             return OutboundRoute.newPubSubRoute("old", null);
         }
 
-        logger.debug("Routing record {} to young", record.getKey());
+        logger.debug("Routing record {} to young", record.getMetadata().getKey());
         return OutboundRoute.newPubSubRoute("young", null);
     }
 }

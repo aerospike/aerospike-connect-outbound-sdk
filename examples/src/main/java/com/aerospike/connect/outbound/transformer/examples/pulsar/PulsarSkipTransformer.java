@@ -62,13 +62,13 @@ public class PulsarSkipTransformer implements Transformer {
             @NonNull ChangeNotificationRecord record) throws Exception {
         // Record generation is not shipped by Aerospike XDR versions before
         // v5.0.0.
-        Optional<Integer> generation = record.getGeneration();
+        Optional<Integer> generation = record.getMetadata().getGeneration();
 
         // "genNumber" is to be set in params option of the Pulsar transformer
         // config.
         if (generation.isPresent() &&
                 generation.get() > (int) configParams.get("genNumber")) {
-            logger.debug("Skipping record {}", record.getKey());
+            logger.debug("Skipping record {}", record.getMetadata().getKey());
             return new SkipChangeNotificationRecord();
         }
 

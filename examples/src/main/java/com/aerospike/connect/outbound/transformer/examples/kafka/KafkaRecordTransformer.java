@@ -65,17 +65,17 @@ public class KafkaRecordTransformer implements Transformer {
     public ChangeNotificationRecord transform(
             @NonNull ChangeNotificationRecord record) {
         // Increment generation in metadata.
-        Integer generation = record.getGeneration().isPresent() ?
-                record.getGeneration().get() + 1 : null;
+        Integer generation = record.getMetadata().getGeneration().isPresent() ?
+                record.getMetadata().getGeneration().get() + 1 : null;
 
-        logger.debug("Updated generation of record {} to {}", record.getKey(),
+        logger.debug("Updated generation of record {} to {}", record.getMetadata().getKey(),
                 generation);
 
         ChangeNotificationMetadata metadata =
-                new ChangeNotificationMetadata(record.getKey(),
-                        record.getOperation(), generation,
-                        record.getLastUpdateTimeMs().orElse(null),
-                        record.getExpiryTime().orElse(null));
+                new ChangeNotificationMetadata(record.getMetadata().getKey(),
+                        record.getMetadata().getOperation(), generation,
+                        record.getMetadata().getLastUpdateTimeMs().orElse(null),
+                        record.getMetadata().getExpiryTime().orElse(null));
 
         // record.getBins() is immutable, create a copy.
         Map<String, Object> bins = new HashMap<>(record.getBins());

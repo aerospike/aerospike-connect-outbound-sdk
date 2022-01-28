@@ -67,7 +67,7 @@ public class KafkaKeyValueFormatter
     public OutboundRecord<KafkaOutboundMetadata> format(
             @NonNull ChangeNotificationRecord record,
             @NonNull OutboundRecord<KafkaOutboundMetadata> formattedRecord) {
-        logger.debug("Formatting record {}", record.getKey());
+        logger.debug("Formatting record {}", record.getMetadata().getKey());
 
         // Only write string bins.
         StringBuilder payloadBuilder = new StringBuilder();

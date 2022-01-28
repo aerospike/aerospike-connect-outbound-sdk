@@ -24,12 +24,12 @@ package com.aerospike.connect.outbound;
  */
 public enum AerospikeOperation {
     /**
-     * A write on the record.
+     * A write operation on the record.
      */
     WRITE,
 
     /**
-     * A delete on the record.
+     * A delete operation on the record.
      */
     DELETE,
 
@@ -39,7 +39,7 @@ public enum AerospikeOperation {
     DURABLE_DELETE;
 
     /**
-     * @return true iff the operation is a delete or a durable delete.
+     * @return true iff the operation is a delete operation or a durable delete.
      */
     public Boolean isDelete() {
         return this == DELETE || this == DURABLE_DELETE;

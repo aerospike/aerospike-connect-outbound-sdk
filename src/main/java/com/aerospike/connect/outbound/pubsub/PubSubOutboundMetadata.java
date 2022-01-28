@@ -19,7 +19,6 @@
 package com.aerospike.connect.outbound.pubsub;
 
 import com.aerospike.connect.outbound.format.OutboundMetadata;
-import com.google.protobuf.ByteString;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -49,7 +48,7 @@ public class PubSubOutboundMetadata implements OutboundMetadata {
      * config for the Aerospike record.
      */
     @Nullable
-    private final ByteString orderingKey;
+    private final String orderingKey;
 
     /**
      * Get the attributes of the Google Pub/Sub message.
@@ -67,7 +66,7 @@ public class PubSubOutboundMetadata implements OutboundMetadata {
      *
      * @return the ordering key.
      */
-    public Optional<ByteString> getOrderingKey() {
+    public Optional<String> getOrderingKey() {
         return Optional.ofNullable(orderingKey);
     }
 }

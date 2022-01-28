@@ -7,6 +7,7 @@
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+.idea/runConfigurations.xml
 
 # Generated files
 .idea/**/contentModel.xml
@@ -106,3 +107,4 @@ examples/.idea
 examples/dependency-reduced-pom.xml
 !gradle/wrapper/gradle-wrapper.jar
 !examples/gradle/wrapper/gradle-wrapper.jar
+

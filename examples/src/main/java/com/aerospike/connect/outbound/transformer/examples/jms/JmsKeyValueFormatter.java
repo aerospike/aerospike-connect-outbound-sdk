@@ -66,7 +66,7 @@ public class JmsKeyValueFormatter implements Formatter<JmsOutboundMetadata> {
     public OutboundRecord<JmsOutboundMetadata> format(
             @NonNull ChangeNotificationRecord record,
             @NonNull OutboundRecord<JmsOutboundMetadata> formattedRecord) {
-        logger.debug("Formatting record {}", record.getKey());
+        logger.debug("Formatting record {}", record.getMetadata().getKey());
 
         // Only write string bins.
         StringBuilder payloadBuilder = new StringBuilder();
