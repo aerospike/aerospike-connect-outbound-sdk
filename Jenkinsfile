@@ -24,8 +24,8 @@ pipeline {
                     steps {
                         echo "Building.."
                         sh "./gradlew --no-daemon clean build"
-                        sh "/opt/apache-maven-3.3.9/bin/mvn -f examples/kafka clean install"
-                        sh "/opt/apache-maven-3.3.9/bin/mvn -f examples/pulsar clean install"
+                        sh "cd examples/maven; mvn clean package; cd ../.."
+                        sh "cd examples/gradle;  ./gradlew clean shadowJar; cd ../.."
                     }
                 }
             }
