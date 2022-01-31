@@ -49,6 +49,7 @@ public class PubSubOutboundRoute {
 
     /**
      * Get the regional endpoint to publish the Google Pub/Sub message to.
+     * Ignored for Google Pub/Sub Lite destinations.
      *
      * @return the regional endpoint to publish the message.
      */

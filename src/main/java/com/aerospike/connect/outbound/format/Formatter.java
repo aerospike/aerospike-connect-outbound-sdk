@@ -42,11 +42,12 @@ public interface Formatter<T extends OutboundMetadata> {
      * <p>
      * The {@code formattedRecord} is an instance of either {@link
      * BytesOutboundRecord} or {@link TextOutboundRecord}. The {@code payload}
-     * in the {@code formattedRecord} is {@code null} unless the custom
-     * formatter is configured with one of the built-in outbound formats - AVRO,
-     * FlatJSON, etc. in the config. The {@code formattedRecord} is an instance
-     * of {@link TextOutboundRecord} only when the custom formatter is
-     * configured with the FlatJSON or JSON built-in outbound formats.
+     * in the {@code formattedRecord} is {@code null} unless the {@code
+     * `payload-format`} config in the custom formatter is set to one of the
+     * built-in outbound formats - AVRO, FlatJSON, etc. The {@code
+     * formattedRecord} is an instance of {@link TextOutboundRecord} only when
+     * the custom formatter is configured with the FlatJSON or JSON built-in
+     * outbound formats.
      *
      * <p>
      * The return types should be instances of

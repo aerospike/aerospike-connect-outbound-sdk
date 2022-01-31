@@ -24,8 +24,8 @@
  *
  * <p>
  * The transformers can be plugged in selectively at any of the specificity
- * levels - at the default level, at the namespace level, at the set level;
- * like the rest of the configs in the outbound connectors.
+ * levels - at the global level, at the namespace level, at the set level; like
+ * the rest of the configs in the outbound connectors.
  *
  * <p>
  * There are three transformers that can be selectively configured in the

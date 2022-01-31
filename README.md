@@ -6,24 +6,28 @@ Aerospike Connect outbound transformer provides a plugin system in Aerospike
 outbound connectors to transform incoming XDR change notification records
 dispatched to the outbound destination with custom code.
 
-Three transformers can be configured in any combination in the outbound connectors
-to apply to the incoming Aerospike change notification records dispatched by XDR:
+Three transformers can be configured in any combination in the outbound
+connectors to apply to the incoming Aerospike change notification records
+dispatched by XDR:
 
 - **Routing transformer:** Route the record to the outbound destination.
-- **Record transformer:** Transform the contents of the Aerospike record. Transformations include:
+- **Record transformer:** Transform the contents of the Aerospike record.
+  Transformations include:
     - Add bin
     - Delete bin
     - Change bin value
     - Change key
     - Change metadata (generation, last update time, expiry)
-- **Format transformer:** Transform the Aerospike record into a custom format written to the outbound destination.
+- **Format transformer:** Transform the Aerospike record into a custom format
+  written to the outbound destination.
 
-The transformers are plugged in by specifying the Java class path of the
-custom transformer class in the outbound config YAML file. An optional params
-map can be specified which will be passed to the transforming method of the
-custom transformer class.
+The transformers are plugged in by specifying the Java class path of the custom
+transformer class in the outbound config YAML file. An optional params map can
+be specified which will be passed to the constructor of the custom transformer
+class.
 
-For detailed documentation see [Aerospike connector docs](https://docs.aerospike.com/docs/connect/streaming-from-asdb/outbound-message-transform.html)
+For detailed documentation
+see [Aerospike connector docs](https://docs.aerospike.com/docs/connect/streaming-from-asdb/outbound-message-transform.html)
 
 ## Usage
 
@@ -38,6 +42,7 @@ class path conflicts with the outbound connectors.
 ### Maven
 
 ```xml
+
 <dependency>
     <groupId>com.aerospike</groupId>
     <artifactId>aerospike-connect-outbound-sdk</artifactId>
