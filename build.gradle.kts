@@ -29,7 +29,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath("net.researchgate:gradle-release:2.6.0")
+        classpath("net.researchgate:gradle-release:2.8.1")
     }
 }
 
@@ -153,6 +153,15 @@ allprojects {
         testLogging {
             events("passed", "skipped", "failed")
         }
+    }
+
+    /**
+     * Setup release task properties.
+     */
+    project.extensions.configure(ReleaseExtension::class) {
+        val gitConfig =
+            getProperty("git") as net.researchgate.release.GitAdapter.GitConfig
+        gitConfig.requireBranch = "main"
     }
 
     publishing {

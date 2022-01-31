@@ -20,7 +20,6 @@ repositories {
     mavenCentral()
 
     maven {
-        // TODO - REMOVE ON RELEASE.
         url = uri("https://oss.sonatype.org/content/repositories/snapshots")
     }
 }
@@ -38,10 +37,7 @@ dependencies {
     api("com.fasterxml.jackson.core:jackson-databind:2.13.1")
 
     // Aerospike outbound SDK.
-    // TODO: update to 1.0.0 on release.
-    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:0.9.0-SNAPSHOT") {
-        isChanging = true
-    }
+    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:1.0.0")
 
     // Logging.
     compileOnly("org.slf4j:slf4j-api:1.7.33")
