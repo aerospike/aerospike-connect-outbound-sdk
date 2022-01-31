@@ -71,4 +71,4 @@ dependencies {
 
 ## Examples
 
-See [examples](/examples) folder.
+See [gradle](/examples/gradle) and [maven](/examples/maven) examples folder.

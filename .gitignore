@@ -103,8 +103,8 @@ build/
 # Ignore Gradle build output directory
 build
 
-examples/.idea
-examples/dependency-reduced-pom.xml
+**/.idea
+examples/maven/dependency-reduced-pom.xml
 !gradle/wrapper/gradle-wrapper.jar
 !examples/gradle/wrapper/gradle-wrapper.jar
 
