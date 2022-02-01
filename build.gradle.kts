@@ -212,7 +212,7 @@ allprojects {
                         developerConnection.set(
                             "scm:git@github.com:aerospike/aerospike-connect-outbound-sdk.git")
                         url.set(
-                            "htps://github.com/aerospike/aerospike-connect-outbound-sdk")
+                            "https://github.com/aerospike/aerospike-connect-outbound-sdk")
                     }
                     developers {
                         developer {
