@@ -19,21 +19,9 @@
 package com.aerospike.connect.outbound.elasticsearch;
 
 import com.aerospike.connect.outbound.format.OutboundMetadata;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
 
 /**
- * The metadata associated with the Elasticsearch outbound record.
+ * Empty metadata associated with the Elasticsearch outbound record.
  */
-@AllArgsConstructor
-@EqualsAndHashCode
-@Getter
-@ToString
 public class ElasticsearchOutboundMetadata implements OutboundMetadata {
-    /**
-     * The Elasticsearch doc id.
-     */
-    private final String docId;
 }
