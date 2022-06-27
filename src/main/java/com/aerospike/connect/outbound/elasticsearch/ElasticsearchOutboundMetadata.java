@@ -24,6 +24,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+import javax.annotation.Nullable;
+
 /**
  * The metadata associated with the Elasticsearch outbound record.
  */
@@ -35,5 +37,6 @@ public class ElasticsearchOutboundMetadata implements OutboundMetadata {
     /**
      * The Elasticsearch doc id.
      */
+    @Nullable
     private final String docId;
 }
