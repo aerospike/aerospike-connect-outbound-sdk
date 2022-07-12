@@ -53,7 +53,7 @@ public interface Transformer {
      * Values}. When the transformed record is used as input to the FlatJSON,
      * JSON, MessagePack built-in outbound formats there are differences in
      * their formatting as mentioned below
-     * <table summary="">
+     * <table>
      *     <tr>
      *     <th>Value</th>
      *     <th>Java Type</th>
