@@ -90,6 +90,7 @@ allprojects {
     }
 
     val compileJava: JavaCompile by tasks
+    compileJava.sourceCompatibility = "1.8"
     compileJava.targetCompatibility = "1.8"
     compileJava.options.apply {
         compilerArgs.add("-Xlint:all")
@@ -98,6 +99,7 @@ allprojects {
     }
 
     val compileTestJava: JavaCompile by tasks
+    compileTestJava.sourceCompatibility = "1.8"
     compileTestJava.targetCompatibility = "1.8"
     compileTestJava.options.apply {
         compilerArgs.add("-Xlint:all")
