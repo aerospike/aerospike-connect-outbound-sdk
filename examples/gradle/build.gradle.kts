@@ -52,6 +52,7 @@ dependencies {
 // Plugin should be compiled with the same/compatible Java version running
 // the outbound connector.
 val compileJava: JavaCompile by tasks
+compileJava.sourceCompatibility = "1.8"
 compileJava.targetCompatibility = "1.8"
 compileJava.options.apply {
     compilerArgs.add("-Xlint:all")
@@ -59,6 +60,7 @@ compileJava.options.apply {
 }
 
 val compileTestJava: JavaCompile by tasks
+compileTestJava.sourceCompatibility = "1.8"
 compileTestJava.targetCompatibility = "1.8"
 compileTestJava.options.apply {
     compilerArgs.add("-Xlint:all")
