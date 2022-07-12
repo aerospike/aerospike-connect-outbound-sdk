@@ -35,8 +35,8 @@ import javax.annotation.Nullable;
 @ToString
 public class ElasticsearchOutboundMetadata implements OutboundMetadata {
     /**
-     * The Elasticsearch doc id.
+     * @return The Elasticsearch document id.
      */
     @Nullable
-    private final String docId;
+    @Getter private final String docId;
 }

@@ -36,10 +36,10 @@ import java.util.Map;
 @ToString
 public class FormatterConfig {
     /**
-     * The parameters passed to the Formatter in the outbound configuration.
-     * <b>WARN:</b> {@code params} is an unmodifiable map. The map and all
-     * its values should be treated as immutable.
+     * @return The parameters passed to the Formatter in the outbound
+     * configuration. <b>WARN:</b> {@code params} is an unmodifiable map. The
+     * map and all its values should be treated as immutable.
      */
     @NonNull
-    private final Map<String, Object> params;
+    @Getter private final Map<String, Object> params;
 }

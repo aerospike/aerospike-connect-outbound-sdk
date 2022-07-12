@@ -35,9 +35,9 @@ import java.util.Optional;
 @ToString
 public class PubSubOutboundRoute {
     /**
-     * The Google Pub/Sub topic name.
+     * @return The Google Pub/Sub topic name.
      */
-    private final String topic;
+    @Getter private final String topic;
 
     /**
      * The regional endpoint to publish the Google Pub/Sub message to. Ignored

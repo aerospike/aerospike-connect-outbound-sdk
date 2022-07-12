@@ -54,6 +54,7 @@ public interface Transformer {
      * JSON, MessagePack built-in outbound formats there are differences in
      * their formatting as mentioned below
      * <table>
+     *     <caption>Type handling summary</caption>
      *     <tr>
      *     <th>Value</th>
      *     <th>Java Type</th>
