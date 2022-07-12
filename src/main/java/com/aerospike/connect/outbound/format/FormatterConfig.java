@@ -41,5 +41,5 @@ public class FormatterConfig {
      * map and all its values should be treated as immutable.
      */
     @NonNull
-    @Getter private final Map<String, Object> params;
+    private final Map<String, Object> params;
 }

@@ -41,7 +41,7 @@ public class ChangeNotificationRecord {
      * @return Metadata of the changed record.
      */
     @NonNull
-    @Getter private final ChangeNotificationMetadata metadata;
+    private final ChangeNotificationMetadata metadata;
 
     /**
      * An unmodifiable map of bin name to bin value of the record. Will be empty
@@ -77,7 +77,7 @@ public class ChangeNotificationRecord {
      * be empty in case of a delete operation.
      */
     @NonNull
-    @Getter private final Map<String, Object> bins;
+    private final Map<String, Object> bins;
 
     public ChangeNotificationRecord(
             @NonNull ChangeNotificationMetadata metadata,

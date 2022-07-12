@@ -37,7 +37,7 @@ public class PubSubOutboundRoute {
     /**
      * @return The Google Pub/Sub topic name.
      */
-    @Getter private final String topic;
+    private final String topic;
 
     /**
      * The regional endpoint to publish the Google Pub/Sub message to. Ignored

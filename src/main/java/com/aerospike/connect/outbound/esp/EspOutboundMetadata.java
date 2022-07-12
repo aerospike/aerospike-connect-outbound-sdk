@@ -44,7 +44,7 @@ public class EspOutboundMetadata implements OutboundMetadata {
      * @return The method of the HTTP request.
      */
     @NonNull
-    @Getter private final HttpMethod httpMethod;
+    private final HttpMethod httpMethod;
 
     /**
      * The set of HTTP status codes indicating a successful response. If it is

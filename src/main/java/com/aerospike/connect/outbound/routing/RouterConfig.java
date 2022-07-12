@@ -36,10 +36,10 @@ import java.util.Map;
 @ToString
 public class RouterConfig {
     /**
-     * @return The parameters passed to the Router in the outbound configuration.
-     * <b>WARN:</b> {@code params} is an unmodifiable map. The map and all  its
-     * values should be treated as immutable.
+     * @return The parameters passed to the Router in the outbound
+     * configuration. <b>WARN:</b> {@code params} is an unmodifiable map. The
+     * map and all  its values should be treated as immutable.
      */
     @NonNull
-    @Getter private final Map<String, Object> params;
+    private final Map<String, Object> params;
 }

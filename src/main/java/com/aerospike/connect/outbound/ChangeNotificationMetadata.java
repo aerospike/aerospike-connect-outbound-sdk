@@ -42,13 +42,14 @@ public class ChangeNotificationMetadata {
      * @return The Key of the changed record.
      */
     @NonNull
-    @Getter private final Key key;
+    private final Key key;
 
     /**
-     * @return The operation on the record which triggered a ship by Aerospike XDR.
+     * @return The operation on the record which triggered a ship by Aerospike
+     * XDR.
      */
     @NonNull
-    @Getter private final AerospikeOperation operation;
+    private final AerospikeOperation operation;
 
     /**
      * Record modification count. It is not shipped by Aerospike XDR versions
@@ -78,13 +79,13 @@ public class ChangeNotificationMetadata {
      * @return The record exists action shipped by XDR.
      */
     @NonNull
-    @Getter private final RecordExistsAction recordExistsAction;
+    private final RecordExistsAction recordExistsAction;
 
     /**
      * @return The generation policy shipped by XDR.
      */
     @NonNull
-    @Getter private final GenerationPolicy generationPolicy;
+    private final GenerationPolicy generationPolicy;
 
     /**
      * Get the generation of the record. It is not shipped by Aerospike XDR

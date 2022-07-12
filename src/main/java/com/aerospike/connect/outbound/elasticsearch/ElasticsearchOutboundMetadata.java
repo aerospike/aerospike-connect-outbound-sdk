@@ -38,5 +38,5 @@ public class ElasticsearchOutboundMetadata implements OutboundMetadata {
      * @return The Elasticsearch document id.
      */
     @Nullable
-    @Getter private final String docId;
+    private final String docId;
 }
