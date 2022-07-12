@@ -7,7 +7,7 @@ pipeline {
     }
 
     stages {
-        stage("Pipeline" ) {
+        stage("Pipeline") {
             stages {
                 stage("Checkout") {
                     steps {
@@ -26,6 +26,17 @@ pipeline {
                         sh "./gradlew --no-daemon clean build"
                         sh "cd examples/maven; mvn clean package; cd ../.."
                         sh "cd examples/gradle;  ./gradlew --no-daemon clean shadowJar; cd ../.."
+                    }
+                }
+
+                stage("Checks") {
+                    stage("Vulnerability scanning") {
+                        steps {
+                            script {
+                               echo "Running snyk scan.."
+                               sh "./gradlew --no-daemon snyk-test --continue"
+                            }
+                        }
                     }
                 }
             }
