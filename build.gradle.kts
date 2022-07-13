@@ -113,6 +113,15 @@ allprojects {
 
     tasks.getByName("afterReleaseBuild").dependsOn("publish")
 
+    tasks.javadoc {
+        options {
+            this as StandardJavadocDocletOptions
+
+            // Fail on Javadoc lint errors.
+            addBooleanOption("Xdoclint:all", true)
+        }
+    }
+
     /**
      * Common configuration for test tasks.
      */
