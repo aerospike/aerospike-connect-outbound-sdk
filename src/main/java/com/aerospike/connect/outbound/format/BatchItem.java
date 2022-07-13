@@ -25,14 +25,32 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 
+/**
+ * A batch item passed to the {@link BatchFormatter}.
+ *
+ * @param <T> the metadata associated with the outbound records.
+ */
 @AllArgsConstructor
 @EqualsAndHashCode
 @Getter
 @ToString
 public class BatchItem<T extends OutboundMetadata> {
+    /**
+     * @return The change notification record shipped by Aerospike XDR.
+     */
     @NonNull
     private ChangeNotificationRecord record;
 
+    /**
+     * @return A {@code formattedRecord} which is an instance of either {@link
+     * BytesOutboundRecord} or {@link TextOutboundRecord}. The {@code payload}
+     * in the {@code formattedRecord} is {@code null} unless the {@code
+     * `payload-format`} config in the custom formatter is set to one of the
+     * built-in outbound formats - AVRO, FlatJSON, etc. The {@code
+     * formattedRecord} is an instance of {@link TextOutboundRecord} only when
+     * the custom formatter is configured with the FlatJSON or JSON built-in
+     * outbound formats.
+     */
     @NonNull
     private OutboundRecord<T> formattedRecord;
 }

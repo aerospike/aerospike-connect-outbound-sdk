@@ -41,8 +41,8 @@ public interface BatchFormatter<T extends OutboundMetadata> {
      * Format records into a custom format.
      *
      * <p>
-     * This interface is identical to the {@link Formatter} interface. Here we
-     * accept the collection of {@link BatchItem} to process those records in a
+     * This interface is identical to the {@link Formatter} interface. Here it
+     * accepts a collection of {@link BatchItem} to process those records in a
      * batch. Records in this batch can generate multiple
      * {@link OutboundRecord}s as well.
      *
@@ -60,15 +60,15 @@ public interface BatchFormatter<T extends OutboundMetadata> {
      * </ul>
      *
      * <p>
-     * When an exception is thrown by this method, the records are acknowledged
-     * with temporary error to Aerospike XDR change notification. Aerospike XDR
-     * change notification will resend the change notification records on a
-     * temporary error.
+     * When an exception is thrown by this method, all the records in the
+     * batch are acknowledged with temporary error to Aerospike XDR change
+     * notification. Aerospike XDR change notification will resend all the
+     * change notification records in the batch on a temporary error.
      *
      * @param batchItems the list of {@link BatchItem}s containing the record to
      *                   be formatted and the formatted record
      * @return the formatted records.
-     * @throws Exception if failed to format the records. The records a
+     * @throws Exception if failed to format the records. The records are
      *                   acknowledged with temporary error to Aerospike XDR
      *                   change notification.
      */
