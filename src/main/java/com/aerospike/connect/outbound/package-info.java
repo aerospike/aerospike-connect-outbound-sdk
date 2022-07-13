@@ -50,5 +50,6 @@
  * @see com.aerospike.connect.outbound.routing.Router
  * @see com.aerospike.connect.outbound.transformer.Transformer
  * @see com.aerospike.connect.outbound.format.Formatter
+ * @see com.aerospike.connect.outbound.format.BatchFormatter
  */
 package com.aerospike.connect.outbound;

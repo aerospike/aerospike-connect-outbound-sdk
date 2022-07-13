@@ -41,7 +41,7 @@ import java.util.Set;
 @ToString
 public class EspOutboundMetadata implements OutboundMetadata {
     /**
-     * The method of the HTTP request.
+     * @return The method of the HTTP request.
      */
     @NonNull
     private final HttpMethod httpMethod;

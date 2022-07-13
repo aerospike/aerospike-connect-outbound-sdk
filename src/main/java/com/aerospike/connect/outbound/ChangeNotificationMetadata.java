@@ -39,13 +39,14 @@ import java.util.Optional;
 @ToString
 public class ChangeNotificationMetadata {
     /**
-     * Key of the changed record.
+     * @return The Key of the changed record.
      */
     @NonNull
     private final Key key;
 
     /**
-     * The operation on the record which triggered a ship by Aerospike XDR.
+     * @return The operation on the record which triggered a ship by Aerospike
+     * XDR.
      */
     @NonNull
     private final AerospikeOperation operation;
@@ -75,13 +76,13 @@ public class ChangeNotificationMetadata {
     private final Integer expiryTime;
 
     /**
-     * The record exists action shipped by XDR.
+     * @return The record exists action shipped by XDR.
      */
     @NonNull
     private final RecordExistsAction recordExistsAction;
 
     /**
-     * The generation policy shipped by XDR.
+     * @return The generation policy shipped by XDR.
      */
     @NonNull
     private final GenerationPolicy generationPolicy;

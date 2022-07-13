@@ -18,28 +18,39 @@
 
 package com.aerospike.connect.outbound.format;
 
+import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 
-import java.util.Map;
-
 /**
- * The Formatter configuration injected in the constructor of the custom
- * Formatter instance.
+ * A batch item passed to the {@link BatchFormatter}.
+ *
+ * @param <T> the metadata associated with the outbound records.
  */
 @AllArgsConstructor
 @EqualsAndHashCode
 @Getter
 @ToString
-public class FormatterConfig {
+public class BatchItem<T extends OutboundMetadata> {
     /**
-     * @return The parameters passed to the Formatter in the outbound
-     * configuration. <b>WARN:</b> {@code params} is an unmodifiable map. The
-     * map and all its values should be treated as immutable.
+     * @return The change notification record shipped by Aerospike XDR.
      */
     @NonNull
-    private final Map<String, Object> params;
+    private ChangeNotificationRecord record;
+
+    /**
+     * @return A {@code formattedRecord} which is an instance of either {@link
+     * BytesOutboundRecord} or {@link TextOutboundRecord}. The {@code payload}
+     * in the {@code formattedRecord} is {@code null} unless the {@code
+     * `payload-format`} config in the custom formatter is set to one of the
+     * built-in outbound formats - AVRO, FlatJSON, etc. The {@code
+     * formattedRecord} is an instance of {@link TextOutboundRecord} only when
+     * the custom formatter is configured with the FlatJSON or JSON built-in
+     * outbound formats.
+     */
+    @NonNull
+    private OutboundRecord<T> formattedRecord;
 }

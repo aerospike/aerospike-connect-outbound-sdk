@@ -38,7 +38,7 @@ import java.util.Map;
 @ToString
 public class ChangeNotificationRecord {
     /**
-     * Metadata of the changed record.
+     * @return Metadata of the changed record.
      */
     @NonNull
     private final ChangeNotificationMetadata metadata;
@@ -72,10 +72,13 @@ public class ChangeNotificationRecord {
      * <p>
      * For details on the bin values to be returned by transformers see
      * {@link Transformer#transform}.
+     *
+     * @return An unmodifiable map of bin name to bin value of the record. Will
+     * be empty in case of a delete operation.
      */
     @NonNull
     private final Map<String, Object> bins;
-    
+
     public ChangeNotificationRecord(
             @NonNull ChangeNotificationMetadata metadata,
             @NonNull Map<String, Object> bins) {

@@ -28,9 +28,6 @@ buildscript {
         }
         jcenter()
     }
-    dependencies {
-        classpath("net.researchgate:gradle-release:2.8.1")
-    }
 }
 
 plugins {
@@ -42,6 +39,7 @@ plugins {
 
     // Gradle version 6.6 compatible with 5.1.x, see https://github.com/freefair/gradle-plugins#compatibility-matrix.
     id("io.freefair.lombok") version "5.1.1"
+    id("io.snyk.gradle.plugin.snykplugin")
 }
 
 allprojects {
@@ -60,6 +58,7 @@ allprojects {
         plugin("maven-publish")
         plugin("net.researchgate.release")
         plugin("io.freefair.lombok")
+        plugin("io.snyk.gradle.plugin.snykplugin")
     }
 
     repositories {
@@ -90,6 +89,7 @@ allprojects {
     }
 
     val compileJava: JavaCompile by tasks
+    compileJava.sourceCompatibility = "1.8"
     compileJava.targetCompatibility = "1.8"
     compileJava.options.apply {
         compilerArgs.add("-Xlint:all")
@@ -98,6 +98,7 @@ allprojects {
     }
 
     val compileTestJava: JavaCompile by tasks
+    compileTestJava.sourceCompatibility = "1.8"
     compileTestJava.targetCompatibility = "1.8"
     compileTestJava.options.apply {
         compilerArgs.add("-Xlint:all")
@@ -110,6 +111,15 @@ allprojects {
     }
 
     tasks.getByName("afterReleaseBuild").dependsOn("publish")
+
+    tasks.javadoc {
+        options {
+            this as StandardJavadocDocletOptions
+
+            // Fail on Javadoc lint errors.
+            addBooleanOption("Xdoclint:all", true)
+        }
+    }
 
     /**
      * Common configuration for test tasks.
@@ -244,6 +254,25 @@ allprojects {
     java {
         withJavadocJar()
         withSourcesJar()
+    }
+
+    // Setup vulnerability scanning.
+    val snykTokens: String by project
+    val snykToken = snykTokens.split(",").map { it.trim() }.random()
+
+    tasks.create<Exec>("setup-snyk") {
+        commandLine("${project.rootDir}/snyk", "auth", snykToken)
+    }
+    tasks.getByName("snyk-check-binary").finalizedBy("setup-snyk")
+
+    /**
+     * Vulnerability scanning with Snyk.
+     */
+    configure<io.snyk.gradle.plugin.SnykExtension> {
+        setApi(snykToken)
+        setSeverity("high")
+        setAutoDownload(true)
+        setArguments("--sub-project=" + project.name)
     }
 }
 

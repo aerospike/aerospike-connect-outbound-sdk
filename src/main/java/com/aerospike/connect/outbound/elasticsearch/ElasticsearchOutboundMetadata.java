@@ -16,30 +16,27 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.routing;
+package com.aerospike.connect.outbound.elasticsearch;
 
+import com.aerospike.connect.outbound.format.OutboundMetadata;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.ToString;
 
-import java.util.Map;
+import javax.annotation.Nullable;
 
 /**
- * The Router configuration injected in the constructor of the custom Router
- * instance.
+ * The metadata associated with the Elasticsearch outbound record.
  */
 @AllArgsConstructor
 @EqualsAndHashCode
 @Getter
 @ToString
-public class RouterConfig {
+public class ElasticsearchOutboundMetadata implements OutboundMetadata {
     /**
-     * @return The parameters passed to the Router in the outbound
-     * configuration. <b>WARN:</b> {@code params} is an unmodifiable map. The
-     * map and all  its values should be treated as immutable.
+     * @return The Elasticsearch document id.
      */
-    @NonNull
-    private final Map<String, Object> params;
+    @Nullable
+    private final String docId;
 }
