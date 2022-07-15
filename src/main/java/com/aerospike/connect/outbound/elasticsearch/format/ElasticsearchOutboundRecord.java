@@ -18,21 +18,22 @@
 
 package com.aerospike.connect.outbound.elasticsearch.format;
 
-import com.aerospike.connect.outbound.elasticsearch.ElasticsearchOutboundMetadata;
 import com.aerospike.connect.outbound.format.MediaType;
+import com.aerospike.connect.outbound.format.OutboundMetadata;
 import com.aerospike.connect.outbound.format.OutboundRecord;
 import lombok.NonNull;
 
 /**
  * Marker interface to identify an Elasticsearch outbound record.
  */
-public interface ElasticsearchOutboundRecord
-        extends OutboundRecord<ElasticsearchOutboundMetadata> {
+public interface ElasticsearchOutboundRecord<T extends OutboundMetadata>
+        extends OutboundRecord<T> {
     /**
      * The index of an Elasticsearch to perform an operation upon.
      *
      * @return An Elasticsearch index name.
      */
+    @NonNull
     String getIndex();
 
     @Override

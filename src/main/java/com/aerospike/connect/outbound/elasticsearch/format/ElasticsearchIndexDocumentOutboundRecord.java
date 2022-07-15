@@ -32,7 +32,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class ElasticsearchIndexDocumentOutboundRecord
-        implements ElasticsearchOutboundRecord {
+        implements ElasticsearchOutboundRecord<ElasticsearchOutboundMetadata> {
     /**
      * @return An Elasticsearch index to perform an operation upon.
      */
