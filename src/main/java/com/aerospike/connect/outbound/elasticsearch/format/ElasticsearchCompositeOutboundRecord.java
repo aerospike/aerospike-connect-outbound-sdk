@@ -18,7 +18,7 @@
 
 package com.aerospike.connect.outbound.elasticsearch.format;
 
-import com.aerospike.connect.outbound.format.OutboundMetadata;
+import com.aerospike.connect.outbound.elasticsearch.ElasticsearchOutboundMetadata;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -36,7 +36,7 @@ import java.util.List;
 @EqualsAndHashCode
 @ToString
 public class ElasticsearchCompositeOutboundRecord
-        implements ElasticsearchOutboundRecord<OutboundMetadata> {
+        implements ElasticsearchOutboundRecord<ElasticsearchOutboundMetadata> {
     /**
      * A list of {@link ElasticsearchOutboundRecord}s to be sent in a bulk
      * request. All the {@link ElasticsearchOutboundRecord}s should belong to
@@ -44,7 +44,7 @@ public class ElasticsearchCompositeOutboundRecord
      *
      * @return A list of {@link ElasticsearchOutboundRecord}s.
      */
-    private final List<ElasticsearchOutboundRecord<OutboundMetadata>>
+    private final List<ElasticsearchOutboundRecord<ElasticsearchOutboundMetadata>>
             outboundRecords;
 
     @Override
@@ -54,7 +54,7 @@ public class ElasticsearchCompositeOutboundRecord
     }
 
     @Override
-    public @NonNull OutboundMetadata getMetadata() {
+    public @NonNull ElasticsearchOutboundMetadata getMetadata() {
         // Composite records have multiple input record, so we can't supply
         // metadata.
         throw new RuntimeException("getMetadata should not be called on " +
