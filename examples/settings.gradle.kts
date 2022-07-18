@@ -6,15 +6,3 @@
  * Detailed information about configuring a multi-project build in Gradle can be found
  * in the user manual at https://docs.gradle.org/6.6/userguide/multi_project_builds.html
  */
-
-include(
-    "elasticsearch-outbound-sdk",
-    "outbound-sdk"
-)
-
-rootProject.name = "aerospike-connect-outbound-sdk"
-
-// Add prefix to child project names.
-rootProject.children.forEach {
-    it.name = "aerospike-connect-" + it.name
-}

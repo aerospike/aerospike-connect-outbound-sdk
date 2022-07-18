@@ -16,30 +16,19 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.elasticsearch.format;
+package com.aerospike.connect.outbound.elasticsearch;
 
-import com.aerospike.connect.outbound.elasticsearch.ElasticsearchOutboundMetadata;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import com.aerospike.connect.outbound.elasticsearch.format.ElasticsearchOutboundRecord;
+import com.aerospike.connect.outbound.format.OutboundMetadata;
 
 /**
- * {@link ElasticsearchOutboundRecord} implementation for deleting a document.
+ * The metadata associated with the Elasticsearch outbound record.
  */
-@Getter
-@AllArgsConstructor
-@EqualsAndHashCode
-@ToString
-public class ElasticsearchDeleteDocumentOutboundRecord
-        implements ElasticsearchOutboundRecord<ElasticsearchOutboundMetadata> {
+public class ElasticsearchOutboundMetadata implements OutboundMetadata {
     /**
-     * @return An Elasticsearch index to perform an operation upon.
+     * The default instance to be used by
+     * {@link ElasticsearchOutboundRecord#getMetadata()}.
      */
-    private final String index;
-
-    /**
-     * @return A metadata associated with the record.
-     */
-    private final ElasticsearchOutboundMetadata metadata;
+    public static final ElasticsearchOutboundMetadata INSTANCE =
+            new ElasticsearchOutboundMetadata();
 }

@@ -16,27 +16,28 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.elasticsearch;
+package com.aerospike.connect
 
-import com.aerospike.connect.outbound.format.OutboundMetadata;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import org.gradle.api.Project
+import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.api.tasks.compile.JavaCompile
+import org.gradle.kotlin.dsl.get
+import org.gradle.kotlin.dsl.getValue
+import org.gradle.kotlin.dsl.provideDelegate
 
-import javax.annotation.Nullable;
+fun Project.setupJava() {
+    val compileJava: JavaCompile by tasks
+    compileJava.sourceCompatibility = "1.8"
+    compileJava.targetCompatibility = "1.8"
+    compileJava.options.apply {
+        compilerArgs.add("-Xlint:all")
+        compilerArgs.add("-Werror")
+        compilerArgs.add("-Xlint:-processing")
+    }
 
-/**
- * The metadata associated with the Elasticsearch outbound record.
- */
-@AllArgsConstructor
-@EqualsAndHashCode
-@Getter
-@ToString
-public class ElasticsearchOutboundMetadata implements OutboundMetadata {
-    /**
-     * @return The Elasticsearch document id.
-     */
-    @Nullable
-    private final String docId;
+    val java = (project.extensions["java"] as JavaPluginExtension)
+    java.apply {
+        withJavadocJar()
+        withSourcesJar()
+    }
 }

@@ -18,34 +18,36 @@
 
 package com.aerospike.connect.outbound.elasticsearch.format;
 
+import co.elastic.clients.elasticsearch.core.BulkRequest;
 import com.aerospike.connect.outbound.elasticsearch.ElasticsearchOutboundMetadata;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import com.aerospike.connect.outbound.format.MediaType;
+import com.aerospike.connect.outbound.format.OutboundRecord;
+import lombok.NonNull;
 
 /**
- * {@link ElasticsearchOutboundRecord} implementation for indexing a document.
+ * An Elasticsearch outbound record containing operations to be performed on
+ * Elasticsearch via a {@link BulkRequest}.
  */
-@Getter
-@AllArgsConstructor
-@EqualsAndHashCode
-@ToString
-public class ElasticsearchIndexDocumentOutboundRecord
-        implements ElasticsearchOutboundRecord<ElasticsearchOutboundMetadata> {
+public interface ElasticsearchOutboundRecord
+        extends OutboundRecord<ElasticsearchOutboundMetadata> {
     /**
-     * @return An Elasticsearch index to perform an operation upon.
+     * A {@link BulkRequest} containing operations to be performed on
+     * Elasticsearch.
+     *
+     * @return An Elasticsearch index name.
      */
-    private final String index;
+    @NonNull
+    BulkRequest getBulkRequest();
 
-    /**
-     * @return A byte[] representation of the JSON formatted document to be
-     * indexed.
-     */
-    private final byte[] jsonDocument;
+    @Override
+    @NonNull
+    default String getMediaType() {
+        return MediaType.JSON;
+    }
 
-    /**
-     * @return A metadata associated with the record.
-     */
-    private final ElasticsearchOutboundMetadata metadata;
+    @Override
+    @NonNull
+    default ElasticsearchOutboundMetadata getMetadata() {
+        return ElasticsearchOutboundMetadata.INSTANCE;
+    }
 }
