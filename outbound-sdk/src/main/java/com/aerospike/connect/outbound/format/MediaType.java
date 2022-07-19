@@ -33,6 +33,11 @@ public class MediaType {
     public final static String JSON = "application/json";
 
     /**
+     * NDJSON media type.
+     */
+    public final static String NDJSON = "application/x-ndjson";
+
+    /**
      * MessagePack media type.
      */
     public final static String MESSAGE_PACK = "application/x-msgpack";

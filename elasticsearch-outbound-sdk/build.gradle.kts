@@ -1,5 +1,3 @@
-@file:Suppress("UnstableApiUsage")
-
 /*
 *
 *  Copyright 2012-2022 Aerospike, Inc.
@@ -17,15 +15,15 @@
 *  License for the specific language governing permissions and limitations under
 *  the License.
 */
-// TODO is this needed?
-application {
-    mainClass.set("com.aerospike.connect.DoesNotExist")
-}
 
 dependencies {
     // Aerospike connect outbound sdk
-    api("com.aerospike:aerospike-connect-outbound-sdk:1.1.0")
+    api(project(":aerospike-connect-outbound-sdk"))
 
     // Elasticsearch client
     api("co.elastic.clients:elasticsearch-java:8.3.2")
+
+    // co.elastic.clients:elasticsearch-java:8.3.2 has transitive
+    // vulnerability. Picked the fixed version.
+    api("org.apache.httpcomponents:httpclient:4.5.13")
 }

@@ -1,5 +1,3 @@
-@file:Suppress("UnstableApiUsage")
-
 /*
 *
 *  Copyright 2012-2022 Aerospike, Inc.
@@ -17,10 +15,6 @@
 *  License for the specific language governing permissions and limitations under
 *  the License.
 */
-// TODO is this needed?
-application {
-    mainClass.set("com.aerospike.connect.DoesNotExist")
-}
 
 dependencies {
     // JSR 305 for annotations

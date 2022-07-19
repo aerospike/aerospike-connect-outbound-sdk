@@ -42,7 +42,7 @@ public interface ElasticsearchOutboundRecord
     @Override
     @NonNull
     default String getMediaType() {
-        return MediaType.JSON;
+        return MediaType.NDJSON;
     }
 
     @Override

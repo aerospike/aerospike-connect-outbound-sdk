@@ -21,11 +21,14 @@ package com.aerospike.connect
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.compile.JavaCompile
+import org.gradle.api.tasks.javadoc.Javadoc
+import org.gradle.external.javadoc.StandardJavadocDocletOptions
 import org.gradle.kotlin.dsl.get
+import org.gradle.kotlin.dsl.getByName
 import org.gradle.kotlin.dsl.getValue
 import org.gradle.kotlin.dsl.provideDelegate
 
-fun Project.setupJava() {
+fun Project.setupJavaBuild() {
     val compileJava: JavaCompile by tasks
     compileJava.sourceCompatibility = "1.8"
     compileJava.targetCompatibility = "1.8"
@@ -39,5 +42,14 @@ fun Project.setupJava() {
     java.apply {
         withJavadocJar()
         withSourcesJar()
+    }
+
+    tasks.getByName("javadoc", Javadoc::class) {
+        options {
+            this as StandardJavadocDocletOptions
+
+            // Fail on Javadoc lint errors.
+            addBooleanOption("Xdoclint:all", true)
+        }
     }
 }

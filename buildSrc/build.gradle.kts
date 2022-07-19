@@ -20,6 +20,7 @@ plugins {
     `kotlin-dsl`
     groovy
     `java-gradle-plugin`
+    `lifecycle-base`
 }
 
 repositories {

@@ -16,7 +16,7 @@
  *  the License.
  */
 
-import com.aerospike.connect.setupJava
+import com.aerospike.connect.setupJavaBuild
 import com.aerospike.connect.setupPublishingTasks
 import com.aerospike.connect.setupReleaseTasks
 import com.aerospike.connect.setupVulnerabilityScanning
@@ -34,9 +34,7 @@ buildscript {
 }
 
 plugins {
-    `lifecycle-base`
     jacoco
-    java
 }
 
 allprojects {
@@ -53,7 +51,6 @@ subprojects {
     apply {
         plugin(JavaPlugin::class.java)
         plugin("java-library")
-        plugin("application")
         plugin("jacoco")
         plugin("signing")
         plugin("maven-publish")
@@ -69,16 +66,7 @@ subprojects {
 
     group = "com.aerospike"
 
-    tasks.javadoc {
-        options {
-            this as StandardJavadocDocletOptions
-
-            // Fail on Javadoc lint errors.
-            addBooleanOption("Xdoclint:all", true)
-        }
-    }
-
-    setupJava()
+    setupJavaBuild()
     setupReleaseTasks()
     setupPublishingTasks()
     setupVulnerabilityScanning()
