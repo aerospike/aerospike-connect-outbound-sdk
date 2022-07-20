@@ -1,5 +1,4 @@
 /*
-
  *
  *  Copyright 2012-2022 Aerospike, Inc.
  *
