@@ -1,4 +1,5 @@
 /*
+
  *
  *  Copyright 2012-2022 Aerospike, Inc.
  *
@@ -16,36 +17,18 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.routing;
+package com.aerospike.connect.outbound.esp;
+
+import com.aerospike.connect.outbound.routing.DefaultOutboundRoute;
+import com.aerospike.connect.outbound.routing.OutboundRouteType;
+import lombok.NonNull;
+
 
 /**
- * The type of the outbound destination.
+ * Outbound route to an ESP (Event Stream Processing) destination.
  */
-public enum OutboundRouteType {
-    /**
-     * The outbound destination is a queue.
-     */
-    QUEUE,
-
-    /**
-     * The outbound destination is a topic.
-     */
-    TOPIC,
-
-    /**
-     * Skip dispatching the change notification record to the outbound
-     * destination. The change notification record is acknowledged as
-     * successfully handled to Aerospike XDR change notification.
-     */
-    SKIP,
-
-    /**
-     * The outbound destination is of some other type.
-     */
-    OTHER,
-
-    /**
-     * The outbound destination is an index.
-     */
-    INDEX
+public class EspOutboundRoute extends DefaultOutboundRoute<String> {
+    public EspOutboundRoute(@NonNull String route) {
+        super(OutboundRouteType.OTHER, route);
+    }
 }

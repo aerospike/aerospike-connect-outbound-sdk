@@ -18,9 +18,11 @@
 
 package com.aerospike.connect.outbound.pubsub;
 
-import lombok.AllArgsConstructor;
+import com.aerospike.connect.outbound.routing.DefaultOutboundRoute;
+import com.aerospike.connect.outbound.routing.OutboundRouteType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.ToString;
 
 import javax.annotation.Nullable;
@@ -29,16 +31,10 @@ import java.util.Optional;
 /**
  * The route to a Google Pub/Sub destination.
  */
-@AllArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @Getter
 @ToString
-public class PubSubOutboundRoute {
-    /**
-     * @return The Google Pub/Sub topic name.
-     */
-    private final String topic;
-
+public class PubSubOutboundRoute extends DefaultOutboundRoute<String> {
     /**
      * The regional endpoint to publish the Google Pub/Sub message to. Ignored
      * for Google Pub/Sub Lite destinations.
@@ -46,6 +42,21 @@ public class PubSubOutboundRoute {
     @Nullable
     private final String regionalEndpoint;
 
+    public PubSubOutboundRoute(@NonNull String topic,
+                               @Nullable String regionalEndpoint) {
+        super(OutboundRouteType.TOPIC, topic);
+        this.regionalEndpoint = regionalEndpoint;
+    }
+
+    /**
+     * The Google Pub/Sub topic name. Route returned by {@link #getRoute()} is a
+     * Pub/Sub topic.
+     *
+     * @return {@link #getRoute()}
+     */
+    public String getTopic() {
+        return getRoute();
+    }
 
     /**
      * Get the regional endpoint to publish the Google Pub/Sub message to.

@@ -18,7 +18,11 @@
 
 package com.aerospike.connect.outbound.routing;
 
+import com.aerospike.connect.outbound.esp.EspOutboundRoute;
+import com.aerospike.connect.outbound.jms.JmsOutboundRoute;
+import com.aerospike.connect.outbound.kafka.KafkaOutboundRoute;
 import com.aerospike.connect.outbound.pubsub.PubSubOutboundRoute;
+import com.aerospike.connect.outbound.pulsar.PulsarOutboundRoute;
 import lombok.NonNull;
 
 import javax.annotation.Nullable;
@@ -53,9 +57,11 @@ public interface OutboundRoute<T> {
      *
      * @param destination the destination name configured in ESP config.
      * @return the outbound route for an ESP destination.
+     * @deprecated replaced by {@link EspOutboundRoute}.
      */
+    @Deprecated
     static DefaultOutboundRoute<String> newEspRoute(String destination) {
-        return new DefaultOutboundRoute<>(OutboundRouteType.OTHER, destination);
+        return new EspOutboundRoute(destination);
     }
 
     /**
@@ -64,10 +70,12 @@ public interface OutboundRoute<T> {
      * @param type        type of the JMS destination.
      * @param destination the JMS destination name.
      * @return the outbound route for a JMS destination.
+     * @deprecated replaced by {@link JmsOutboundRoute}.
      */
+    @Deprecated
     static DefaultOutboundRoute<String> newJmsRoute(OutboundRouteType type,
                                                     String destination) {
-        return new DefaultOutboundRoute<>(type, destination);
+        return new JmsOutboundRoute(type, destination);
     }
 
     /**
@@ -75,9 +83,11 @@ public interface OutboundRoute<T> {
      *
      * @param topic the Kafka topic name.
      * @return the outbound route for a Kafka topic.
+     * @deprecated replaced by {@link KafkaOutboundRoute}.
      */
+    @Deprecated
     static DefaultOutboundRoute<String> newKafkaRoute(String topic) {
-        return new DefaultOutboundRoute<>(OutboundRouteType.TOPIC, topic);
+        return new KafkaOutboundRoute(topic);
     }
 
     /**
@@ -85,9 +95,11 @@ public interface OutboundRoute<T> {
      *
      * @param topic the Pulsar topic name.
      * @return the outbound route for a Pulsar topic.
+     * @deprecated replaced by {@link PulsarOutboundRoute}.
      */
+    @Deprecated
     static DefaultOutboundRoute<String> newPulsarRoute(String topic) {
-        return new DefaultOutboundRoute<>(OutboundRouteType.TOPIC, topic);
+        return new PulsarOutboundRoute(topic);
     }
 
     /**
@@ -96,7 +108,9 @@ public interface OutboundRoute<T> {
      * @param topic            the Google Pub/Sub topic name.
      * @param regionalEndpoint the regional endpoint to publish the message to.
      * @return the outbound route for a Google Pub/Sub topic.
+     * @deprecated replaced by {@link PubSubOutboundRoute}.
      */
+    @Deprecated
     static DefaultOutboundRoute<PubSubOutboundRoute> newPubSubRoute(
             String topic, @Nullable String regionalEndpoint) {
         return new DefaultOutboundRoute<>(OutboundRouteType.TOPIC,

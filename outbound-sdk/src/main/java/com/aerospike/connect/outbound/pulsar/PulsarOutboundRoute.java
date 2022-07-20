@@ -16,36 +16,17 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.routing;
+package com.aerospike.connect.outbound.pulsar;
+
+import com.aerospike.connect.outbound.routing.DefaultOutboundRoute;
+import com.aerospike.connect.outbound.routing.OutboundRouteType;
+import lombok.NonNull;
 
 /**
- * The type of the outbound destination.
+ * Outbound route to a Pulsar topic.
  */
-public enum OutboundRouteType {
-    /**
-     * The outbound destination is a queue.
-     */
-    QUEUE,
-
-    /**
-     * The outbound destination is a topic.
-     */
-    TOPIC,
-
-    /**
-     * Skip dispatching the change notification record to the outbound
-     * destination. The change notification record is acknowledged as
-     * successfully handled to Aerospike XDR change notification.
-     */
-    SKIP,
-
-    /**
-     * The outbound destination is of some other type.
-     */
-    OTHER,
-
-    /**
-     * The outbound destination is an index.
-     */
-    INDEX
+public class PulsarOutboundRoute extends DefaultOutboundRoute<String> {
+    public PulsarOutboundRoute(@NonNull String route) {
+        super(OutboundRouteType.TOPIC, route);
+    }
 }
