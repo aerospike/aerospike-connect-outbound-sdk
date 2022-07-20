@@ -23,7 +23,8 @@ pipeline {
                 stage("Build") {
                     steps {
                         echo "Building.."
-                        sh "./gradlew --no-daemon clean build"
+                        sh "cd outbound-sdk; ../gradlew --no-daemon clean build; cd ../"
+                        sh "cd elasticsearch-outbound-sdk; ../gradlew --no-daemon clean build; cd ../"
                         sh "cd examples/maven; mvn clean package; cd ../.."
                         sh "cd examples/gradle;  ./gradlew --no-daemon clean shadowJar; cd ../.."
                     }
