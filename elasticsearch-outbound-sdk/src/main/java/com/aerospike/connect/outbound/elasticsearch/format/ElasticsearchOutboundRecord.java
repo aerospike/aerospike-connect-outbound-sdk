@@ -26,18 +26,18 @@ import lombok.NonNull;
 
 /**
  * An Elasticsearch outbound record containing operations to be performed on
- * Elasticsearch via a {@link BulkRequest.Builder}.
+ * Elasticsearch via a {@link BulkRequest}.
  */
 public interface ElasticsearchOutboundRecord
         extends OutboundRecord<ElasticsearchOutboundMetadata> {
     /**
-     * A {@link BulkRequest.Builder} containing operations to be performed on
+     * A {@link BulkRequest} containing operations to be performed on
      * Elasticsearch.
      *
-     * @return A {@link BulkRequest.Builder}.
+     * @return An Elasticsearch index name.
      */
     @NonNull
-    BulkRequest.Builder getBulkRequestBuilder();
+    BulkRequest getBulkRequest();
 
     @Override
     @NonNull
