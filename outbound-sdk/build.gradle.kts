@@ -22,4 +22,8 @@ dependencies {
 
     // Aerospike Java Client
     compileOnly("com.aerospike:aerospike-client:5.1.11")
+
+    // Jackson annotations
+    compileOnly(
+        "com.fasterxml.jackson.core:jackson-annotations:${project.extra["jacksonVersion"]}")
 }

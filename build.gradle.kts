@@ -66,6 +66,8 @@ subprojects {
 
     group = "com.aerospike"
 
+    project.extra["jacksonVersion"] = "2.13.3"
+
     setupJavaBuild()
     setupReleaseTasks()
     setupPublishingTasks()
