@@ -40,7 +40,7 @@ import static java.util.Collections.emptyList;
  */
 @AllArgsConstructor
 @Getter
-public class ElasticsearchBulkRequestConfig {
+public class BulkRequestConfig {
     /**
      * See {@link BulkRequest#source()}.
      */
