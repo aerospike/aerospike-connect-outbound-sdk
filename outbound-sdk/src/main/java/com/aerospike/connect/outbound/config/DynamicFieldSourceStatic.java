@@ -29,6 +29,8 @@ import lombok.Getter;
 public class DynamicFieldSourceStatic implements DynamicFieldSource {
     /**
      * A static value to be used as a value.
+     *
+     * @return a static value to be used.
      */
     private final String value;
 

@@ -36,6 +36,8 @@ public class DynamicFieldSourceBinValue implements DynamicFieldSource {
 
     /**
      * Aerospike record's bin whose value should be used as a value.
+     *
+     * @return an Aerospike bin-name to extract a value from.
      */
     @JsonProperty("bin-name")
     private final String binName;

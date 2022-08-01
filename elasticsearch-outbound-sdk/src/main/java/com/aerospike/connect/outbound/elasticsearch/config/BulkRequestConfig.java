@@ -43,42 +43,57 @@ import static java.util.Collections.emptyList;
 public class BulkRequestConfig {
     /**
      * See {@link BulkRequest#source()}.
+     *
+     * @return config defining how to fetch a source field.
      */
     @Nullable
     private final SourceConfigParam source;
 
     /**
      * See {@link BulkRequest#sourceExcludes()}.
+     *
+     * @return source to exclude.
      */
     @JsonProperty("source-excludes")
     private final List<String> sourceExcludes;
 
     /**
      * See {@link BulkRequest#sourceIncludes()}.
+     *
+     * @return source to include.
      */
     @JsonProperty("source-includes")
     private final List<String> sourceIncludes = emptyList();
 
     /**
      * See {@link BulkRequest#index()}.
+     *
+     * @return index to perform each operation on.
      */
     @Nonnull
     private final DynamicFieldSource index;
 
     /**
      * See {@link BulkRequest#pipeline()}.
+     *
+     * @return the pipeline id to preprocess incoming documents with.
      */
     @Nullable
     private final String pipeline;
 
     /**
      * See {@link BulkRequest#refresh()}.
+     *
+     * @return whether to refresh the affected shards to make this operation
+     * visible to search.
      */
     @Nullable
     private final Refresh refresh;
 
     /**
      * See {@link BulkRequest#requireAlias()}.
+     *
+     * @return require_alias field for all incoming documents.
      */
     @Nullable
     @JsonProperty("require-alias")
@@ -86,18 +101,25 @@ public class BulkRequestConfig {
 
     /**
      * See {@link BulkRequest#routing()}.
+     *
+     * @return specific routing value.
      */
     @Nullable
     private final DynamicFieldSource routing;
 
     /**
      * See {@link BulkRequest#timeout()}.
+     *
+     * @return explicit operation timeout.
      */
     @Nullable
     private final Time timeout;
 
     /**
      * See {@link BulkRequest#waitForActiveShards()}.
+     *
+     * @return the number of shard copies that must be active before proceeding
+     * with the bulk operation.
      */
     @Nullable
     @JsonProperty("wait-for-active-shards")

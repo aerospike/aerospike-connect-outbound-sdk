@@ -29,14 +29,20 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public interface DynamicFieldSource {
     /**
-     * Strategy to be used when we cannot compute the value using the specified
+     * Strategy to be used when the value cannot be computed using the specified
      * source.
+     *
+     * @return the {@link DynamicFieldSourceFailureStrategy}.
+     * @throws Exception if the value should always be computable for the given
+     *                   {@link DynamicFieldSource}.
      */
     DynamicFieldSourceFailureStrategy getDynamicFieldSourceFailureStrategy()
             throws Exception;
 
     /**
      * Validate the configuration.
+     *
+     * @throws Exception if validation fails.
      */
     default void validate() throws Exception {
     }
