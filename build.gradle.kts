@@ -28,8 +28,7 @@ buildscript {
         }
     }
     dependencies {
-        // Gradle version 6.6 compatible with 5.1.x, see https://github.com/freefair/gradle-plugins#compatibility-matrix.
-        classpath("io.freefair.gradle:lombok-plugin:5.1.1")
+        classpath("io.freefair.gradle:lombok-plugin:6.5.0.3")
     }
 }
 

@@ -25,103 +25,116 @@ import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.search.SourceConfigParam;
 import com.aerospike.connect.outbound.config.DynamicFieldSource;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Value;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
-
-import static java.util.Collections.emptyList;
 
 /**
  * Config parameters for Elasticsearch
  * {@link co.elastic.clients.elasticsearch.core.BulkRequest}.
  */
 @AllArgsConstructor
-@Getter
+@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
+@Value
 public class BulkRequestConfig {
     /**
      * See {@link BulkRequest#source()}.
      *
+     * @param source config defining how to fetch a source field.
      * @return config defining how to fetch a source field.
      */
     @Nullable
-    private final SourceConfigParam source;
+    SourceConfigParam source;
 
     /**
      * See {@link BulkRequest#sourceExcludes()}.
      *
+     * @param sourceExcludes source to exclude.
      * @return source to exclude.
      */
     @JsonProperty("source-excludes")
-    private final List<String> sourceExcludes;
+    List<String> sourceExcludes;
 
     /**
      * See {@link BulkRequest#sourceIncludes()}.
      *
+     * @param sourceIncludes source to include.
      * @return source to include.
      */
     @JsonProperty("source-includes")
-    private final List<String> sourceIncludes = emptyList();
+    List<String> sourceIncludes;
 
     /**
      * See {@link BulkRequest#index()}.
      *
+     * @param index index to perform each operation on.
      * @return index to perform each operation on.
      */
     @Nonnull
-    private final DynamicFieldSource index;
+    DynamicFieldSource index;
 
     /**
      * See {@link BulkRequest#pipeline()}.
      *
+     * @param pipeline the pipeline id to preprocess incoming documents with.
      * @return the pipeline id to preprocess incoming documents with.
      */
     @Nullable
-    private final String pipeline;
+    String pipeline;
 
     /**
      * See {@link BulkRequest#refresh()}.
      *
+     * @param refresh whether to refresh the affected shards to make this
+     * operation visible to search.
      * @return whether to refresh the affected shards to make this operation
      * visible to search.
      */
     @Nullable
-    private final Refresh refresh;
+    Refresh refresh;
 
     /**
      * See {@link BulkRequest#requireAlias()}.
      *
+     * @param requireAlias require_alias field for all incoming documents.
      * @return require_alias field for all incoming documents.
      */
     @Nullable
     @JsonProperty("require-alias")
-    private final Boolean requireAlias;
+    Boolean requireAlias;
 
     /**
      * See {@link BulkRequest#routing()}.
      *
+     * @param routing specific routing value.
      * @return specific routing value.
      */
     @Nullable
-    private final DynamicFieldSource routing;
+    DynamicFieldSource routing;
 
     /**
      * See {@link BulkRequest#timeout()}.
      *
+     * @param timeout explicit operation timeout.
      * @return explicit operation timeout.
      */
     @Nullable
-    private final Time timeout;
+    Time timeout;
 
     /**
      * See {@link BulkRequest#waitForActiveShards()}.
      *
+     * @param waitForActiveShards the number of shard copies that must be active
+     * before proceeding with the bulk operation.
      * @return the number of shard copies that must be active before proceeding
      * with the bulk operation.
      */
     @Nullable
     @JsonProperty("wait-for-active-shards")
-    private final WaitForActiveShards waitForActiveShards;
+    WaitForActiveShards waitForActiveShards;
 }
