@@ -19,20 +19,24 @@
 package com.aerospike.connect.outbound.config;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.NonNull;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 import static com.aerospike.connect.outbound.config.DynamicFieldSourceFailureStrategy.USE_DIGEST;
 
 /**
  * Use Aerospike record's bin value to extract a value.
  */
-@AllArgsConstructor
-@Getter
+@Builder
+@Jacksonized
+@Value
 public class DynamicFieldSourceBinValue implements DynamicFieldSource {
+    @Builder.Default
     @JsonProperty("failure-strategy")
-    private final DynamicFieldSourceFailureStrategy
-            dynamicFieldSourceFailureStrategy = USE_DIGEST;
+    DynamicFieldSourceFailureStrategy dynamicFieldSourceFailureStrategy =
+            USE_DIGEST;
 
     /**
      * Aerospike record's bin whose value should be used as a value.
@@ -40,22 +44,13 @@ public class DynamicFieldSourceBinValue implements DynamicFieldSource {
      * @return an Aerospike bin-name to extract a value from.
      */
     @JsonProperty("bin-name")
-    private final String binName;
+    @NonNull
+    String binName;
 
     @Override
     public void validate() throws Exception {
         if (binName.trim().isEmpty()) {
             throw new Exception("bin-name cannot be blank");
         }
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return other != null && getClass().equals(other.getClass());
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
     }
 }

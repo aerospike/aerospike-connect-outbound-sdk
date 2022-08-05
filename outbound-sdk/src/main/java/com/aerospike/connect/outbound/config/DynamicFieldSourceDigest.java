@@ -18,24 +18,17 @@
 
 package com.aerospike.connect.outbound.config;
 
+import lombok.EqualsAndHashCode;
+
 /**
  * The Aerospike record's Base64 encoded [com.aerospike.client.Key.digest]
  * should be used as a value.
  */
+@EqualsAndHashCode
 public class DynamicFieldSourceDigest implements DynamicFieldSource {
     @Override
     public DynamicFieldSourceFailureStrategy
     getDynamicFieldSourceFailureStrategy() throws Exception {
         throw new Exception("digest is always available");
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return other != null && getClass().equals(other.getClass());
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
     }
 }

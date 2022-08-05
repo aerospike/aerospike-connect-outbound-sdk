@@ -19,8 +19,9 @@
 package com.aerospike.connect.outbound.config;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 import static com.aerospike.connect.outbound.config.DynamicFieldSourceFailureStrategy.USE_DIGEST;
 
@@ -28,21 +29,12 @@ import static com.aerospike.connect.outbound.config.DynamicFieldSourceFailureStr
  * The Aerospike record's {@link com.aerospike.client.Key#userKey} should be
  * used as a value.
  */
-@AllArgsConstructor
-@Getter
+@Builder
+@Jacksonized
+@Value
 public class DynamicFieldSourceUserKey implements DynamicFieldSource {
-
+    @Builder.Default
     @JsonProperty("failure-strategy")
-    private final DynamicFieldSourceFailureStrategy
-            dynamicFieldSourceFailureStrategy = USE_DIGEST;
-
-    @Override
-    public boolean equals(Object other) {
-        return other != null && getClass().equals(other.getClass());
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
+    DynamicFieldSourceFailureStrategy dynamicFieldSourceFailureStrategy =
+            USE_DIGEST;
 }

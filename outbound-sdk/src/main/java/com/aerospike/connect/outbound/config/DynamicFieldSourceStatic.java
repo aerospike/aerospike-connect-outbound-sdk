@@ -18,21 +18,25 @@
 
 package com.aerospike.connect.outbound.config;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.NonNull;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 /**
  * Use Aerospike record's bin value to extract a value.
  */
-@AllArgsConstructor
-@Getter
+@Builder
+@Jacksonized
+@Value
 public class DynamicFieldSourceStatic implements DynamicFieldSource {
     /**
      * A static value to be used as a value.
      *
      * @return a static value to be used.
      */
-    private final String value;
+    @NonNull
+    String value;
 
     @Override
     public void validate() throws Exception {
@@ -45,15 +49,5 @@ public class DynamicFieldSourceStatic implements DynamicFieldSource {
     public DynamicFieldSourceFailureStrategy
     getDynamicFieldSourceFailureStrategy() throws Exception {
         throw new Exception("value should always be available");
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return other != null && getClass().equals(other.getClass());
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
     }
 }
