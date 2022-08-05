@@ -33,6 +33,7 @@ public class DynamicFieldSourceStatic implements DynamicFieldSource {
     /**
      * A static value to be used as a value.
      *
+     * @param value A static value to be used.
      * @return a static value to be used.
      */
     @NonNull

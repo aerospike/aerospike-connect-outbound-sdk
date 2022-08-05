@@ -32,6 +32,14 @@ import static com.aerospike.connect.outbound.config.DynamicFieldSourceFailureStr
 @Jacksonized
 @Value
 public class DynamicFieldSourceSet implements DynamicFieldSource {
+    /**
+     * Strategy to be used when the value cannot be computed using the specified
+     * source.
+     *
+     * @param dynamicFieldSourceFailureStrategy The
+     * {@link DynamicFieldSourceFailureStrategy}.
+     * @return the {@link DynamicFieldSourceFailureStrategy}.
+     */
     @Builder.Default
     @JsonProperty("failure-strategy")
     DynamicFieldSourceFailureStrategy dynamicFieldSourceFailureStrategy =

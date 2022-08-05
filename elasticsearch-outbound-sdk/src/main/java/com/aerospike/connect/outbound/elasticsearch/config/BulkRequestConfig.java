@@ -45,7 +45,7 @@ public class BulkRequestConfig {
     /**
      * See {@link BulkRequest#source()}.
      *
-     * @param source config defining how to fetch a source field.
+     * @param source Config defining how to fetch a source field.
      * @return config defining how to fetch a source field.
      */
     @Nullable
@@ -54,8 +54,8 @@ public class BulkRequestConfig {
     /**
      * See {@link BulkRequest#sourceExcludes()}.
      *
-     * @param sourceExcludes source to exclude.
-     * @return source to exclude.
+     * @param sourceExcludes Sources to exclude.
+     * @return sources to exclude.
      */
     @JsonProperty("source-excludes")
     List<String> sourceExcludes;
@@ -63,8 +63,8 @@ public class BulkRequestConfig {
     /**
      * See {@link BulkRequest#sourceIncludes()}.
      *
-     * @param sourceIncludes source to include.
-     * @return source to include.
+     * @param sourceIncludes Sources to include.
+     * @return sources to include.
      */
     @JsonProperty("source-includes")
     List<String> sourceIncludes;
@@ -72,7 +72,7 @@ public class BulkRequestConfig {
     /**
      * See {@link BulkRequest#index()}.
      *
-     * @param index index to perform each operation on.
+     * @param index Index to perform each operation on.
      * @return index to perform each operation on.
      */
     @Nonnull
@@ -81,7 +81,7 @@ public class BulkRequestConfig {
     /**
      * See {@link BulkRequest#pipeline()}.
      *
-     * @param pipeline the pipeline id to preprocess incoming documents with.
+     * @param pipeline The pipeline id to preprocess incoming documents with.
      * @return the pipeline id to preprocess incoming documents with.
      */
     @Nullable
@@ -90,7 +90,7 @@ public class BulkRequestConfig {
     /**
      * See {@link BulkRequest#refresh()}.
      *
-     * @param refresh whether to refresh the affected shards to make this
+     * @param refresh Whether to refresh the affected shards to make this
      * operation visible to search.
      * @return whether to refresh the affected shards to make this operation
      * visible to search.
@@ -101,8 +101,8 @@ public class BulkRequestConfig {
     /**
      * See {@link BulkRequest#requireAlias()}.
      *
-     * @param requireAlias require_alias field for all incoming documents.
-     * @return require_alias field for all incoming documents.
+     * @param requireAlias A require_alias field for all incoming documents.
+     * @return a require_alias field for all incoming documents.
      */
     @Nullable
     @JsonProperty("require-alias")
@@ -111,7 +111,7 @@ public class BulkRequestConfig {
     /**
      * See {@link BulkRequest#routing()}.
      *
-     * @param routing specific routing value.
+     * @param routing Specific routing value.
      * @return specific routing value.
      */
     @Nullable
@@ -120,7 +120,7 @@ public class BulkRequestConfig {
     /**
      * See {@link BulkRequest#timeout()}.
      *
-     * @param timeout explicit operation timeout.
+     * @param timeout Explicit operation timeout.
      * @return explicit operation timeout.
      */
     @Nullable
@@ -129,7 +129,7 @@ public class BulkRequestConfig {
     /**
      * See {@link BulkRequest#waitForActiveShards()}.
      *
-     * @param waitForActiveShards the number of shard copies that must be active
+     * @param waitForActiveShards The number of shard copies that must be active
      * before proceeding with the bulk operation.
      * @return the number of shard copies that must be active before proceeding
      * with the bulk operation.

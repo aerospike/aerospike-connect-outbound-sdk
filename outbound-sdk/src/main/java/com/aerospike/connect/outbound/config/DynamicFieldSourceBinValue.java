@@ -33,6 +33,14 @@ import static com.aerospike.connect.outbound.config.DynamicFieldSourceFailureStr
 @Jacksonized
 @Value
 public class DynamicFieldSourceBinValue implements DynamicFieldSource {
+    /**
+     * Strategy to be used when the value cannot be computed using the specified
+     * source.
+     *
+     * @param dynamicFieldSourceFailureStrategy The
+     * {@link DynamicFieldSourceFailureStrategy}.
+     * @return the {@link DynamicFieldSourceFailureStrategy}.
+     */
     @Builder.Default
     @JsonProperty("failure-strategy")
     DynamicFieldSourceFailureStrategy dynamicFieldSourceFailureStrategy =
@@ -41,6 +49,7 @@ public class DynamicFieldSourceBinValue implements DynamicFieldSource {
     /**
      * Aerospike record's bin whose value should be used as a value.
      *
+     * @param binName An Aerospike bin-name to extract a value from.
      * @return an Aerospike bin-name to extract a value from.
      */
     @JsonProperty("bin-name")
