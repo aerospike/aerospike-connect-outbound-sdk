@@ -22,15 +22,16 @@ import co.elastic.clients.elasticsearch._types.Refresh;
 import co.elastic.clients.elasticsearch._types.Time;
 import co.elastic.clients.elasticsearch._types.WaitForActiveShards;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
+import co.elastic.clients.elasticsearch.core.bulk.OperationType;
 import co.elastic.clients.elasticsearch.core.search.SourceConfigParam;
 import com.aerospike.connect.outbound.config.DynamicFieldSource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Value;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
@@ -75,7 +76,7 @@ public class BulkRequestConfig {
      * @param index Index to perform each operation on.
      * @return index to perform each operation on.
      */
-    @Nonnull
+    @NonNull
     DynamicFieldSource index;
 
     /**
@@ -137,4 +138,16 @@ public class BulkRequestConfig {
     @Nullable
     @JsonProperty("wait-for-active-shards")
     WaitForActiveShards waitForActiveShards;
+
+    /**
+     * Mapping of an Aerospike XDR's write operation to Elasticsearch
+     * {@link OperationType}. {@link OperationType#Index} is the default value.
+     *
+     * @param writeOperationType The {@link OperationType} to be performed on
+     * Elasticsearch.
+     * @return The {@link OperationType} to be performed on Elasticsearch.
+     */
+    @NonNull
+    @JsonProperty("write-operation-type")
+    OperationType writeOperationType;
 }

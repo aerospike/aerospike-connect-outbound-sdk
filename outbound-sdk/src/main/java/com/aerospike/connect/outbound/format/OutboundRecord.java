@@ -20,6 +20,9 @@ package com.aerospike.connect.outbound.format;
 
 import lombok.NonNull;
 
+import java.util.Collections;
+import java.util.Set;
+
 /**
  * OutboundRecord represents the data sent to the outbound destination.
  *
@@ -51,4 +54,17 @@ public interface OutboundRecord<T extends OutboundMetadata> {
      */
     @NonNull
     T getMetadata();
+
+    /**
+     * External system's errors to be ignored. Failed operation will be
+     * considered successful if the result contains the specified error.
+     * Depending on a connector, the function can return a set of error codes to
+     * ignore, or it can be a set of {@link Exception} class names to ignore
+     * etc.
+     *
+     * @return set of errors to ignore.
+     */
+    default Set<Object> getIgnoreErrors() {
+        return Collections.emptySet();
+    }
 }
