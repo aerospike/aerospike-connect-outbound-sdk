@@ -20,27 +20,26 @@ package com.aerospike.connect.outbound.elasticsearch.config;
 
 import co.elastic.clients.elasticsearch._types.Refresh;
 import co.elastic.clients.elasticsearch._types.Time;
+import co.elastic.clients.elasticsearch._types.VersionType;
 import co.elastic.clients.elasticsearch._types.WaitForActiveShards;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.bulk.OperationType;
 import co.elastic.clients.elasticsearch.core.search.SourceConfigParam;
 import com.aerospike.connect.outbound.config.DynamicFieldSource;
+import com.aerospike.connect.outbound.elasticsearch.AerospikeWriteOperationMapping;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Value;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
+import static java.util.Collections.emptyList;
+
 /**
  * Config parameters for Elasticsearch
  * {@link co.elastic.clients.elasticsearch.core.BulkRequest}.
  */
-@AllArgsConstructor
-@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @Value
 public class BulkRequestConfig {
     /**
@@ -140,14 +139,74 @@ public class BulkRequestConfig {
     WaitForActiveShards waitForActiveShards;
 
     /**
-     * Mapping of an Aerospike XDR's write operation to Elasticsearch
-     * {@link OperationType}. {@link OperationType#Index} is the default value.
+     * Mapping of an Aerospike XDR's write operation to Elasticsearch operation.
+     * {@link AerospikeWriteOperationMapping} with {@link OperationType#Index}
+     * is the default value.
      *
-     * @param writeOperationType The {@link OperationType} to be performed on
-     * Elasticsearch.
-     * @return The {@link OperationType} to be performed on Elasticsearch.
+     * @param aerospikeWriteOperationMapping The
+     * {@link AerospikeWriteOperationMapping} config.
+     * @return The {@link AerospikeWriteOperationMapping} config.
      */
     @NonNull
-    @JsonProperty("write-operation-type")
-    OperationType writeOperationType;
+    @JsonProperty("aerospike-write-operation-mapping")
+    AerospikeWriteOperationMapping aerospikeWriteOperationMapping;
+
+    /**
+     * Only perform the operation if the document has this primary term.
+     *
+     * @param ifPrimaryTerm the primary term.
+     * @return The primary term.
+     */
+    @Nullable
+    @JsonProperty("if-primary-term")
+    Long ifPrimaryTerm;
+
+    /**
+     * Only perform the operation if the document has this sequence number.
+     *
+     * @param ifSeqNo the sequence number.
+     * @return The sequence number.
+     */
+    @Nullable
+    @JsonProperty("if-seq-no")
+    Long ifSeqNo;
+
+    /**
+     * Explicit version number for concurrency control. The specified version
+     * must match the current version of the document for the request to
+     * succeed.
+     *
+     * @param version the current document version.
+     * @return The current document version.
+     */
+    @Nullable
+    Long version;
+
+    /**
+     * Specific version type.
+     *
+     * @param versionType the specific {@link VersionType}.
+     * @return The specific {@link VersionType}.
+     */
+    @Nullable
+    VersionType versionType;
+
+    private BulkRequestConfig() {
+        source = null;
+        sourceExcludes = emptyList();
+        sourceIncludes = emptyList();
+        index = null;
+        pipeline = null;
+        refresh = null;
+        requireAlias = null;
+        routing = null;
+        timeout = null;
+        waitForActiveShards = null;
+        aerospikeWriteOperationMapping =
+                new AerospikeWriteOperationMapping(OperationType.Index, null);
+        ifPrimaryTerm = null;
+        ifSeqNo = null;
+        version = null;
+        versionType = null;
+    }
 }

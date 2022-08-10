@@ -64,6 +64,7 @@ public interface OutboundRecord<T extends OutboundMetadata> {
      *
      * @return set of errors to ignore.
      */
+    @NonNull
     default Set<Object> getIgnoreErrors() {
         return Collections.emptySet();
     }
