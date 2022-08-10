@@ -35,6 +35,9 @@ public class AerospikeWriteOperationMapping {
     /**
      * An Elasticsearch's {@link OperationType} to map an incoming XDR record
      * to.
+     *
+     * @param operationType An Elasticsearch {@link OperationType}.
+     * @return An Elasticsearch {@link OperationType}.
      */
     @JsonProperty("operation-type")
     @NonNull
@@ -42,6 +45,9 @@ public class AerospikeWriteOperationMapping {
 
     /**
      * An optional {@link OperationConfig} for this mapping.
+     *
+     * @param operationConfig An extra config for this mapping.
+     * @return An extra config for this mapping.
      */
     @JsonProperty("operation-config")
     @Nullable

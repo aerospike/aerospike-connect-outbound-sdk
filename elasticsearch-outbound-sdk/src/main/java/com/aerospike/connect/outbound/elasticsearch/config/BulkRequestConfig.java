@@ -154,7 +154,7 @@ public class BulkRequestConfig {
     /**
      * Only perform the operation if the document has this primary term.
      *
-     * @param ifPrimaryTerm the primary term.
+     * @param ifPrimaryTerm The primary term.
      * @return The primary term.
      */
     @Nullable
@@ -164,7 +164,7 @@ public class BulkRequestConfig {
     /**
      * Only perform the operation if the document has this sequence number.
      *
-     * @param ifSeqNo the sequence number.
+     * @param ifSeqNo The sequence number.
      * @return The sequence number.
      */
     @Nullable
@@ -176,7 +176,7 @@ public class BulkRequestConfig {
      * must match the current version of the document for the request to
      * succeed.
      *
-     * @param version the current document version.
+     * @param version The current document version.
      * @return The current document version.
      */
     @Nullable
@@ -185,7 +185,7 @@ public class BulkRequestConfig {
     /**
      * Specific version type.
      *
-     * @param versionType the specific {@link VersionType}.
+     * @param versionType The specific {@link VersionType}.
      * @return The specific {@link VersionType}.
      */
     @Nullable

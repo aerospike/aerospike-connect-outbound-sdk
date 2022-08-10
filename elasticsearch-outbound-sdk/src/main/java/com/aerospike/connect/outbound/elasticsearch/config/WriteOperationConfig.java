@@ -35,8 +35,8 @@ public class WriteOperationConfig implements OperationConfig {
     /**
      * Define custom mappings that can be applied to dynamically added fields
      * based on the matching condition. Refer <a
-     * href="https://www.elastic.co/guide/en/elasticsearch/reference/current
-     * /dynamic-templates.html">this</a> for more details.
+     * href="https://www.elastic.co/guide/en/elasticsearch/reference/current/dynamic-templates.html">this</a>
+     * for more details.
      *
      * @param dynamicTemplates The dynamicTemplates.
      * @return The dynamicTemplates.

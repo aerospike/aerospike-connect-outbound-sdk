@@ -21,6 +21,7 @@ package com.aerospike.connect.outbound.elasticsearch.config;
 import co.elastic.clients.elasticsearch.core.bulk.OperationType;
 import co.elastic.clients.elasticsearch.core.bulk.UpdateAction;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.NonNull;
 import lombok.Value;
 
 import javax.annotation.Nullable;
@@ -45,9 +46,13 @@ public class UpdateOperationConfig implements OperationConfig {
 
     /**
      * Configure few options like upsert for {@link OperationType#Update}. Refer
-     * <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/
-     * docs-update.html#_update_part_of_a_document">this</a> for more details.
+     * <a
+     * href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-update.html#_update_part_of_a_document">this</a>
+     * for more details.
+     *
+     * @param action An extra config for {@link OperationType#Update}.
+     * @return An extra config for {@link OperationType#Update}.
      */
-    @Nullable
+    @NonNull
     UpdateAction<Object, Object> action;
 }
