@@ -191,6 +191,12 @@ public class BulkRequestConfig {
     @Nullable
     VersionType versionType;
 
+    /**
+     * The default {@link AerospikeWriteOperationMapping}.
+     */
+    public static final AerospikeWriteOperationMapping DEFAULT_MAPPING =
+            new AerospikeWriteOperationMapping(OperationType.Index, null);
+
     private BulkRequestConfig() {
         source = null;
         sourceExcludes = emptyList();
@@ -202,8 +208,7 @@ public class BulkRequestConfig {
         routing = null;
         timeout = null;
         waitForActiveShards = null;
-        aerospikeWriteOperationMapping =
-                new AerospikeWriteOperationMapping(OperationType.Index, null);
+        aerospikeWriteOperationMapping = DEFAULT_MAPPING;
         ifPrimaryTerm = null;
         ifSeqNo = null;
         version = null;
