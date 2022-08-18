@@ -12,7 +12,7 @@ include(
     "outbound-sdk"
 )
 
-rootProject.name = "aerospike-connect-outbound-sdk"
+rootProject.name = "aerospike-connect-outbound-sdk-root"
 
 // Add prefix to child project names.
 rootProject.children.forEach {

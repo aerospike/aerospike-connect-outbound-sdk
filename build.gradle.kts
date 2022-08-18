@@ -20,6 +20,7 @@ import com.aerospike.connect.setupJavaBuild
 import com.aerospike.connect.setupPublishingTasks
 import com.aerospike.connect.setupReleaseTasks
 import com.aerospike.connect.setupVulnerabilityScanning
+import io.snyk.gradle.plugin.SnykTask
 
 buildscript {
     repositories {
@@ -34,6 +35,7 @@ buildscript {
 
 plugins {
     jacoco
+    id("io.snyk.gradle.plugin.snykplugin")
 }
 
 allprojects {
@@ -44,6 +46,10 @@ allprojects {
             toolVersion = "0.8.7"
         }
     }
+}
+
+tasks.withType<SnykTask> {
+    onlyIf { false }
 }
 
 subprojects {
