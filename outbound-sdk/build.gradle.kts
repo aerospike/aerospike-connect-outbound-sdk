@@ -21,7 +21,7 @@ dependencies {
     compileOnly("com.google.code.findbugs:jsr305:3.0.2")
 
     // Aerospike Java Client
-    compileOnly("com.aerospike:aerospike-client:5.1.11")
+    compileOnly("com.aerospike:aerospike-client:6.1.0")
 
     // Jackson annotations
     compileOnly(
