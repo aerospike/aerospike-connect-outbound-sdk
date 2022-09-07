@@ -42,7 +42,7 @@ public enum DynamicFieldSourceFailureStrategy {
     IGNORE;
 
     @JsonCreator
-    public DynamicFieldSourceFailureStrategy fromString(String strategy)
+    public static DynamicFieldSourceFailureStrategy fromString(String strategy)
             throws Exception {
         DynamicFieldSourceFailureStrategy dynamicFieldSourceFailureStrategy;
         switch (strategy.replace("-", "_").toLowerCase()) {

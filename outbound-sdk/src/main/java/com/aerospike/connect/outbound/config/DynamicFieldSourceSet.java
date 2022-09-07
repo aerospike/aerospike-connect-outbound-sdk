@@ -18,6 +18,7 @@
 
 package com.aerospike.connect.outbound.config;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Value;
@@ -30,6 +31,7 @@ import static com.aerospike.connect.outbound.config.DynamicFieldSourceFailureStr
  */
 @Builder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Value
 public class DynamicFieldSourceSet implements DynamicFieldSource {
     /**

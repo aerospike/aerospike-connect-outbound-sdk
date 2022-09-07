@@ -18,6 +18,7 @@
 
 package com.aerospike.connect.outbound.config;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
@@ -28,6 +29,7 @@ import lombok.extern.jackson.Jacksonized;
  */
 @Builder
 @Jacksonized
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Value
 public class DynamicFieldSourceStatic implements DynamicFieldSource {
     /**
