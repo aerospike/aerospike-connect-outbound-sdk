@@ -21,11 +21,7 @@ dependencies {
     api(project(":aerospike-connect-outbound-sdk"))
 
     // Elasticsearch client
-    api("co.elastic.clients:elasticsearch-java:8.4.0")
-
-    // co.elastic.clients:elasticsearch-java:8.3.2 has transitive
-    // vulnerability. Picked the fixed version.
-    api("org.apache.httpcomponents:httpclient:4.5.13")
+    api("co.elastic.clients:elasticsearch-java:8.4.1")
 
     // Jackson annotations
     compileOnly(
