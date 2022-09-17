@@ -189,6 +189,7 @@ public class BulkRequestConfig {
      * @return The specific {@link VersionType}.
      */
     @Nullable
+    @JsonProperty("version-type")
     VersionType versionType;
 
     /**
