@@ -16,11 +16,13 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.elasticsearch;
+package com.aerospike.connect.outbound.elasticsearch.config;
 
 import co.elastic.clients.elasticsearch.core.bulk.OperationType;
-import com.aerospike.connect.outbound.elasticsearch.config.OperationConfig;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Value;
 
@@ -30,8 +32,10 @@ import javax.annotation.Nullable;
  * Mapping of an Aerospike XDR's write operation to Elasticsearch
  * {@link OperationType} with some optional {@link OperationConfig}.
  */
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @Value
-public class AerospikeWriteOperationMapping {
+public class AerospikeWriteOperationMappingConfig {
     /**
      * An Elasticsearch's {@link OperationType} to map an incoming XDR record
      * to.

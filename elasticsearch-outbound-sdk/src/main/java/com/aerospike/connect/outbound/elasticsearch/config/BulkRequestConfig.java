@@ -25,21 +25,25 @@ import co.elastic.clients.elasticsearch._types.WaitForActiveShards;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.bulk.OperationType;
 import co.elastic.clients.elasticsearch.core.search.SourceConfigParam;
+import co.elastic.clients.util.TaggedUnion;
 import com.aerospike.connect.outbound.config.DynamicFieldSource;
-import com.aerospike.connect.outbound.elasticsearch.AerospikeWriteOperationMapping;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Value;
 
 import javax.annotation.Nullable;
 import java.util.List;
-
-import static java.util.Collections.emptyList;
+import java.util.Objects;
 
 /**
  * Config parameters for Elasticsearch
  * {@link co.elastic.clients.elasticsearch.core.BulkRequest}.
  */
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @Value
 public class BulkRequestConfig {
     /**
@@ -140,16 +144,16 @@ public class BulkRequestConfig {
 
     /**
      * Mapping of an Aerospike XDR's write operation to Elasticsearch operation.
-     * {@link AerospikeWriteOperationMapping} with {@link OperationType#Index}
-     * is the default value.
+     * {@link AerospikeWriteOperationMappingConfig} with
+     * {@link OperationType#Index} is the default value.
      *
      * @param aerospikeWriteOperationMapping The
-     * {@link AerospikeWriteOperationMapping} config.
-     * @return The {@link AerospikeWriteOperationMapping} config.
+     * {@link AerospikeWriteOperationMappingConfig} config.
+     * @return The {@link AerospikeWriteOperationMappingConfig} config.
      */
     @NonNull
     @JsonProperty("aerospike-write-operation-mapping")
-    AerospikeWriteOperationMapping aerospikeWriteOperationMapping;
+    AerospikeWriteOperationMappingConfig aerospikeWriteOperationMappingConfig;
 
     /**
      * Only perform the operation if the document has this primary term.
@@ -193,26 +197,51 @@ public class BulkRequestConfig {
     VersionType versionType;
 
     /**
-     * The default {@link AerospikeWriteOperationMapping}.
+     * The default {@link AerospikeWriteOperationMappingConfig}.
      */
-    public static final AerospikeWriteOperationMapping DEFAULT_MAPPING =
-            new AerospikeWriteOperationMapping(OperationType.Index, null);
+    public static final AerospikeWriteOperationMappingConfig DEFAULT_MAPPING =
+            new AerospikeWriteOperationMappingConfig(OperationType.Index, null);
 
-    private BulkRequestConfig() {
-        source = null;
-        sourceExcludes = emptyList();
-        sourceIncludes = emptyList();
-        index = null;
-        pipeline = null;
-        refresh = null;
-        requireAlias = null;
-        routing = null;
-        timeout = null;
-        waitForActiveShards = null;
-        aerospikeWriteOperationMapping = DEFAULT_MAPPING;
-        ifPrimaryTerm = null;
-        ifSeqNo = null;
-        version = null;
-        versionType = null;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        BulkRequestConfig that = (BulkRequestConfig) o;
+        return taggedUnionEquals(source, that.source) &&
+                Objects.equals(sourceExcludes, that.sourceExcludes) &&
+                Objects.equals(sourceIncludes, that.sourceIncludes) &&
+                index.equals(that.index) &&
+                Objects.equals(pipeline, that.pipeline) &&
+                refresh == that.refresh &&
+                Objects.equals(requireAlias, that.requireAlias) &&
+                Objects.equals(routing, that.routing) &&
+                taggedUnionEquals(timeout, that.timeout) &&
+                taggedUnionEquals(waitForActiveShards,
+                        that.waitForActiveShards) &&
+                aerospikeWriteOperationMappingConfig.equals(
+                        that.aerospikeWriteOperationMappingConfig) &&
+                Objects.equals(ifPrimaryTerm, that.ifPrimaryTerm) &&
+                Objects.equals(ifSeqNo, that.ifSeqNo) &&
+                Objects.equals(version, that.version) &&
+                versionType == that.versionType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(source, sourceExcludes, sourceIncludes, index,
+                pipeline, refresh, requireAlias, routing, timeout,
+                waitForActiveShards, aerospikeWriteOperationMappingConfig,
+                ifPrimaryTerm, ifSeqNo, version, versionType);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private boolean taggedUnionEquals(TaggedUnion var0, TaggedUnion var1) {
+        return var0 == var1 ||
+                var0 != null && var0._kind().equals(var1._kind()) &&
+                        var0._get().equals(var1._get());
     }
 }

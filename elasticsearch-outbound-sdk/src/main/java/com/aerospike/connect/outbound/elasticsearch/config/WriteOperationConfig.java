@@ -20,6 +20,9 @@ package com.aerospike.connect.outbound.elasticsearch.config;
 
 import co.elastic.clients.elasticsearch.core.bulk.OperationType;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Value;
 
 import javax.annotation.Nullable;
@@ -30,6 +33,8 @@ import java.util.Map;
  * Elasticsearch's {@link OperationType#Create} and {@link OperationType#Index}
  * operations.
  */
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @Value
 public class WriteOperationConfig implements OperationConfig {
     /**

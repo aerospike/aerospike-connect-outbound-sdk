@@ -28,6 +28,9 @@ import org.gradle.kotlin.dsl.getByName
 import org.gradle.kotlin.dsl.getValue
 import org.gradle.kotlin.dsl.provideDelegate
 
+/**
+ * Setup Java tasks and compiler arguments.
+ */
 fun Project.setupJavaBuild() {
     val compileJava: JavaCompile by tasks
     compileJava.sourceCompatibility = "1.8"

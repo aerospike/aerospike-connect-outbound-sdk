@@ -19,6 +19,7 @@
 package com.aerospike.connect.outbound.elasticsearch.config;
 
 import co.elastic.clients.elasticsearch.core.bulk.OperationType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
@@ -35,5 +36,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
         @JsonSubTypes.Type(value = UpdateOperationConfig.class,
                 name = "update")
 })
+@JsonIgnoreProperties(ignoreUnknown = true)
 public interface OperationConfig {
 }
