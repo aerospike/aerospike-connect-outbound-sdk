@@ -28,9 +28,7 @@ import co.elastic.clients.elasticsearch.core.search.SourceConfigParam;
 import co.elastic.clients.util.TaggedUnion;
 import com.aerospike.connect.outbound.config.DynamicFieldSource;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Value;
 
@@ -38,12 +36,13 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
+import static java.util.Collections.emptyList;
+
 /**
  * Config parameters for Elasticsearch
  * {@link co.elastic.clients.elasticsearch.core.BulkRequest}.
  */
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @Value
 public class BulkRequestConfig {
     /**
@@ -201,6 +200,25 @@ public class BulkRequestConfig {
      */
     public static final AerospikeWriteOperationMappingConfig DEFAULT_MAPPING =
             new AerospikeWriteOperationMappingConfig(OperationType.Index, null);
+
+    @SuppressWarnings("ConstantConditions")
+    private BulkRequestConfig() {
+        source = null;
+        sourceExcludes = emptyList();
+        sourceIncludes = emptyList();
+        index = null;
+        pipeline = null;
+        refresh = null;
+        requireAlias = null;
+        routing = null;
+        timeout = null;
+        waitForActiveShards = null;
+        aerospikeWriteOperationMappingConfig = DEFAULT_MAPPING;
+        ifPrimaryTerm = null;
+        ifSeqNo = null;
+        version = null;
+        versionType = null;
+    }
 
     @Override
     public boolean equals(Object o) {
