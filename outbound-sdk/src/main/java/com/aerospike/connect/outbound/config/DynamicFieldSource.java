@@ -27,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
                 name = "static")
 })
 @JsonIgnoreProperties(ignoreUnknown = true)
-public interface DynamicFieldSource {
+public interface DynamicFieldSource extends Validator {
     /**
      * Strategy to be used when the value cannot be computed using the specified
      * source.
@@ -38,12 +38,4 @@ public interface DynamicFieldSource {
      */
     DynamicFieldSourceFailureStrategy getDynamicFieldSourceFailureStrategy()
             throws Exception;
-
-    /**
-     * Validate the configuration.
-     *
-     * @throws Exception if validation fails.
-     */
-    default void validate() throws Exception {
-    }
 }
