@@ -27,7 +27,6 @@ import co.elastic.clients.elasticsearch.core.bulk.OperationType;
 import co.elastic.clients.elasticsearch.core.search.SourceConfigParam;
 import co.elastic.clients.util.TaggedUnion;
 import com.aerospike.connect.outbound.config.DynamicFieldSource;
-import com.aerospike.connect.outbound.config.Validator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -45,7 +44,7 @@ import static java.util.Collections.emptyList;
  */
 @AllArgsConstructor
 @Value
-public class BulkRequestConfig implements Validator {
+public class BulkRequestConfig {
     /**
      * See {@link BulkRequest#source()}.
      *
@@ -219,16 +218,6 @@ public class BulkRequestConfig implements Validator {
         ifSeqNo = null;
         version = null;
         versionType = null;
-    }
-
-    /**
-     * Validate the configuration.
-     *
-     * @throws Exception if validation fails.
-     */
-    @Override
-    public void validate() throws Exception {
-        aerospikeWriteOperationMappingConfig.validate();
     }
 
     @Override

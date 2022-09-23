@@ -19,7 +19,6 @@
 package com.aerospike.connect.outbound.elasticsearch.config;
 
 import co.elastic.clients.elasticsearch.core.bulk.OperationType;
-import com.aerospike.connect.outbound.config.Validator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -36,7 +35,7 @@ import javax.annotation.Nullable;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @Value
-public class AerospikeWriteOperationMappingConfig implements Validator {
+public class AerospikeWriteOperationMappingConfig {
     /**
      * An Elasticsearch's {@link OperationType} to map an incoming XDR record
      * to.
@@ -57,16 +56,4 @@ public class AerospikeWriteOperationMappingConfig implements Validator {
     @JsonProperty("operation-config")
     @Nullable
     OperationConfig operationConfig;
-
-    /**
-     * Validate the configuration.
-     *
-     * @throws Exception if validation fails.
-     */
-    @Override
-    public void validate() throws Exception {
-        if (operationType == OperationType.Delete) {
-            throw new Exception("operation-type delete is not supported");
-        }
-    }
 }
