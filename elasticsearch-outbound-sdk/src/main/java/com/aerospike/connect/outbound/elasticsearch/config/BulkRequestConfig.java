@@ -23,26 +23,25 @@ import co.elastic.clients.elasticsearch._types.Time;
 import co.elastic.clients.elasticsearch._types.VersionType;
 import co.elastic.clients.elasticsearch._types.WaitForActiveShards;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
-import co.elastic.clients.elasticsearch.core.bulk.OperationType;
 import co.elastic.clients.elasticsearch.core.search.SourceConfigParam;
 import co.elastic.clients.util.TaggedUnion;
 import com.aerospike.connect.outbound.config.DynamicFieldSource;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-import static java.util.Collections.emptyList;
-
 /**
  * Config parameters for Elasticsearch
  * {@link co.elastic.clients.elasticsearch.core.BulkRequest}.
  */
-@AllArgsConstructor
+@Builder
+@Jacksonized
 @Value
 public class BulkRequestConfig {
     /**
@@ -107,8 +106,8 @@ public class BulkRequestConfig {
      * @param requireAlias A require_alias field for all incoming documents.
      * @return a require_alias field for all incoming documents.
      */
-    @Nullable
     @JsonProperty("require-alias")
+    @Nullable
     Boolean requireAlias;
 
     /**
@@ -137,31 +136,31 @@ public class BulkRequestConfig {
      * @return the number of shard copies that must be active before proceeding
      * with the bulk operation.
      */
-    @Nullable
     @JsonProperty("wait-for-active-shards")
+    @Nullable
     WaitForActiveShards waitForActiveShards;
 
     /**
      * Mapping of an Aerospike XDR's write operation to Elasticsearch operation.
-     * {@link AerospikeWriteOperationMappingConfig} with
-     * {@link OperationType#Index} is the default value.
+     * {@link IndexOperationConfig} is the default value.
      *
-     * @param aerospikeWriteOperationMapping The
-     * {@link AerospikeWriteOperationMappingConfig} config.
-     * @return The {@link AerospikeWriteOperationMappingConfig} config.
+     * @param aerospikeWriteOperationMapping The {@link OperationConfig}
+     * config.
+     * @return The {@link OperationConfig} config.
      */
-    @NonNull
+    @Builder.Default
     @JsonProperty("aerospike-write-operation-mapping")
-    AerospikeWriteOperationMappingConfig aerospikeWriteOperationMappingConfig;
+    @NonNull
+    OperationConfig aerospikeWriteOperationMapping = DEFAULT_WRITE_OPERATION;
 
     /**
      * Only perform the operation if the document has this primary term.
      *
      * @param ifPrimaryTerm The primary term.
-     * @return The primary term.
+     * @return The primary term.DEFAULT_WRITE_OPERATION_CONFIG
      */
-    @Nullable
     @JsonProperty("if-primary-term")
+    @Nullable
     Long ifPrimaryTerm;
 
     /**
@@ -170,8 +169,8 @@ public class BulkRequestConfig {
      * @param ifSeqNo The sequence number.
      * @return The sequence number.
      */
-    @Nullable
     @JsonProperty("if-seq-no")
+    @Nullable
     Long ifSeqNo;
 
     /**
@@ -191,34 +190,28 @@ public class BulkRequestConfig {
      * @param versionType The specific {@link VersionType}.
      * @return The specific {@link VersionType}.
      */
-    @Nullable
     @JsonProperty("version-type")
+    @Nullable
     VersionType versionType;
 
     /**
-     * The default {@link AerospikeWriteOperationMappingConfig}.
+     * Do not process Aerospike's delete record to avoid document deletion from
+     * Elasticsearch. It defaults to false.
+     *
+     * @param ignoreAerospikeDelete Whether to process Aerospike's delete
+     * record.
+     * @return true if Aerospike's delete should be processed.
      */
-    public static final AerospikeWriteOperationMappingConfig DEFAULT_MAPPING =
-            new AerospikeWriteOperationMappingConfig(OperationType.Index, null);
+    @Builder.Default
+    @JsonProperty("ignore-aerospike-delete")
+    @NonNull
+    Boolean ignoreAerospikeDelete = false;
 
-    @SuppressWarnings("ConstantConditions")
-    private BulkRequestConfig() {
-        source = null;
-        sourceExcludes = emptyList();
-        sourceIncludes = emptyList();
-        index = null;
-        pipeline = null;
-        refresh = null;
-        requireAlias = null;
-        routing = null;
-        timeout = null;
-        waitForActiveShards = null;
-        aerospikeWriteOperationMappingConfig = DEFAULT_MAPPING;
-        ifPrimaryTerm = null;
-        ifSeqNo = null;
-        version = null;
-        versionType = null;
-    }
+    /**
+     * The default {@link OperationConfig} for XDR's write operation.
+     */
+    private static final WriteOperationConfig DEFAULT_WRITE_OPERATION =
+            new IndexOperationConfig(null);
 
     @Override
     public boolean equals(Object o) {
@@ -240,20 +233,22 @@ public class BulkRequestConfig {
                 taggedUnionEquals(timeout, that.timeout) &&
                 taggedUnionEquals(waitForActiveShards,
                         that.waitForActiveShards) &&
-                aerospikeWriteOperationMappingConfig.equals(
-                        that.aerospikeWriteOperationMappingConfig) &&
+                aerospikeWriteOperationMapping.equals(
+                        that.aerospikeWriteOperationMapping) &&
                 Objects.equals(ifPrimaryTerm, that.ifPrimaryTerm) &&
                 Objects.equals(ifSeqNo, that.ifSeqNo) &&
                 Objects.equals(version, that.version) &&
-                versionType == that.versionType;
+                versionType == that.versionType &&
+                ignoreAerospikeDelete == that.ignoreAerospikeDelete;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(source, sourceExcludes, sourceIncludes, index,
                 pipeline, refresh, requireAlias, routing, timeout,
-                waitForActiveShards, aerospikeWriteOperationMappingConfig,
-                ifPrimaryTerm, ifSeqNo, version, versionType);
+                waitForActiveShards, aerospikeWriteOperationMapping,
+                ifPrimaryTerm, ifSeqNo, version, versionType,
+                ignoreAerospikeDelete);
     }
 
     @SuppressWarnings("rawtypes")

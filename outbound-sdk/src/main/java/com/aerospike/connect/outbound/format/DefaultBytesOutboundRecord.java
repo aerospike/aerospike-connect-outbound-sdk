@@ -20,11 +20,13 @@ package com.aerospike.connect.outbound.format;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * A default implementation of {@link BytesOutboundRecord}.
@@ -33,6 +35,7 @@ import java.util.Optional;
  */
 @AllArgsConstructor
 @EqualsAndHashCode
+@Getter
 @ToString
 public class DefaultBytesOutboundRecord<T extends OutboundMetadata>
         implements BytesOutboundRecord<T> {
@@ -45,20 +48,11 @@ public class DefaultBytesOutboundRecord<T extends OutboundMetadata>
     @NonNull
     private final T metadata;
 
+    @Nullable
+    private final Set<Object> ignoreErrors;
+
     @Override
     public Optional<byte[]> getPayload() {
         return Optional.ofNullable(payload);
-    }
-
-    @NonNull
-    @Override
-    public String getMediaType() {
-        return mediaType;
-    }
-
-    @NonNull
-    @Override
-    public T getMetadata() {
-        return metadata;
     }
 }

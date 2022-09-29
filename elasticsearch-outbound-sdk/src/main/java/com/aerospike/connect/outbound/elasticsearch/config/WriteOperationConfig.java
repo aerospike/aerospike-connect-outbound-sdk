@@ -20,10 +20,11 @@ package com.aerospike.connect.outbound.elasticsearch.config;
 
 import co.elastic.clients.elasticsearch.core.bulk.OperationType;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Value;
+import lombok.ToString;
 
 import javax.annotation.Nullable;
 import java.util.Map;
@@ -34,9 +35,11 @@ import java.util.Map;
  * operations.
  */
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
-@Value
-public class WriteOperationConfig implements OperationConfig {
+@EqualsAndHashCode
+@Getter
+@NoArgsConstructor(force = true)
+@ToString
+public abstract class WriteOperationConfig implements OperationConfig {
     /**
      * Define custom mappings that can be applied to dynamically added fields
      * based on the matching condition. Refer <a
@@ -48,5 +51,5 @@ public class WriteOperationConfig implements OperationConfig {
      */
     @Nullable
     @JsonProperty("dynamic-templates")
-    Map<String, String> dynamicTemplates;
+    private final Map<String, String> dynamicTemplates;
 }

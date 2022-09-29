@@ -18,6 +18,7 @@
 
 package com.aerospike.connect.outbound.config;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
 import lombok.NonNull;
@@ -48,6 +49,7 @@ public class DynamicFieldSourceStatic implements DynamicFieldSource {
         }
     }
 
+    @JsonIgnore
     @Override
     public DynamicFieldSourceFailureStrategy
     getDynamicFieldSourceFailureStrategy() throws Exception {

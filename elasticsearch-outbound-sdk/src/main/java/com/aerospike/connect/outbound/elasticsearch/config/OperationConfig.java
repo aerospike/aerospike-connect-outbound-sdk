@@ -29,10 +29,12 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
  * {@link OperationType#Create}, {@link OperationType#Index} and
  * {@link OperationType#Update} operations,
  */
-@JsonTypeInfo(use = Id.NAME, property = "operation-props", visible = true)
+@JsonTypeInfo(use = Id.NAME, property = "operation-type", visible = true)
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = WriteOperationConfig.class,
-                names = {"create", "index"}),
+        @JsonSubTypes.Type(value = CreateOperationConfig.class,
+                name = "create"),
+        @JsonSubTypes.Type(value = IndexOperationConfig.class,
+                name = "index"),
         @JsonSubTypes.Type(value = UpdateOperationConfig.class,
                 name = "update")
 })

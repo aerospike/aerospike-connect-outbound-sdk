@@ -16,29 +16,28 @@
  *  the License.
  */
 
-package com.aerospike.connect.outbound.format;
+package com.aerospike.connect.outbound.elasticsearch.config;
 
+import co.elastic.clients.elasticsearch.core.bulk.OperationType;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
-import lombok.NonNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.annotation.Nullable;
-import java.util.Set;
+import java.util.Map;
 
 /**
- * A default implementation of {@link TextOutboundRecord}.
- *
- * @param <T> the type of metadata associated with the outbound record.
+ * Config class for {@link OperationType#Create}.
  */
 @EqualsAndHashCode(callSuper = true)
+@Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @ToString
-public class DefaultTextOutboundRecord<T extends OutboundMetadata>
-        extends DefaultBytesOutboundRecord<T>
-        implements TextOutboundRecord<T> {
-    public DefaultTextOutboundRecord(@Nullable byte[] payload,
-                                     @NonNull String mediaType,
-                                     @NonNull T metadata,
-                                     @Nullable Set<Object> ignoreErrors) {
-        super(payload, mediaType, metadata, ignoreErrors);
+public class CreateOperationConfig extends WriteOperationConfig {
+    public CreateOperationConfig(
+            @Nullable Map<String, String> dynamicTemplates) {
+        super(dynamicTemplates);
     }
 }

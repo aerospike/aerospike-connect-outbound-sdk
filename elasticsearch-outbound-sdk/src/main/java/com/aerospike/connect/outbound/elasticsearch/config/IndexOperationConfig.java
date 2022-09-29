@@ -19,41 +19,25 @@
 package com.aerospike.connect.outbound.elasticsearch.config;
 
 import co.elastic.clients.elasticsearch.core.bulk.OperationType;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.Value;
+import lombok.ToString;
 
 import javax.annotation.Nullable;
+import java.util.Map;
 
 /**
- * Mapping of an Aerospike XDR's write operation to Elasticsearch
- * {@link OperationType} with some optional {@link OperationConfig}.
+ * Config class for {@link OperationType#Index}.
  */
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
-@Value
-public class AerospikeWriteOperationMappingConfig {
-    /**
-     * An Elasticsearch's {@link OperationType} to map an incoming XDR record
-     * to.
-     *
-     * @param operationType An Elasticsearch {@link OperationType}.
-     * @return An Elasticsearch {@link OperationType}.
-     */
-    @JsonProperty("operation-type")
-    @NonNull
-    OperationType operationType;
-
-    /**
-     * An optional {@link OperationConfig} for this mapping.
-     *
-     * @param operationConfig An extra config for this mapping.
-     * @return An extra config for this mapping.
-     */
-    @JsonProperty("operation-config")
-    @Nullable
-    OperationConfig operationConfig;
+@ToString
+public class IndexOperationConfig extends WriteOperationConfig {
+    public IndexOperationConfig(
+            @Nullable Map<String, String> dynamicTemplates) {
+        super(dynamicTemplates);
+    }
 }

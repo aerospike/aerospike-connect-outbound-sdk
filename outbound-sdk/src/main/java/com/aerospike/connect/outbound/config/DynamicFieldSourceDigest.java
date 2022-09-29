@@ -18,6 +18,7 @@
 
 package com.aerospike.connect.outbound.config;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -26,6 +27,7 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode
 public class DynamicFieldSourceDigest implements DynamicFieldSource {
+    @JsonIgnore
     @Override
     public DynamicFieldSourceFailureStrategy
     getDynamicFieldSourceFailureStrategy() throws Exception {
