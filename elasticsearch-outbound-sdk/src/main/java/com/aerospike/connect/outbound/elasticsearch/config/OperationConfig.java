@@ -27,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 /**
  * A marker interface for specifying extra config for Elasticsearch's
  * {@link OperationType#Create}, {@link OperationType#Index} and
- * {@link OperationType#Update} operations,
+ * {@link OperationType#Update} operations.
  */
 @JsonTypeInfo(use = Id.NAME, property = "operation-type", visible = true)
 @JsonSubTypes({
