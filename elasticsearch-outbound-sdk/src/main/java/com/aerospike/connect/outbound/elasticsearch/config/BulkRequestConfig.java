@@ -23,7 +23,6 @@ import co.elastic.clients.elasticsearch._types.Time;
 import co.elastic.clients.elasticsearch._types.VersionType;
 import co.elastic.clients.elasticsearch._types.WaitForActiveShards;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
-import co.elastic.clients.elasticsearch.core.search.SourceConfigParam;
 import co.elastic.clients.util.TaggedUnion;
 import com.aerospike.connect.outbound.config.DynamicFieldSource;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -33,7 +32,6 @@ import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
 import javax.annotation.Nullable;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -45,37 +43,10 @@ import java.util.Objects;
 @Value
 public class BulkRequestConfig {
     /**
-     * See {@link BulkRequest#source()}.
-     *
-     * @param source Config defining how to fetch a source field.
-     * @return config defining how to fetch a source field.
-     */
-    @Nullable
-    SourceConfigParam source;
-
-    /**
-     * See {@link BulkRequest#sourceExcludes()}.
-     *
-     * @param sourceExcludes Sources to exclude.
-     * @return sources to exclude.
-     */
-    @JsonProperty("source-excludes")
-    List<String> sourceExcludes;
-
-    /**
-     * See {@link BulkRequest#sourceIncludes()}.
-     *
-     * @param sourceIncludes Sources to include.
-     * @return sources to include.
-     */
-    @JsonProperty("source-includes")
-    List<String> sourceIncludes;
-
-    /**
      * See {@link BulkRequest#index()}.
      *
-     * @param index Index to perform each operation on.
-     * @return index to perform each operation on.
+     * @param index Index for each individual operation.
+     * @return index for each individual operation.
      */
     @NonNull
     DynamicFieldSource index;
@@ -113,8 +84,8 @@ public class BulkRequestConfig {
     /**
      * See {@link BulkRequest#routing()}.
      *
-     * @param routing Specific routing value.
-     * @return specific routing value.
+     * @param routing Specific shard routing value.
+     * @return specific shard routing value.
      */
     @Nullable
     DynamicFieldSource routing;
@@ -222,10 +193,7 @@ public class BulkRequestConfig {
             return false;
         }
         BulkRequestConfig that = (BulkRequestConfig) o;
-        return taggedUnionEquals(source, that.source) &&
-                Objects.equals(sourceExcludes, that.sourceExcludes) &&
-                Objects.equals(sourceIncludes, that.sourceIncludes) &&
-                index.equals(that.index) &&
+        return index.equals(that.index) &&
                 Objects.equals(pipeline, that.pipeline) &&
                 refresh == that.refresh &&
                 Objects.equals(requireAlias, that.requireAlias) &&
@@ -244,9 +212,8 @@ public class BulkRequestConfig {
 
     @Override
     public int hashCode() {
-        return Objects.hash(source, sourceExcludes, sourceIncludes, index,
-                pipeline, refresh, requireAlias, routing, timeout,
-                waitForActiveShards, aerospikeWriteOperationMapping,
+        return Objects.hash(index, pipeline, refresh, requireAlias, routing,
+                timeout, waitForActiveShards, aerospikeWriteOperationMapping,
                 ifPrimaryTerm, ifSeqNo, version, versionType,
                 ignoreAerospikeDelete);
     }
