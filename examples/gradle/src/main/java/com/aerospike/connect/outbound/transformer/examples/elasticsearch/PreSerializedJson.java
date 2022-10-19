@@ -35,6 +35,8 @@ public class PreSerializedJson {
     public static final class Serializer
             extends StdSerializer<PreSerializedJson> {
 
+        private static final long serialVersionUID = -5630063916123919444L;
+
         public Serializer() {
             super(PreSerializedJson.class);
         }

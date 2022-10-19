@@ -39,6 +39,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,7 +54,7 @@ import java.util.Map;
  * destinations:
  *   dc1:
  *     urls:
- *       - http://elastic.internal.com:9200
+ *       - <a href="http://elastic.internal.com:9200">http://elastic.internal.com:9200</a>
  *     protocol: "HTTP_1_1"
  *
  * format:
@@ -79,7 +80,7 @@ class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
 
     @Inject
     public EspElasticsearchFormatter(FormatterConfig formatterConfig) {
-        this.configParams = formatterConfig.getParams();
+        configParams = formatterConfig.getParams();
     }
 
     @Override
@@ -109,10 +110,8 @@ class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
                             .setPath(path)
                             .setHeaders(httpHeaders)
                             .build();
-            return new DefaultBytesOutboundRecord<>(
-                    jsonFormat,
-                    MediaType.JSON,
-                    metadata);
+            return new DefaultBytesOutboundRecord<>(jsonFormat, MediaType.JSON,
+                    metadata, Collections.emptySet());
         }
 
         // Insert/Update a document.
@@ -126,8 +125,8 @@ class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
                         .setPath(path)
                         .setHeaders(httpHeaders)
                         .build();
-        return new DefaultBytesOutboundRecord<>(jsonFormat,
-                MediaType.JSON, metadata);
+        return new DefaultBytesOutboundRecord<>(jsonFormat, MediaType.JSON,
+                metadata, Collections.emptySet());
     }
 
 

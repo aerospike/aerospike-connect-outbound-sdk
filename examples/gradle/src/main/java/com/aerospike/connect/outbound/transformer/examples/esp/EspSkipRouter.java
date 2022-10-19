@@ -19,6 +19,7 @@
 package com.aerospike.connect.outbound.transformer.examples.esp;
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
+import com.aerospike.connect.outbound.esp.EspOutboundRoute;
 import com.aerospike.connect.outbound.routing.DefaultOutboundRoute;
 import com.aerospike.connect.outbound.routing.OutboundRoute;
 import com.aerospike.connect.outbound.routing.OutboundRouteType;
@@ -63,7 +64,7 @@ public class EspSkipRouter implements Router<String> {
 
     @Inject
     public EspSkipRouter(RouterConfig routerConfig) {
-        this.configParams = routerConfig.getParams();
+        configParams = routerConfig.getParams();
     }
 
     @Override
@@ -83,7 +84,8 @@ public class EspSkipRouter implements Router<String> {
 
         // Destinations default is to be configured in the "destinations"
         // section of the ESP config.
-        logger.debug("Routing record {} to default", record.getMetadata().getKey());
-        return OutboundRoute.newEspRoute("default");
+        logger.debug("Routing record {} to default",
+                record.getMetadata().getKey());
+        return new EspOutboundRoute("default");
     }
 }

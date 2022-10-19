@@ -19,6 +19,7 @@
 package com.aerospike.connect.outbound.transformer.examples.jms;
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
+import com.aerospike.connect.outbound.jms.JmsOutboundRoute;
 import com.aerospike.connect.outbound.routing.OutboundRoute;
 import com.aerospike.connect.outbound.routing.OutboundRouteType;
 import com.aerospike.connect.outbound.routing.Router;
@@ -52,12 +53,14 @@ public class JmsBinRouter implements Router<String> {
 
         Object region = bins.get("region");
         if (region instanceof String) {
-            logger.debug("Routing record {} to {}", record.getMetadata().getKey(), region);
-            return OutboundRoute.newJmsRoute(OutboundRouteType.QUEUE,
+            logger.debug("Routing record {} to {}",
+                    record.getMetadata().getKey(), region);
+            return new JmsOutboundRoute(OutboundRouteType.QUEUE,
                     (String) region);
         }
 
-        logger.debug("Routing record {} to default", record.getMetadata().getKey());
-        return OutboundRoute.newJmsRoute(OutboundRouteType.QUEUE, "default");
+        logger.debug("Routing record {} to default",
+                record.getMetadata().getKey());
+        return new JmsOutboundRoute(OutboundRouteType.QUEUE, "default");
     }
 }

@@ -19,6 +19,7 @@
 package com.aerospike.connect.outbound.transformer.examples.kafka;
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
+import com.aerospike.connect.outbound.kafka.KafkaOutboundRoute;
 import com.aerospike.connect.outbound.routing.DefaultOutboundRoute;
 import com.aerospike.connect.outbound.routing.OutboundRoute;
 import com.aerospike.connect.outbound.routing.OutboundRouteType;
@@ -57,7 +58,7 @@ public class KafkaSkipRouter implements Router<String> {
 
     @Inject
     public KafkaSkipRouter(RouterConfig routerConfig) {
-        this.configParams = routerConfig.getParams();
+        configParams = routerConfig.getParams();
     }
 
     @Override
@@ -78,7 +79,8 @@ public class KafkaSkipRouter implements Router<String> {
 
         // Destinations default is to be configured in the "destinations"
         // section of the Kafka config.
-        logger.debug("Routing record {} to default", record.getMetadata().getKey());
-        return OutboundRoute.newKafkaRoute("default");
+        logger.debug("Routing record {} to default",
+                record.getMetadata().getKey());
+        return new KafkaOutboundRoute("default");
     }
 }

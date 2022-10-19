@@ -16,6 +16,18 @@
  *  the License.
  */
 
+buildscript {
+    repositories {
+        maven {
+            url = uri("https://plugins.gradle.org/m2/")
+        }
+    }
+
+    dependencies {
+        classpath("io.freefair.gradle:lombok-plugin:6.5.0.3")
+    }
+}
+
 repositories {
     mavenCentral()
 
@@ -77,6 +89,7 @@ plugins {
 apply {
     plugin("com.github.johnrengelman.shadow") // Shade dependencies.
     plugin("java")
+    plugin("io.freefair.lombok")
 }
 
 // Shade dependencies to avoid any class dependency conflicts.

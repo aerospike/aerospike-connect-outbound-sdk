@@ -19,6 +19,7 @@
 package com.aerospike.connect.outbound.transformer.examples.pulsar;
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
+import com.aerospike.connect.outbound.pulsar.PulsarOutboundRoute;
 import com.aerospike.connect.outbound.routing.OutboundRoute;
 import com.aerospike.connect.outbound.routing.Router;
 import lombok.NonNull;
@@ -51,11 +52,13 @@ public class PulsarBinRouter implements Router<String> {
 
         Object region = bins.get("region");
         if (region instanceof String) {
-            logger.debug("Routing record {} to {}", record.getMetadata().getKey(), region);
-            return OutboundRoute.newPulsarRoute((String) region);
+            logger.debug("Routing record {} to {}",
+                    record.getMetadata().getKey(), region);
+            return new PulsarOutboundRoute((String) region);
         }
 
-        logger.debug("Routing record {} to default", record.getMetadata().getKey());
-        return OutboundRoute.newPulsarRoute("default");
+        logger.debug("Routing record {} to default",
+                record.getMetadata().getKey());
+        return new PulsarOutboundRoute("default");
     }
 }

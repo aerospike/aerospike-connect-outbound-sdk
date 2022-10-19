@@ -20,6 +20,7 @@ package com.aerospike.connect.outbound.transformer.examples.kafka;
 
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
+import com.aerospike.connect.outbound.kafka.KafkaOutboundRoute;
 import com.aerospike.connect.outbound.routing.OutboundRoute;
 import com.aerospike.connect.outbound.routing.Router;
 import com.aerospike.connect.outbound.routing.RouterConfig;
@@ -58,7 +59,7 @@ public class KafkaGenerationRouter implements Router<String> {
 
     @Inject
     public KafkaGenerationRouter(RouterConfig routerConfig) {
-        this.configParams = routerConfig.getParams();
+        configParams = routerConfig.getParams();
     }
 
     @Override
@@ -73,11 +74,13 @@ public class KafkaGenerationRouter implements Router<String> {
 
         if (generation.isPresent() &&
                 generation.get() > (int) configParams.get("genNumber")) {
-            logger.debug("Routing record {} to old", record.getMetadata().getKey());
-            return OutboundRoute.newKafkaRoute("old");
+            logger.debug("Routing record {} to old",
+                    record.getMetadata().getKey());
+            return new KafkaOutboundRoute("old");
         }
 
-        logger.debug("Routing record {} to young", record.getMetadata().getKey());
-        return OutboundRoute.newKafkaRoute("young");
+        logger.debug("Routing record {} to young",
+                record.getMetadata().getKey());
+        return new KafkaOutboundRoute("young");
     }
 }

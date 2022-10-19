@@ -20,6 +20,7 @@ package com.aerospike.connect.outbound.transformer.examples.jms;
 
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
+import com.aerospike.connect.outbound.jms.JmsOutboundRoute;
 import com.aerospike.connect.outbound.routing.OutboundRoute;
 import com.aerospike.connect.outbound.routing.OutboundRouteType;
 import com.aerospike.connect.outbound.routing.Router;
@@ -59,7 +60,7 @@ public class JmsGenerationRouter implements Router<String> {
 
     @Inject
     public JmsGenerationRouter(RouterConfig routerConfig) {
-        this.configParams = routerConfig.getParams();
+        configParams = routerConfig.getParams();
     }
 
     @Override
@@ -73,11 +74,13 @@ public class JmsGenerationRouter implements Router<String> {
 
         if (generation.isPresent() &&
                 generation.get() > (int) configParams.get("genNumber")) {
-            logger.debug("Routing record {} to old", record.getMetadata().getKey());
-            return OutboundRoute.newJmsRoute(OutboundRouteType.QUEUE, "old");
+            logger.debug("Routing record {} to old",
+                    record.getMetadata().getKey());
+            return new JmsOutboundRoute(OutboundRouteType.QUEUE, "old");
         }
 
-        logger.debug("Routing record {} to young", record.getMetadata().getKey());
-        return OutboundRoute.newJmsRoute(OutboundRouteType.QUEUE, "young");
+        logger.debug("Routing record {} to young",
+                record.getMetadata().getKey());
+        return new JmsOutboundRoute(OutboundRouteType.QUEUE, "young");
     }
 }
