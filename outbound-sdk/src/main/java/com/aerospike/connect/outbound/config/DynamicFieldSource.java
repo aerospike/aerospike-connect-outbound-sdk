@@ -6,13 +6,16 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 /**
- * Configuration for computing unique key/id for the destination system when
- * batching is used.
+ * Configuration for computing dynamic fields from incoming change notification.
+ * Examples of dynamic fields are routes, destination system message/record keys
+ * or ids.
  */
 @JsonTypeInfo(use = Id.NAME, property = "source", visible = true)
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = DynamicFieldSourceAuto.class,
-                name = "auto"),
+        @JsonSubTypes.Type(value = DynamicFieldSourceNull.class,
+                name = "null"),
+        @JsonSubTypes.Type(value = DynamicFieldSourceSystemDefault.class,
+                name = "system-default"),
         @JsonSubTypes.Type(value = DynamicFieldSourceNamespace.class,
                 name = "namespace"),
         @JsonSubTypes.Type(value = DynamicFieldSourceSet.class,
