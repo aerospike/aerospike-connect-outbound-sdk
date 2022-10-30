@@ -12,8 +12,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
  */
 @JsonTypeInfo(use = Id.NAME, property = "source", visible = true)
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = DynamicFieldSourceNull.class,
-                name = "null"),
+        @JsonSubTypes.Type(value = DynamicFieldSourceNone.class,
+                name = "none"),
         @JsonSubTypes.Type(value = DynamicFieldSourceSystemDefault.class,
                 name = "system-default"),
         @JsonSubTypes.Type(value = DynamicFieldSourceNamespace.class,

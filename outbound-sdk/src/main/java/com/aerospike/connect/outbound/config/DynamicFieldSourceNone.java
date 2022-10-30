@@ -22,10 +22,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 
 /**
- * Generates static [null] value for the field.
+ * Generates static [null]/no value for the field.
  */
 @EqualsAndHashCode
-public class DynamicFieldSourceNull implements DynamicFieldSource {
+public class DynamicFieldSourceNone implements DynamicFieldSource {
     @JsonIgnore
     @Override
     public DynamicFieldSourceFailureStrategy
