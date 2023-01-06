@@ -19,6 +19,7 @@
 package com.aerospike.connect.outbound.transformer.examples.pulsar;
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
+import com.aerospike.connect.outbound.pulsar.PulsarOutboundRoute;
 import com.aerospike.connect.outbound.routing.DefaultOutboundRoute;
 import com.aerospike.connect.outbound.routing.OutboundRoute;
 import com.aerospike.connect.outbound.routing.OutboundRouteType;
@@ -57,7 +58,7 @@ public class PulsarSkipRouter implements Router<String> {
 
     @Inject
     public PulsarSkipRouter(RouterConfig routerConfig) {
-        this.configParams = routerConfig.getParams();
+        configParams = routerConfig.getParams();
     }
 
     @Override
@@ -77,7 +78,8 @@ public class PulsarSkipRouter implements Router<String> {
 
         // Destinations default is to be configured in the "destinations"
         // section of the Pulsar config.
-        logger.debug("Routing record {} to default", record.getMetadata().getKey());
-        return OutboundRoute.newPulsarRoute("default");
+        logger.debug("Routing record {} to default",
+                record.getMetadata().getKey());
+        return new PulsarOutboundRoute("default");
     }
 }

@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -78,6 +79,7 @@ public class PulsarWrapBuiltinJsonFormatter
         byte[] jsonRecordPayload = objectMapper.writeValueAsBytes(jsonRecord);
 
         return new DefaultBytesOutboundRecord<>(jsonRecordPayload,
-                MediaType.JSON, formattedRecord.getMetadata());
+                MediaType.JSON, formattedRecord.getMetadata(),
+                Collections.emptySet());
     }
 }

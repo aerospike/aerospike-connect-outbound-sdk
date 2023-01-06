@@ -59,9 +59,10 @@ public class PubSubGenerationRouter implements Router<PubSubOutboundRoute> {
 
     @Inject
     public PubSubGenerationRouter(RouterConfig routerConfig) {
-        this.configParams = routerConfig.getParams();
+        configParams = routerConfig.getParams();
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public OutboundRoute<PubSubOutboundRoute> getRoute(
             @NonNull ChangeNotificationRecord record) {
@@ -74,11 +75,13 @@ public class PubSubGenerationRouter implements Router<PubSubOutboundRoute> {
 
         if (generation.isPresent() &&
                 generation.get() > (int) configParams.get("genNumber")) {
-            logger.debug("Routing record {} to old", record.getMetadata().getKey());
-            return OutboundRoute.newPubSubRoute("old", null);
+            logger.debug("Routing record {} to old",
+                    record.getMetadata().getKey());
+            return (OutboundRoute) new PubSubOutboundRoute("old", null);
         }
 
-        logger.debug("Routing record {} to young", record.getMetadata().getKey());
-        return OutboundRoute.newPubSubRoute("young", null);
+        logger.debug("Routing record {} to young",
+                record.getMetadata().getKey());
+        return (OutboundRoute) new PubSubOutboundRoute("young", null);
     }
 }

@@ -16,6 +16,18 @@
  *  the License.
  */
 
+buildscript {
+    repositories {
+        maven {
+            url = uri("https://plugins.gradle.org/m2/")
+        }
+    }
+
+    dependencies {
+        classpath("io.freefair.gradle:lombok-plugin:6.5.0.3")
+    }
+}
+
 repositories {
     mavenCentral()
 
@@ -31,19 +43,21 @@ configurations.all {
 
 dependencies {
     // Aerospike client.
-    compileOnly("com.aerospike:aerospike-client:5.1.11")
+    compileOnly("com.aerospike:aerospike-client:6.1.2")
 
     // JSON formatting in some examples.
-    api("com.fasterxml.jackson.core:jackson-databind:2.13.1")
+    api("com.fasterxml.jackson.core:jackson-databind:2.13.4")
 
     // Aerospike outbound SDK.
-    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:1.0.0")
+    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:1.1.1-SNAPSHOT")
+    compileOnly(
+        "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:1.0.0-SNAPSHOT")
 
     // Logging.
-    compileOnly("org.slf4j:slf4j-api:1.7.33")
+    compileOnly("org.slf4j:slf4j-api:2.0.3")
 
     // Lombok's annotations.
-    compileOnly("org.projectlombok:lombok:1.18.22")
+    compileOnly("org.projectlombok:lombok:1.18.24")
 
     // Javax inject annotations.
     compileOnly("javax.inject:javax.inject:1")
@@ -75,6 +89,7 @@ plugins {
 apply {
     plugin("com.github.johnrengelman.shadow") // Shade dependencies.
     plugin("java")
+    plugin("io.freefair.lombok")
 }
 
 // Shade dependencies to avoid any class dependency conflicts.

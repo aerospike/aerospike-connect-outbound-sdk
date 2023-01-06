@@ -20,6 +20,7 @@ package com.aerospike.connect.outbound.transformer.examples.esp;
 
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
+import com.aerospike.connect.outbound.esp.EspOutboundRoute;
 import com.aerospike.connect.outbound.routing.OutboundRoute;
 import com.aerospike.connect.outbound.routing.Router;
 import com.aerospike.connect.outbound.routing.RouterConfig;
@@ -66,7 +67,7 @@ public class EspGenerationRouter implements Router<String> {
 
     @Inject
     public EspGenerationRouter(RouterConfig routerConfig) {
-        this.configParams = routerConfig.getParams();
+        configParams = routerConfig.getParams();
     }
 
     @Override
@@ -83,11 +84,13 @@ public class EspGenerationRouter implements Router<String> {
 
         if (generation.isPresent() &&
                 generation.get() > (int) configParams.get("genNumber")) {
-            logger.debug("Routing record {} to old", record.getMetadata().getKey());
-            return OutboundRoute.newEspRoute("old");
+            logger.debug("Routing record {} to old",
+                    record.getMetadata().getKey());
+            return new EspOutboundRoute("old");
         }
 
-        logger.debug("Routing record {} to young", record.getMetadata().getKey());
-        return OutboundRoute.newEspRoute("young");
+        logger.debug("Routing record {} to young",
+                record.getMetadata().getKey());
+        return new EspOutboundRoute("young");
     }
 }

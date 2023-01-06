@@ -19,6 +19,7 @@
 package com.aerospike.connect.outbound.transformer.examples.kafka;
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
+import com.aerospike.connect.outbound.kafka.KafkaOutboundRoute;
 import com.aerospike.connect.outbound.routing.OutboundRoute;
 import com.aerospike.connect.outbound.routing.Router;
 import lombok.NonNull;
@@ -51,11 +52,13 @@ public class KafkaBinRouter implements Router<String> {
 
         Object region = bins.get("region");
         if (region instanceof String) {
-            logger.debug("Routing record {} to {}", record.getMetadata().getKey(), region);
-            return OutboundRoute.newKafkaRoute((String) region);
+            logger.debug("Routing record {} to {}",
+                    record.getMetadata().getKey(), region);
+            return new KafkaOutboundRoute((String) region);
         }
 
-        logger.debug("Routing record {} to default", record.getMetadata().getKey());
-        return OutboundRoute.newKafkaRoute("default");
+        logger.debug("Routing record {} to default",
+                record.getMetadata().getKey());
+        return new KafkaOutboundRoute("default");
     }
 }

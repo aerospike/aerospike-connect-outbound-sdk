@@ -20,6 +20,7 @@ package com.aerospike.connect.outbound.transformer.examples.pulsar;
 
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
+import com.aerospike.connect.outbound.pulsar.PulsarOutboundRoute;
 import com.aerospike.connect.outbound.routing.OutboundRoute;
 import com.aerospike.connect.outbound.routing.Router;
 import com.aerospike.connect.outbound.routing.RouterConfig;
@@ -59,7 +60,7 @@ public class PulsarGenerationRouter implements Router<String> {
 
     @Inject
     public PulsarGenerationRouter(RouterConfig routerConfig) {
-        this.configParams = routerConfig.getParams();
+        configParams = routerConfig.getParams();
     }
 
     @Override
@@ -74,11 +75,13 @@ public class PulsarGenerationRouter implements Router<String> {
 
         if (generation.isPresent() &&
                 generation.get() > (int) configParams.get("genNumber")) {
-            logger.debug("Routing record {} to old", record.getMetadata().getKey());
-            return OutboundRoute.newPulsarRoute("old");
+            logger.debug("Routing record {} to old",
+                    record.getMetadata().getKey());
+            return new PulsarOutboundRoute("old");
         }
 
-        logger.debug("Routing record {} to young", record.getMetadata().getKey());
-        return OutboundRoute.newPulsarRoute("young");
+        logger.debug("Routing record {} to young",
+                record.getMetadata().getKey());
+        return new PulsarOutboundRoute("young");
     }
 }

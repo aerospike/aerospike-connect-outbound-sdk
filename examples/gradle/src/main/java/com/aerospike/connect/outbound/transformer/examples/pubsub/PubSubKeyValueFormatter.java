@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -108,6 +109,6 @@ public class PubSubKeyValueFormatter
 
         return new DefaultTextOutboundRecord<>(
                 payloadBuilder.toString().getBytes(), MediaType.OCTET_STREAM,
-                metadata);
+                metadata, Collections.emptySet());
     }
 }

@@ -45,6 +45,7 @@ public class PubSubBinRouter implements Router<PubSubOutboundRoute> {
     private final static Logger logger =
             LoggerFactory.getLogger(PubSubBinRouter.class.getName());
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public OutboundRoute<PubSubOutboundRoute> getRoute(
             @NonNull ChangeNotificationRecord record) {
@@ -52,11 +53,14 @@ public class PubSubBinRouter implements Router<PubSubOutboundRoute> {
 
         Object region = bins.get("region");
         if (region instanceof String) {
-            logger.debug("Routing record {} to {}", record.getMetadata().getKey(), region);
-            return OutboundRoute.newPubSubRoute((String) region, null);
+            logger.debug("Routing record {} to {}",
+                    record.getMetadata().getKey(), region);
+            return (OutboundRoute) new PubSubOutboundRoute(
+                    (String) region, null);
         }
 
-        logger.debug("Routing record {} to default", record.getMetadata().getKey());
-        return OutboundRoute.newPubSubRoute("default", null);
+        logger.debug("Routing record {} to default",
+                record.getMetadata().getKey());
+        return (OutboundRoute) new PubSubOutboundRoute("default", null);
     }
 }

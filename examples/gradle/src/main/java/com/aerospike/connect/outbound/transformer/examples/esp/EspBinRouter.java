@@ -19,6 +19,7 @@
 package com.aerospike.connect.outbound.transformer.examples.esp;
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
+import com.aerospike.connect.outbound.esp.EspOutboundRoute;
 import com.aerospike.connect.outbound.routing.OutboundRoute;
 import com.aerospike.connect.outbound.routing.Router;
 import lombok.NonNull;
@@ -62,11 +63,13 @@ public class EspBinRouter implements Router<String> {
 
         Object region = bins.get("region");
         if ("internal".equals(region)) {
-            logger.debug("Routing record {} to internal", record.getMetadata().getKey());
-            return OutboundRoute.newEspRoute("internal");
+            logger.debug("Routing record {} to internal",
+                    record.getMetadata().getKey());
+            return new EspOutboundRoute("internal");
         }
 
-        logger.debug("Routing record {} to external", record.getMetadata().getKey());
-        return OutboundRoute.newEspRoute("external");
+        logger.debug("Routing record {} to external",
+                record.getMetadata().getKey());
+        return new EspOutboundRoute("external");
     }
 }

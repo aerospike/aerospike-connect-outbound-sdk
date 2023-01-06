@@ -46,7 +46,7 @@ class path conflicts with the outbound connectors.
 <dependency>
     <groupId>com.aerospike</groupId>
     <artifactId>aerospike-connect-outbound-sdk</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.1</version>
     <scope>provided</scope>
 </dependency>
 ```
@@ -57,7 +57,7 @@ class path conflicts with the outbound connectors.
 
 ```kotlin
 dependencies {
-    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:1.0.0")
+    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:1.1.1")
 }
 ```
 
@@ -65,7 +65,7 @@ dependencies {
 
 ```groovy
 dependencies {
-    compileOnly "com.aerospike:aerospike-connect-outbound-sdk:1.0.0"
+    compileOnly "com.aerospike:aerospike-connect-outbound-sdk:1.1.1"
 }
 ```
 

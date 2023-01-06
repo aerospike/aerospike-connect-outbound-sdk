@@ -19,6 +19,7 @@
 package com.aerospike.connect.outbound.transformer.examples.jms;
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
+import com.aerospike.connect.outbound.jms.JmsOutboundRoute;
 import com.aerospike.connect.outbound.routing.DefaultOutboundRoute;
 import com.aerospike.connect.outbound.routing.OutboundRoute;
 import com.aerospike.connect.outbound.routing.OutboundRouteType;
@@ -77,7 +78,8 @@ public class JmsSkipRouter implements Router<String> {
 
         // Destinations default is to be configured in the "destinations"
         // section of the JMS config.
-        logger.debug("Routing record {} to default", record.getMetadata().getKey());
-        return OutboundRoute.newJmsRoute(OutboundRouteType.TOPIC, "default");
+        logger.debug("Routing record {} to default",
+                record.getMetadata().getKey());
+        return new JmsOutboundRoute(OutboundRouteType.TOPIC, "default");
     }
 }

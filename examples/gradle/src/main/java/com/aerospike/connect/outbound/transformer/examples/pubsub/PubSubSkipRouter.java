@@ -58,9 +58,10 @@ public class PubSubSkipRouter implements Router<PubSubOutboundRoute> {
 
     @Inject
     public PubSubSkipRouter(RouterConfig routerConfig) {
-        this.configParams = routerConfig.getParams();
+        configParams = routerConfig.getParams();
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public OutboundRoute<PubSubOutboundRoute> getRoute(
             @NonNull ChangeNotificationRecord record) {
@@ -80,7 +81,8 @@ public class PubSubSkipRouter implements Router<PubSubOutboundRoute> {
 
         // Destinations default is to be configured in the "destinations"
         // section of the PubSub config.
-        logger.debug("Routing record {} to default", record.getMetadata().getKey());
-        return OutboundRoute.newPubSubRoute("default", null);
+        logger.debug("Routing record {} to default",
+                record.getMetadata().getKey());
+        return (OutboundRoute) new PubSubOutboundRoute("default", null);
     }
 }

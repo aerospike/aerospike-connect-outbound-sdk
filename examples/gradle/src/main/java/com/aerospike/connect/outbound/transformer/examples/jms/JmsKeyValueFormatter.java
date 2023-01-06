@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -83,6 +84,6 @@ public class JmsKeyValueFormatter implements Formatter<JmsOutboundMetadata> {
 
         return new DefaultTextOutboundRecord<>(
                 payloadBuilder.toString().getBytes(), MediaType.OCTET_STREAM,
-                formattedRecord.getMetadata());
+                formattedRecord.getMetadata(), Collections.emptySet());
     }
 }

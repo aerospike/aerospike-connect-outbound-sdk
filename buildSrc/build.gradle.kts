@@ -20,14 +20,10 @@ plugins {
     `kotlin-dsl`
     groovy
     `java-gradle-plugin`
-}
-
-kotlinDslPluginOptions {
-    experimentalWarning.set(false)
+    `lifecycle-base`
 }
 
 repositories {
-    jcenter()
     maven {
         url = uri("https://plugins.gradle.org/m2/")
     }

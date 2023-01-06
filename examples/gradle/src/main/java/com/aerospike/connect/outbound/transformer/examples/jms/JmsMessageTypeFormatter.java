@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -81,14 +82,14 @@ public class JmsMessageTypeFormatter implements Formatter<JmsOutboundMetadata> {
         if (configParams.containsKey("asText") &&
                 (boolean) configParams.get("asText")) {
             // Will be dispatched as JMS TextMessage.
-            return new DefaultTextOutboundRecord<>(
-                    payload, formattedRecord.getMediaType(),
-                    formattedRecord.getMetadata());
+            return new DefaultTextOutboundRecord<>(payload,
+                    formattedRecord.getMediaType(),
+                    formattedRecord.getMetadata(), Collections.emptySet());
         } else {
             // Will be dispatched as JMS BytesMessage.
-            return new DefaultBytesOutboundRecord<>(
-                    payload, formattedRecord.getMediaType(),
-                    formattedRecord.getMetadata());
+            return new DefaultBytesOutboundRecord<>(payload,
+                    formattedRecord.getMediaType(),
+                    formattedRecord.getMetadata(), Collections.emptySet());
         }
     }
 }
