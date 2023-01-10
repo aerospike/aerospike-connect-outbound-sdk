@@ -35,7 +35,7 @@ fun Project.setupReleaseTasks() {
         val gitConfig =
             getProperty("git") as net.researchgate.release.GitAdapter.GitConfig
         gitConfig.requireBranch = "main"
-        tagTemplate = "\$version"
+        tagTemplate = "\$name-\$version"
     }
 }
 
