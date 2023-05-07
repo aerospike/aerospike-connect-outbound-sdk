@@ -64,6 +64,12 @@ subprojects {
         plugin("io.snyk.gradle.plugin.snykplugin")
     }
 
+    // TODO remove this once https://github.com/snyk/gradle-plugin/pull/24 is
+    //  released.
+    configurations.all {
+        exclude("org.json")
+    }
+
     repositories {
         mavenLocal()
         mavenCentral()
