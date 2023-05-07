@@ -29,7 +29,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath("io.freefair.gradle:lombok-plugin:6.5.0.3")
+        classpath("io.freefair.gradle:lombok-plugin:8.0.1")
     }
 }
 
@@ -64,6 +64,12 @@ subprojects {
         plugin("io.snyk.gradle.plugin.snykplugin")
     }
 
+    // TODO remove this once https://github.com/snyk/gradle-plugin/pull/24 is
+    //  released.
+    configurations.all {
+        exclude("org.json")
+    }
+
     repositories {
         mavenLocal()
         mavenCentral()
@@ -71,7 +77,7 @@ subprojects {
 
     group = "com.aerospike"
 
-    project.extra["jacksonVersion"] = "2.13.4"
+    project.extra["jacksonVersion"] = "2.15.0"
 
     setupJavaBuild()
     setupReleaseTasks()
