@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright 2012-2022 Aerospike, Inc.
+ *  Copyright 2012-2023 Aerospike, Inc.
  *
  *  Portions may be licensed to Aerospike, Inc. under one or more contributor
  *  license agreements WHICH ARE COMPATIBLE WITH THE APACHE LICENSE, VERSION 2.0.
@@ -18,20 +18,19 @@
 
 package com.aerospike.connect.outbound.config;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 
 /**
- * Generates static [null]/no value for the field.
+ * The keys from all the Change Notification Record(CNR)s are concatenated into
+ * an array. For example in JSON it will be an array of JSON formatted CNR keys,
+ * in MessagePack it will be an array of MessagePack formatted CNR keys.
  */
 @EqualsAndHashCode
-public class DynamicFieldSourceNone implements DynamicFieldSource {
-    @JsonIgnore
+public class DynamicFieldSourceKeyConcat implements DynamicFieldSource {
     @Override
-    public DynamicFieldSourceFailureStrategy
-    getDynamicFieldSourceFailureStrategy() throws Exception {
-        throw new Exception(
-                "destination system will auto-generate or use null");
+    public DynamicFieldSourceFailureStrategy getDynamicFieldSourceFailureStrategy()
+            throws Exception {
+        throw new Exception("key-concatenation is always possible");
     }
 
     @Override
