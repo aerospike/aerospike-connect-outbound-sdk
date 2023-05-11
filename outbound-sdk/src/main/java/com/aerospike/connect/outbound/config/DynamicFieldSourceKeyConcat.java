@@ -34,7 +34,12 @@ public class DynamicFieldSourceKeyConcat implements DynamicFieldSource {
     }
 
     @Override
-    public boolean isAllowedForBatchKey() {
+    public boolean isAllowedForBatchRecordKey() {
         return true;
+    }
+
+    @Override
+    public boolean isAllowedForSingleRecordKey() {
+        return false;
     }
 }

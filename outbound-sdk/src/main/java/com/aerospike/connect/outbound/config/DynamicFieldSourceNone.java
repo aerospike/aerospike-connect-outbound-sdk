@@ -35,7 +35,7 @@ public class DynamicFieldSourceNone implements DynamicFieldSource {
     }
 
     @Override
-    public boolean isAllowedForBatchKey() {
+    public boolean isAllowedForBatchRecordKey() {
         return true;
     }
 }

@@ -62,7 +62,19 @@ public interface DynamicFieldSource {
      * {@link DynamicFieldSource} can be used for generating a key of a batch of
      * records.
      */
-    default boolean isAllowedForBatchKey() {
+    default boolean isAllowedForBatchRecordKey() {
         return false;
+    }
+
+    /**
+     * Specifies whether this {@link DynamicFieldSource} can be used for
+     * generating a key of a single record.
+     *
+     * @return a boolean value indicating whether this
+     * {@link DynamicFieldSource} can be used for generating a key of a single
+     * record.
+     */
+    default boolean isAllowedForSingleRecordKey() {
+        return true;
     }
 }
