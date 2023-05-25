@@ -40,14 +40,14 @@ public interface Formatter<T extends OutboundMetadata> {
      * Format a record into a custom format.
      *
      * <p>
-     * The {@code formattedRecord} is an instance of either {@link
-     * BytesOutboundRecord} or {@link TextOutboundRecord}. The {@code payload}
-     * in the {@code formattedRecord} is {@code null} unless the {@code
-     * `payload-format`} config in the custom formatter is set to one of the
-     * built-in outbound formats - AVRO, FlatJSON, etc. The {@code
-     * formattedRecord} is an instance of {@link TextOutboundRecord} only when
-     * the custom formatter is configured with the FlatJSON or JSON built-in
-     * outbound formats.
+     * The {@code formattedRecord} is an instance of either
+     * {@link BytesOutboundRecord} or {@link TextOutboundRecord}. The
+     * {@code payload} in the {@code formattedRecord} is {@code null} unless the
+     * {@code `payload-format`} config in the custom formatter is set to one of
+     * the built-in outbound formats - AVRO, FlatJSON, etc. The
+     * {@code formattedRecord} is an instance of {@link TextOutboundRecord} only
+     * when the custom formatter is configured with the FlatJSON or JSON
+     * built-in outbound formats.
      *
      * <p>
      * The return types should be instances of
@@ -74,8 +74,20 @@ public interface Formatter<T extends OutboundMetadata> {
      * @throws Exception if failed to format the record. The record is
      *                   acknowledged with temporary error to Aerospike XDR
      *                   change notification.
+     * @deprecated use {@link #format(FormatterInput)}
      */
-    OutboundRecord<T> format(@NonNull ChangeNotificationRecord record,
-                             @NonNull OutboundRecord<T> formattedRecord)
-            throws Exception;
+    @SuppressWarnings("unused")
+    @Deprecated(since = "2.0.0", forRemoval = true)
+    default OutboundRecord<T> format(@NonNull ChangeNotificationRecord record,
+                                     @NonNull OutboundRecord<T> formattedRecord)
+            throws Exception {
+        throw new Exception(
+                "implement Formatter.format(FormatterInput<T>)");
+    }
+
+    default OutboundRecord<T> format(@NonNull FormatterInput<T> formatterInput)
+            throws Exception {
+        return format(formatterInput.getRecord(),
+                formatterInput.getFormattedRecord());
+    }
 }

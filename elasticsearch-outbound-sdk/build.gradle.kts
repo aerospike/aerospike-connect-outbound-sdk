@@ -21,7 +21,7 @@ dependencies {
     api(project(":aerospike-connect-outbound-sdk"))
 
     // Elasticsearch client
-    api("co.elastic.clients:elasticsearch-java:8.5.0")
+    api("co.elastic.clients:elasticsearch-java:8.7.1")
 
     // Jackson annotations
     compileOnly(

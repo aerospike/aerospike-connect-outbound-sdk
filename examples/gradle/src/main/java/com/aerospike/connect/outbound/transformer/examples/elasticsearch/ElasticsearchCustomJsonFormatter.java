@@ -20,10 +20,10 @@ package com.aerospike.connect.outbound.transformer.examples.elasticsearch;
 
 import co.elastic.clients.elasticsearch.core.BulkRequest.Builder;
 import co.elastic.clients.elasticsearch.core.bulk.CreateOperation;
-import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.elasticsearch.ElasticsearchOutboundMetadata;
 import com.aerospike.connect.outbound.elasticsearch.format.ElasticsearchOutboundRecord;
 import com.aerospike.connect.outbound.format.Formatter;
+import com.aerospike.connect.outbound.format.FormatterInput;
 import com.aerospike.connect.outbound.format.OutboundRecord;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
@@ -35,8 +35,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * ElasticsearchCustomJsonFormatter formats change notification record by
- * adding an extra field named 'created_at' along with the parsed bins.
+ * ElasticsearchCustomJsonFormatter formats change notification record by adding
+ * an extra field named 'created_at' along with the parsed bins.
  *
  * <p>
  * A snippet of a config for this formatter can be
@@ -50,16 +50,18 @@ import java.util.Map;
 public class ElasticsearchCustomJsonFormatter
         implements Formatter<ElasticsearchOutboundMetadata> {
     private final static Logger logger =
-            LoggerFactory.getLogger(ElasticsearchCustomJsonFormatter.class.getName());
+            LoggerFactory.getLogger(
+                    ElasticsearchCustomJsonFormatter.class.getName());
 
     private final static ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public OutboundRecord<ElasticsearchOutboundMetadata> format(
-            @NonNull ChangeNotificationRecord record,
-            @NonNull OutboundRecord<ElasticsearchOutboundMetadata> formattedRecord) {
-        logger.debug("Formatting record {}", record.getMetadata().getKey());
-        Map<String, Object> bins = record.getBins();
+            @NonNull FormatterInput<ElasticsearchOutboundMetadata> formatterInput)
+            throws Exception {
+        logger.debug("Formatting record {}",
+                formatterInput.getRecord().getMetadata().getKey());
+        Map<String, Object> bins = formatterInput.getRecord().getBins();
         Map<String, Object> resultMap = new HashMap<>(bins.size() + 1);
         resultMap.putAll(bins);
         resultMap.put("created_at", System.currentTimeMillis());

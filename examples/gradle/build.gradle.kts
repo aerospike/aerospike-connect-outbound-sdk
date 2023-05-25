@@ -49,7 +49,7 @@ dependencies {
     api("com.fasterxml.jackson.core:jackson-databind:2.15.0")
 
     // Aerospike outbound SDK.
-    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:1.2.0")
+    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:2.0.0-SNAPSHOT")
     compileOnly(
         "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:1.0.0"
     )
@@ -67,16 +67,16 @@ dependencies {
 // Plugin should be compiled with the same/compatible Java version running
 // the outbound connector.
 val compileJava: JavaCompile by tasks
-compileJava.sourceCompatibility = "1.8"
-compileJava.targetCompatibility = "1.8"
+compileJava.sourceCompatibility = "11"
+compileJava.targetCompatibility = "11"
 compileJava.options.apply {
     compilerArgs.add("-Xlint:all")
     compilerArgs.add("-Werror")
 }
 
 val compileTestJava: JavaCompile by tasks
-compileTestJava.sourceCompatibility = "1.8"
-compileTestJava.targetCompatibility = "1.8"
+compileTestJava.sourceCompatibility = "11"
+compileTestJava.targetCompatibility = "11"
 compileTestJava.options.apply {
     compilerArgs.add("-Xlint:all")
     compilerArgs.add("-Werror")
