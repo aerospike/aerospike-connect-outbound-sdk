@@ -77,7 +77,7 @@ public interface Formatter<T extends OutboundMetadata> {
      * @deprecated use {@link #format(FormatterInput)}
      */
     @SuppressWarnings("unused")
-    @Deprecated(since = "2.0.0", forRemoval = true)
+    @Deprecated
     default OutboundRecord<T> format(@NonNull ChangeNotificationRecord record,
                                      @NonNull OutboundRecord<T> formattedRecord)
             throws Exception {
