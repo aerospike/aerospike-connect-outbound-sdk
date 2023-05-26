@@ -43,15 +43,6 @@ import java.util.Objects;
 @Value
 public class BulkRequestConfig {
     /**
-     * See {@link BulkRequest#index()}.
-     *
-     * @param index Index for each individual operation.
-     * @return index for each individual operation.
-     */
-    @NonNull
-    DynamicFieldSource index;
-
-    /**
      * See {@link BulkRequest#pipeline()}.
      *
      * @param pipeline The pipeline id to preprocess incoming documents with.
@@ -193,8 +184,7 @@ public class BulkRequestConfig {
             return false;
         }
         BulkRequestConfig that = (BulkRequestConfig) o;
-        return index.equals(that.index) &&
-                Objects.equals(pipeline, that.pipeline) &&
+        return Objects.equals(pipeline, that.pipeline) &&
                 refresh == that.refresh &&
                 Objects.equals(requireAlias, that.requireAlias) &&
                 Objects.equals(routing, that.routing) &&
@@ -212,7 +202,7 @@ public class BulkRequestConfig {
 
     @Override
     public int hashCode() {
-        return Objects.hash(index, pipeline, refresh, requireAlias, routing,
+        return Objects.hash(pipeline, refresh, requireAlias, routing,
                 timeout, waitForActiveShards, aerospikeWriteOperationMapping,
                 ifPrimaryTerm, ifSeqNo, version, versionType,
                 ignoreAerospikeDelete);
