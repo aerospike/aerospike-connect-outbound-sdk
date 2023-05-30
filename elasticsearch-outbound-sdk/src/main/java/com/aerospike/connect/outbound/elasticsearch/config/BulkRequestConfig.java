@@ -25,6 +25,7 @@ import co.elastic.clients.elasticsearch._types.WaitForActiveShards;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.util.TaggedUnion;
 import com.aerospike.connect.outbound.config.DynamicFieldSource;
+import com.aerospike.connect.outbound.format.BatchFormatter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.NonNull;
@@ -42,6 +43,12 @@ import java.util.Objects;
 @Jacksonized
 @Value
 public class BulkRequestConfig {
+    /**
+     * A constant for injecting {@link BulkRequestConfig} into custom
+     * {@link BatchFormatter} implementation.
+     */
+    public static final String BULK_REQUEST_CONFIG_NAME = "bulk-request-config";
+
     /**
      * See {@link BulkRequest#pipeline()}.
      *
