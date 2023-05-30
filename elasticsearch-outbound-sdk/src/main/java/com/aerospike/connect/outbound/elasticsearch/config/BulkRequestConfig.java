@@ -19,7 +19,6 @@
 package com.aerospike.connect.outbound.elasticsearch.config;
 
 import co.elastic.clients.elasticsearch._types.Refresh;
-import co.elastic.clients.elasticsearch._types.Time;
 import co.elastic.clients.elasticsearch._types.VersionType;
 import co.elastic.clients.elasticsearch._types.WaitForActiveShards;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
@@ -89,13 +88,39 @@ public class BulkRequestConfig {
     DynamicFieldSource routing;
 
     /**
-     * See {@link BulkRequest#timeout()}.
+     * Explicit operation timeout. Supported timeout units are:
+     * <table>
+     *   <tr>
+     *      <td>Unit</td>
+     *      <td>Example</td>
+     *   </tr>
+     *   <tr>
+     *       <td>m - Minutes</td>
+     *       <td>1m</td>
+     *   </tr>
+     *   <tr>
+     *       <td>s - Seconds</td>
+     *       <td>10s</td>
+     *   </tr>
+     *   <tr>
+     *       <td>ms - Milliseconds</td>
+     *       <td>200ms</td>
+     *   </tr>
+     *   <tr>
+     *       <td>micros - Microseconds</td>
+     *       <td>10000micros</td>
+     *   </tr>
+     *   <tr>
+     *       <td>nanos - Nanoseconds</td>
+     *       <td>100000nanos</td>
+     *   </tr>
+     * </table>
      *
      * @param timeout Explicit operation timeout.
      * @return explicit operation timeout.
      */
     @Nullable
-    Time timeout;
+    String timeout;
 
     /**
      * See {@link BulkRequest#waitForActiveShards()}.
@@ -195,7 +220,7 @@ public class BulkRequestConfig {
                 refresh == that.refresh &&
                 Objects.equals(requireAlias, that.requireAlias) &&
                 Objects.equals(routing, that.routing) &&
-                taggedUnionEquals(timeout, that.timeout) &&
+                Objects.equals(timeout, that.timeout) &&
                 taggedUnionEquals(waitForActiveShards,
                         that.waitForActiveShards) &&
                 aerospikeWriteOperationMapping.equals(
