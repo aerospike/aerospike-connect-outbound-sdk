@@ -88,11 +88,12 @@ public class BulkRequestConfig {
     DynamicFieldSource routing;
 
     /**
-     * Explicit operation timeout. Supported timeout units are:
+     * Explicit operation timeout.
      * <table>
+     *   <caption>Supported timeout units</caption>
      *   <tr>
-     *      <td>Unit</td>
-     *      <td>Example</td>
+     *      <th>Unit</th>
+     *      <th>Example</th>
      *   </tr>
      *   <tr>
      *       <td>m - Minutes</td>
