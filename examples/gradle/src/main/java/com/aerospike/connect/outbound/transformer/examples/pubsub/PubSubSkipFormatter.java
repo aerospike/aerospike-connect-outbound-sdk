@@ -66,8 +66,7 @@ public class PubSubSkipFormatter implements Formatter<PubSubOutboundMetadata> {
 
     @Override
     public OutboundRecord<PubSubOutboundMetadata> format(
-            @NonNull FormatterInput<PubSubOutboundMetadata> formatterInput)
-            throws Exception {
+            @NonNull FormatterInput<PubSubOutboundMetadata> formatterInput) {
         logger.debug("Formatting record {}",
                 formatterInput.getRecord().getMetadata().getKey());
 

@@ -66,8 +66,7 @@ public class PulsarKeyValueFormatter
 
     @Override
     public OutboundRecord<PulsarOutboundMetadata> format(
-            @NonNull FormatterInput<PulsarOutboundMetadata> formatterInput)
-            throws Exception {
+            @NonNull FormatterInput<PulsarOutboundMetadata> formatterInput) {
         logger.debug("Formatting record {}",
                 formatterInput.getRecord().getMetadata().getKey());
 

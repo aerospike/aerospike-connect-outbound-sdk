@@ -66,8 +66,7 @@ public class KafkaKeyValueFormatter
 
     @Override
     public OutboundRecord<KafkaOutboundMetadata> format(
-            @NonNull FormatterInput<KafkaOutboundMetadata> formatterInput)
-            throws Exception {
+            @NonNull FormatterInput<KafkaOutboundMetadata> formatterInput) {
         logger.debug("Formatting record {}",
                 formatterInput.getRecord().getMetadata().getKey());
 

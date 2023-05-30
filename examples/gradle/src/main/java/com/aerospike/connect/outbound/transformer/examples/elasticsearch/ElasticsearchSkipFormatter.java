@@ -72,8 +72,7 @@ public class ElasticsearchSkipFormatter
 
     @Override
     public OutboundRecord<ElasticsearchOutboundMetadata> format(
-            @NonNull FormatterInput<ElasticsearchOutboundMetadata> formatterInput)
-            throws Exception {
+            @NonNull FormatterInput<ElasticsearchOutboundMetadata> formatterInput) {
         logger.debug("Formatting record {}",
                 formatterInput.getRecord().getMetadata().getKey());
 

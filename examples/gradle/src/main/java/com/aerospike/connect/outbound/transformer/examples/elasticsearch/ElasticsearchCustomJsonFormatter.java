@@ -57,8 +57,7 @@ public class ElasticsearchCustomJsonFormatter
 
     @Override
     public OutboundRecord<ElasticsearchOutboundMetadata> format(
-            @NonNull FormatterInput<ElasticsearchOutboundMetadata> formatterInput)
-            throws Exception {
+            @NonNull FormatterInput<ElasticsearchOutboundMetadata> formatterInput) {
         logger.debug("Formatting record {}",
                 formatterInput.getRecord().getMetadata().getKey());
         Map<String, Object> bins = formatterInput.getRecord().getBins();

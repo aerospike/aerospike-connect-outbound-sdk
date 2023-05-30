@@ -64,8 +64,7 @@ public class EspKeyValueFormatter implements Formatter<EspOutboundMetadata> {
 
     @Override
     public OutboundRecord<EspOutboundMetadata> format(
-            @NonNull FormatterInput<EspOutboundMetadata> formatterInput)
-            throws Exception {
+            @NonNull FormatterInput<EspOutboundMetadata> formatterInput) {
         logger.debug("Formatting record {}",
                 formatterInput.getRecord().getMetadata().getKey());
 

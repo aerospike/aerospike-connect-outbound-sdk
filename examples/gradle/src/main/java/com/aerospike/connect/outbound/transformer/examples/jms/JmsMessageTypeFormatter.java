@@ -68,8 +68,7 @@ public class JmsMessageTypeFormatter implements Formatter<JmsOutboundMetadata> {
 
     @Override
     public OutboundRecord<JmsOutboundMetadata> format(
-            @NonNull FormatterInput<JmsOutboundMetadata> formatterInput)
-            throws Exception {
+            @NonNull FormatterInput<JmsOutboundMetadata> formatterInput) {
         logger.debug("Formatting record {}",
                 formatterInput.getRecord().getMetadata().getKey());
 
