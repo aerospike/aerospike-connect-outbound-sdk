@@ -25,6 +25,7 @@ import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.util.TaggedUnion;
 import com.aerospike.connect.outbound.config.DynamicFieldSource;
 import com.aerospike.connect.outbound.format.BatchFormatter;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.NonNull;
@@ -85,6 +86,7 @@ public class BulkRequestConfig {
      * @return specific shard routing value.
      */
     @Nullable
+    @JsonAlias("shard-routing")
     DynamicFieldSource routing;
 
     /**
