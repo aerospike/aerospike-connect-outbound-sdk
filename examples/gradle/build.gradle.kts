@@ -46,12 +46,12 @@ dependencies {
     compileOnly("com.aerospike:aerospike-client:6.1.10")
 
     // JSON formatting in some examples.
-    api("com.fasterxml.jackson.core:jackson-databind:2.15.1")
+    api("com.fasterxml.jackson.core:jackson-databind:2.15.2")
 
     // Aerospike outbound SDK.
-    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:2.0.0-SNAPSHOT")
+    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:2.0.0")
     compileOnly(
-        "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.0.0-SNAPSHOT"
+        "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.0.0"
     )
 
     // Logging.
