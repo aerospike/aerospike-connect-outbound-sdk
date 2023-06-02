@@ -18,10 +18,10 @@
 
 package com.aerospike.connect.outbound.transformer.examples.pubsub;
 
-import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.format.BytesOutboundRecord;
 import com.aerospike.connect.outbound.format.DefaultBytesOutboundRecord;
 import com.aerospike.connect.outbound.format.Formatter;
+import com.aerospike.connect.outbound.format.FormatterInput;
 import com.aerospike.connect.outbound.format.MediaType;
 import com.aerospike.connect.outbound.format.OutboundRecord;
 import com.aerospike.connect.outbound.pubsub.PubSubOutboundMetadata;
@@ -61,13 +61,13 @@ public class PubSubWrapBuiltinJsonFormatter
 
     @Override
     public OutboundRecord<PubSubOutboundMetadata> format(
-            @NonNull ChangeNotificationRecord record,
-            @NonNull OutboundRecord<PubSubOutboundMetadata> formattedRecord)
+            @NonNull FormatterInput<PubSubOutboundMetadata> formatterInput)
             throws JsonProcessingException {
-        logger.debug("Formatting record {}", record.getMetadata().getKey());
+        logger.debug("Formatting record {}",
+                formatterInput.getRecord().getMetadata().getKey());
 
         byte[] payload =
-                ((BytesOutboundRecord<PubSubOutboundMetadata>) formattedRecord)
+                ((BytesOutboundRecord<PubSubOutboundMetadata>) formatterInput.getFormattedRecord())
                         .getPayload()
                         .orElseThrow(() -> new IllegalArgumentException(
                                 "payload missing, expected json payload"));
@@ -79,7 +79,8 @@ public class PubSubWrapBuiltinJsonFormatter
         byte[] jsonRecordPayload = objectMapper.writeValueAsBytes(jsonRecord);
 
         return new DefaultBytesOutboundRecord<>(jsonRecordPayload,
-                MediaType.JSON, formattedRecord.getMetadata(),
+                MediaType.JSON,
+                formatterInput.getFormattedRecord().getMetadata(),
                 Collections.emptySet());
     }
 }

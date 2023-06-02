@@ -18,10 +18,10 @@
 
 package com.aerospike.connect.outbound.transformer.examples.kafka;
 
-import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.format.DefaultTextOutboundRecord;
 import com.aerospike.connect.outbound.format.Formatter;
 import com.aerospike.connect.outbound.format.FormatterConfig;
+import com.aerospike.connect.outbound.format.FormatterInput;
 import com.aerospike.connect.outbound.format.MediaType;
 import com.aerospike.connect.outbound.format.OutboundRecord;
 import com.aerospike.connect.outbound.kafka.KafkaOutboundMetadata;
@@ -66,15 +66,16 @@ public class KafkaKeyValueFormatter
 
     @Override
     public OutboundRecord<KafkaOutboundMetadata> format(
-            @NonNull ChangeNotificationRecord record,
-            @NonNull OutboundRecord<KafkaOutboundMetadata> formattedRecord) {
-        logger.debug("Formatting record {}", record.getMetadata().getKey());
+            @NonNull FormatterInput<KafkaOutboundMetadata> formatterInput) {
+        logger.debug("Formatting record {}",
+                formatterInput.getRecord().getMetadata().getKey());
 
         // Only write string bins.
         StringBuilder payloadBuilder = new StringBuilder();
         String separator =
                 (String) configParams.getOrDefault("separator", ":");
-        for (Map.Entry<String, Object> bin : record.getBins().entrySet()) {
+        for (Map.Entry<String, Object> bin : formatterInput.getRecord()
+                .getBins().entrySet()) {
             if (bin.getValue() instanceof String) {
                 payloadBuilder.append(bin.getKey());
                 payloadBuilder.append(separator);
@@ -85,6 +86,7 @@ public class KafkaKeyValueFormatter
 
         return new DefaultTextOutboundRecord<>(
                 payloadBuilder.toString().getBytes(), MediaType.OCTET_STREAM,
-                formattedRecord.getMetadata(), Collections.emptySet());
+                formatterInput.getFormattedRecord().getMetadata(),
+                Collections.emptySet());
     }
 }

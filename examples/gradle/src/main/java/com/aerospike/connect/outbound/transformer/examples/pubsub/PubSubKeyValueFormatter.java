@@ -18,10 +18,10 @@
 
 package com.aerospike.connect.outbound.transformer.examples.pubsub;
 
-import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.format.DefaultTextOutboundRecord;
 import com.aerospike.connect.outbound.format.Formatter;
 import com.aerospike.connect.outbound.format.FormatterConfig;
+import com.aerospike.connect.outbound.format.FormatterInput;
 import com.aerospike.connect.outbound.format.MediaType;
 import com.aerospike.connect.outbound.format.OutboundRecord;
 import com.aerospike.connect.outbound.pubsub.PubSubOutboundMetadata;
@@ -70,18 +70,18 @@ public class PubSubKeyValueFormatter
         configParams = formatterConfig.getParams();
     }
 
-
     @Override
     public OutboundRecord<PubSubOutboundMetadata> format(
-            @NonNull ChangeNotificationRecord record,
-            @NonNull OutboundRecord<PubSubOutboundMetadata> formattedRecord) {
-        logger.debug("Formatting record {}", record.getMetadata().getKey());
+            @NonNull FormatterInput<PubSubOutboundMetadata> formatterInput) {
+        logger.debug("Formatting record {}",
+                formatterInput.getRecord().getMetadata().getKey());
 
         // Only write string bins.
         StringBuilder payloadBuilder = new StringBuilder();
         String separator =
                 (String) configParams.getOrDefault("separator", ":");
-        for (Map.Entry<String, Object> bin : record.getBins().entrySet()) {
+        for (Map.Entry<String, Object> bin : formatterInput.getRecord()
+                .getBins().entrySet()) {
             if (bin.getValue() instanceof String) {
                 payloadBuilder.append(bin.getKey());
                 payloadBuilder.append(separator);
@@ -91,20 +91,23 @@ public class PubSubKeyValueFormatter
         }
 
         // If attribute colour is present add it to the payload as well.
-        formattedRecord.getMetadata().getAttributes().ifPresent(attributes -> {
-            if (attributes.containsKey("colour")) {
-                payloadBuilder.append("colour");
-                payloadBuilder.append(separator);
-                payloadBuilder.append(attributes.get("colour"));
-                payloadBuilder.append(System.lineSeparator());
-            }
-        });
+        formatterInput.getFormattedRecord().getMetadata().getAttributes()
+                .ifPresent(attributes -> {
+                    if (attributes.containsKey("colour")) {
+                        payloadBuilder.append("colour");
+                        payloadBuilder.append(separator);
+                        payloadBuilder.append(attributes.get("colour"));
+                        payloadBuilder.append(System.lineSeparator());
+                    }
+                });
 
         // Add ordering key. "regional-endpoint" should be configured for this
         // record in the config.
         String orderingKey = "CustomFormatter";
         PubSubOutboundMetadata metadata = new PubSubOutboundMetadata(
-                formattedRecord.getMetadata().getAttributes().orElse(null),
+                formatterInput.getFormattedRecord().getMetadata()
+                        .getAttributes()
+                        .orElse(null),
                 orderingKey);
 
         return new DefaultTextOutboundRecord<>(

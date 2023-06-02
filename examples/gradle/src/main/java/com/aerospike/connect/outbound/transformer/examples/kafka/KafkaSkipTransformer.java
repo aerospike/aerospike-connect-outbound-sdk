@@ -58,7 +58,7 @@ public class KafkaSkipTransformer implements Transformer {
 
     @Override
     public ChangeNotificationRecord transform(
-            @NonNull ChangeNotificationRecord record) throws Exception {
+            @NonNull ChangeNotificationRecord record) {
         // Record generation is not shipped by Aerospike XDR versions before
         // v5.0.0.
         Optional<Integer> generation = record.getMetadata().getGeneration();

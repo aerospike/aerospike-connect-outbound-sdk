@@ -18,11 +18,11 @@
 
 package com.aerospike.connect.outbound.transformer.examples.esp;
 
-import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.esp.EspOutboundMetadata;
 import com.aerospike.connect.outbound.format.BytesOutboundRecord;
 import com.aerospike.connect.outbound.format.DefaultBytesOutboundRecord;
 import com.aerospike.connect.outbound.format.Formatter;
+import com.aerospike.connect.outbound.format.FormatterInput;
 import com.aerospike.connect.outbound.format.MediaType;
 import com.aerospike.connect.outbound.format.OutboundRecord;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -61,13 +61,14 @@ public class EspWrapBuiltinJsonFormatter
 
     @Override
     public OutboundRecord<EspOutboundMetadata> format(
-            @NonNull ChangeNotificationRecord record,
-            @NonNull OutboundRecord<EspOutboundMetadata> formattedRecord)
+            @NonNull FormatterInput<EspOutboundMetadata> formatterInput)
             throws JsonProcessingException {
-        logger.debug("Formatting record {}", record.getMetadata().getKey());
+        logger.debug("Formatting record {}",
+                formatterInput.getRecord().getMetadata().getKey());
 
         byte[] payload =
-                ((BytesOutboundRecord<EspOutboundMetadata>) formattedRecord)
+                ((BytesOutboundRecord<EspOutboundMetadata>)
+                        formatterInput.getFormattedRecord())
                         .getPayload()
                         .orElseThrow(() -> new IllegalArgumentException(
                                 "payload missing, expected json payload"));
@@ -79,7 +80,8 @@ public class EspWrapBuiltinJsonFormatter
         byte[] jsonRecordPayload = objectMapper.writeValueAsBytes(jsonRecord);
 
         return new DefaultBytesOutboundRecord<>(jsonRecordPayload,
-                MediaType.JSON, formattedRecord.getMetadata(),
+                MediaType.JSON,
+                formatterInput.getFormattedRecord().getMetadata(),
                 Collections.emptySet());
     }
 }

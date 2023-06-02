@@ -21,6 +21,7 @@ package com.aerospike.connect.outbound.transformer.examples.elasticsearch;
 import co.elastic.clients.elasticsearch.core.BulkRequest.Builder;
 import co.elastic.clients.elasticsearch.core.bulk.CreateOperation;
 import com.aerospike.connect.outbound.elasticsearch.ElasticsearchOutboundMetadata;
+import com.aerospike.connect.outbound.elasticsearch.config.BulkRequestConfig;
 import com.aerospike.connect.outbound.elasticsearch.format.ElasticsearchOutboundRecord;
 import com.aerospike.connect.outbound.format.BatchFormatter;
 import com.aerospike.connect.outbound.format.BatchItem;
@@ -30,11 +31,15 @@ import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.aerospike.connect.outbound.elasticsearch.config.BulkRequestConfig.BULK_REQUEST_CONFIG_NAME;
 
 /**
  * ElasticsearchCustomJsonBatchFormatter formats change notification records by
@@ -57,11 +62,18 @@ public class ElasticsearchCustomJsonBatchFormatter
                     ElasticsearchCustomJsonBatchFormatter.class.getName());
 
     private final static ObjectMapper objectMapper = new ObjectMapper();
+    private final BulkRequestConfig bulkRequestConfig;
+
+    @Inject
+    public ElasticsearchCustomJsonBatchFormatter(
+            @Named(BULK_REQUEST_CONFIG_NAME)
+            BulkRequestConfig bulkRequestConfig) {
+        this.bulkRequestConfig = bulkRequestConfig;
+    }
 
     @Override
     public List<OutboundRecord<ElasticsearchOutboundMetadata>> format(
-            @NonNull List<BatchItem<ElasticsearchOutboundMetadata>> batchItems)
-            throws Exception {
+            @NonNull List<BatchItem<ElasticsearchOutboundMetadata>> batchItems) {
         ElasticsearchOutboundRecord elasticsearchOutboundRecord =
                 getElasticsearchOutboundRecord(batchItems);
         List<OutboundRecord<ElasticsearchOutboundMetadata>>
@@ -100,6 +112,8 @@ public class ElasticsearchCustomJsonBatchFormatter
                                                     // operation.
                                                     cob.index((String) esIndex);
                                                 }
+                                                cob.pipeline(
+                                                        bulkRequestConfig.getPipeline());
                                                 return cob;
                                             })
                                     ));

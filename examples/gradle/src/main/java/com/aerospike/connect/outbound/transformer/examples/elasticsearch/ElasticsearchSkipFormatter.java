@@ -20,12 +20,12 @@ package com.aerospike.connect.outbound.transformer.examples.elasticsearch;
 
 import co.elastic.clients.elasticsearch.core.BulkRequest.Builder;
 import co.elastic.clients.elasticsearch.core.bulk.IndexOperation;
-import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.elasticsearch.ElasticsearchOutboundMetadata;
 import com.aerospike.connect.outbound.elasticsearch.format.ElasticsearchOutboundRecord;
 import com.aerospike.connect.outbound.format.BytesOutboundRecord;
 import com.aerospike.connect.outbound.format.Formatter;
 import com.aerospike.connect.outbound.format.FormatterConfig;
+import com.aerospike.connect.outbound.format.FormatterInput;
 import com.aerospike.connect.outbound.format.MediaType;
 import com.aerospike.connect.outbound.format.OutboundRecord;
 import com.aerospike.connect.outbound.format.SkipOutboundRecord;
@@ -72,21 +72,23 @@ public class ElasticsearchSkipFormatter
 
     @Override
     public OutboundRecord<ElasticsearchOutboundMetadata> format(
-            @NonNull ChangeNotificationRecord record,
-            @NonNull OutboundRecord<ElasticsearchOutboundMetadata> formattedRecord) {
-        logger.debug("Formatting record {}", record.getMetadata().getKey());
+            @NonNull FormatterInput<ElasticsearchOutboundMetadata> formatterInput) {
+        logger.debug("Formatting record {}",
+                formatterInput.getRecord().getMetadata().getKey());
 
         // Record generation is not shipped by Aerospike XDR versions before
         // v5.0.0.
-        Optional<Integer> generation = record.getMetadata().getGeneration();
+        Optional<Integer> generation =
+                formatterInput.getRecord().getMetadata().getGeneration();
 
         // "genNumber" is to be set in params option of the Elasticsearch
         // formatter config.
         if (generation.isPresent() &&
                 generation.get() > (int) configParams.get("genNumber")) {
-            logger.debug("Skipping record {}", record.getMetadata().getKey());
+            logger.debug("Skipping record {}",
+                    formatterInput.getRecord().getMetadata().getKey());
             return new SkipOutboundRecord<>(MediaType.OCTET_STREAM,
-                    formattedRecord.getMetadata());
+                    formatterInput.getFormattedRecord().getMetadata());
         }
 
         // Return built-in JSON formatted record.
@@ -95,9 +97,8 @@ public class ElasticsearchSkipFormatter
                 Builder builder = new Builder();
                 builder.index("my_test_index");
                 @SuppressWarnings({"rawtypes", "OptionalGetWithoutIsPresent"})
-                byte[] value =
-                        (byte[]) ((BytesOutboundRecord) formattedRecord).getPayload()
-                                .get();
+                byte[] value = (byte[]) ((BytesOutboundRecord)
+                        formatterInput.getFormattedRecord()).getPayload().get();
                 builder.operations(op -> op.index(IndexOperation.of(iob -> {
                             iob.document(new PreSerializedJson(value));
                             iob.id("3642380");

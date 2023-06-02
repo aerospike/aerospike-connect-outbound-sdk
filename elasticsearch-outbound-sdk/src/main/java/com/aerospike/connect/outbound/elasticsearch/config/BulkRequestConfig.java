@@ -19,12 +19,13 @@
 package com.aerospike.connect.outbound.elasticsearch.config;
 
 import co.elastic.clients.elasticsearch._types.Refresh;
-import co.elastic.clients.elasticsearch._types.Time;
 import co.elastic.clients.elasticsearch._types.VersionType;
 import co.elastic.clients.elasticsearch._types.WaitForActiveShards;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.util.TaggedUnion;
 import com.aerospike.connect.outbound.config.DynamicFieldSource;
+import com.aerospike.connect.outbound.format.BatchFormatter;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.NonNull;
@@ -43,13 +44,10 @@ import java.util.Objects;
 @Value
 public class BulkRequestConfig {
     /**
-     * See {@link BulkRequest#index()}.
-     *
-     * @param index Index for each individual operation.
-     * @return index for each individual operation.
+     * A constant for injecting {@link BulkRequestConfig} into custom
+     * {@link BatchFormatter} implementation.
      */
-    @NonNull
-    DynamicFieldSource index;
+    public static final String BULK_REQUEST_CONFIG_NAME = "bulk-request-config";
 
     /**
      * See {@link BulkRequest#pipeline()}.
@@ -88,16 +86,44 @@ public class BulkRequestConfig {
      * @return specific shard routing value.
      */
     @Nullable
+    @JsonAlias("shard-routing")
     DynamicFieldSource routing;
 
     /**
-     * See {@link BulkRequest#timeout()}.
+     * Explicit operation timeout.
+     * <table>
+     *   <caption>Supported timeout units</caption>
+     *   <tr>
+     *      <th>Unit</th>
+     *      <th>Example</th>
+     *   </tr>
+     *   <tr>
+     *       <td>m - Minutes</td>
+     *       <td>1m</td>
+     *   </tr>
+     *   <tr>
+     *       <td>s - Seconds</td>
+     *       <td>10s</td>
+     *   </tr>
+     *   <tr>
+     *       <td>ms - Milliseconds</td>
+     *       <td>200ms</td>
+     *   </tr>
+     *   <tr>
+     *       <td>micros - Microseconds</td>
+     *       <td>10000micros</td>
+     *   </tr>
+     *   <tr>
+     *       <td>nanos - Nanoseconds</td>
+     *       <td>100000nanos</td>
+     *   </tr>
+     * </table>
      *
      * @param timeout Explicit operation timeout.
      * @return explicit operation timeout.
      */
     @Nullable
-    Time timeout;
+    String timeout;
 
     /**
      * See {@link BulkRequest#waitForActiveShards()}.
@@ -193,12 +219,11 @@ public class BulkRequestConfig {
             return false;
         }
         BulkRequestConfig that = (BulkRequestConfig) o;
-        return index.equals(that.index) &&
-                Objects.equals(pipeline, that.pipeline) &&
+        return Objects.equals(pipeline, that.pipeline) &&
                 refresh == that.refresh &&
                 Objects.equals(requireAlias, that.requireAlias) &&
                 Objects.equals(routing, that.routing) &&
-                taggedUnionEquals(timeout, that.timeout) &&
+                Objects.equals(timeout, that.timeout) &&
                 taggedUnionEquals(waitForActiveShards,
                         that.waitForActiveShards) &&
                 aerospikeWriteOperationMapping.equals(
@@ -212,7 +237,7 @@ public class BulkRequestConfig {
 
     @Override
     public int hashCode() {
-        return Objects.hash(index, pipeline, refresh, requireAlias, routing,
+        return Objects.hash(pipeline, refresh, requireAlias, routing,
                 timeout, waitForActiveShards, aerospikeWriteOperationMapping,
                 ifPrimaryTerm, ifSeqNo, version, versionType,
                 ignoreAerospikeDelete);

@@ -20,38 +20,36 @@ package com.aerospike.connect.outbound.format;
 
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.routing.OutboundRoute;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NonNull;
-import lombok.ToString;
 
 /**
- * A batch item passed to the {@link BatchFormatter}.
+ * Input to {@link Formatter}.
  *
  * @param <T> the metadata associated with the outbound records.
  */
-@AllArgsConstructor
-@EqualsAndHashCode
-@Getter
-@ToString
-public class BatchItem<T extends OutboundMetadata>
-        implements FormatterInput<T> {
+public interface FormatterInput<T extends OutboundMetadata> {
     /**
-     * @see FormatterInput#getRecord()
+     * @return the change notification record shipped by Aerospike XDR
      */
     @NonNull
-    private ChangeNotificationRecord record;
+    ChangeNotificationRecord getRecord();
 
     /**
-     * @see FormatterInput#getFormattedRecord()
+     * @return a {@code formattedRecord} which is an instance of either
+     * {@link BytesOutboundRecord} or {@link TextOutboundRecord}. The
+     * {@code payload} in the {@code formattedRecord} is {@code null} unless the
+     * {@code `payload-format`} config in the custom formatter is set to one of
+     * the built-in outbound formats - AVRO, FlatJSON, etc. The
+     * {@code formattedRecord} is an instance of {@link TextOutboundRecord} only
+     * when the custom formatter is configured with the FlatJSON or JSON
+     * built-in outbound formats.
      */
     @NonNull
-    private OutboundRecord<T> formattedRecord;
+    OutboundRecord<T> getFormattedRecord();
 
     /**
-     * @see FormatterInput#getOutboundRoute()
+     * @return the route this item will be dispatched
      */
     @NonNull
-    private OutboundRoute<?> outboundRoute;
+    OutboundRoute<?> getOutboundRoute();
 }
