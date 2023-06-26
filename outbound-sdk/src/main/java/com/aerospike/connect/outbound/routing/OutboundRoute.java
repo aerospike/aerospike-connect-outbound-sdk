@@ -18,21 +18,16 @@
 
 package com.aerospike.connect.outbound.routing;
 
-import com.aerospike.connect.outbound.esp.EspOutboundRoute;
-import com.aerospike.connect.outbound.jms.JmsOutboundRoute;
-import com.aerospike.connect.outbound.kafka.KafkaOutboundRoute;
 import com.aerospike.connect.outbound.pubsub.PubSubOutboundRoute;
-import com.aerospike.connect.outbound.pulsar.PulsarOutboundRoute;
 import lombok.NonNull;
-
-import javax.annotation.Nullable;
 
 /**
  * The route to the outbound destination.
  *
  * @param <T> the type of the outbound route. Should be a String type for ESP
- *            (Event Stream Processing), JMS, Kafka, Pulsar routes; and a {@link
- *            PubSubOutboundRoute PubSubOutboundRoute} type for Google Pub/Sub.
+ *            (Event Stream Processing), JMS, Kafka, Pulsar routes; and a
+ *            {@link PubSubOutboundRoute PubSubOutboundRoute} type for Google
+ *            Pub/Sub.
  */
 public interface OutboundRoute<T> {
     /**
@@ -50,70 +45,4 @@ public interface OutboundRoute<T> {
      */
     @NonNull
     T getRoute();
-
-    /**
-     * Create an outbound route to an ESP (Event Stream Processing)
-     * destination.
-     *
-     * @param destination the destination name configured in ESP config.
-     * @return the outbound route for an ESP destination.
-     * @deprecated replaced by {@link EspOutboundRoute}.
-     */
-    @Deprecated
-    static DefaultOutboundRoute<String> newEspRoute(String destination) {
-        return new EspOutboundRoute(destination);
-    }
-
-    /**
-     * Create an outbound route to a JMS destination.
-     *
-     * @param type        type of the JMS destination.
-     * @param destination the JMS destination name.
-     * @return the outbound route for a JMS destination.
-     * @deprecated replaced by {@link JmsOutboundRoute}.
-     */
-    @Deprecated
-    static DefaultOutboundRoute<String> newJmsRoute(OutboundRouteType type,
-                                                    String destination) {
-        return new JmsOutboundRoute(type, destination);
-    }
-
-    /**
-     * Create an outbound route to a Kafka topic.
-     *
-     * @param topic the Kafka topic name.
-     * @return the outbound route for a Kafka topic.
-     * @deprecated replaced by {@link KafkaOutboundRoute}.
-     */
-    @Deprecated
-    static DefaultOutboundRoute<String> newKafkaRoute(String topic) {
-        return new KafkaOutboundRoute(topic);
-    }
-
-    /**
-     * Create an outbound route to a Pulsar topic.
-     *
-     * @param topic the Pulsar topic name.
-     * @return the outbound route for a Pulsar topic.
-     * @deprecated replaced by {@link PulsarOutboundRoute}.
-     */
-    @Deprecated
-    static DefaultOutboundRoute<String> newPulsarRoute(String topic) {
-        return new PulsarOutboundRoute(topic);
-    }
-
-    /**
-     * Create an outbound route to a Google Pub/Sub destination.
-     *
-     * @param topic            the Google Pub/Sub topic name.
-     * @param regionalEndpoint the regional endpoint to publish the message to.
-     * @return the outbound route for a Google Pub/Sub topic.
-     * @deprecated replaced by {@link PubSubOutboundRoute}.
-     */
-    @Deprecated
-    static DefaultOutboundRoute<PubSubOutboundRoute> newPubSubRoute(
-            String topic, @Nullable String regionalEndpoint) {
-        return new DefaultOutboundRoute<>(OutboundRouteType.TOPIC,
-                new PubSubOutboundRoute(topic, regionalEndpoint));
-    }
 }

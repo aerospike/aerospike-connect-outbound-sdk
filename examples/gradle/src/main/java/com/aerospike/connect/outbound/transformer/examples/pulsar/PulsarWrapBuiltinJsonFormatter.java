@@ -18,10 +18,10 @@
 
 package com.aerospike.connect.outbound.transformer.examples.pulsar;
 
-import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.format.BytesOutboundRecord;
 import com.aerospike.connect.outbound.format.DefaultBytesOutboundRecord;
 import com.aerospike.connect.outbound.format.Formatter;
+import com.aerospike.connect.outbound.format.FormatterInput;
 import com.aerospike.connect.outbound.format.MediaType;
 import com.aerospike.connect.outbound.format.OutboundRecord;
 import com.aerospike.connect.outbound.pulsar.PulsarOutboundMetadata;
@@ -61,13 +61,13 @@ public class PulsarWrapBuiltinJsonFormatter
 
     @Override
     public OutboundRecord<PulsarOutboundMetadata> format(
-            @NonNull ChangeNotificationRecord record,
-            @NonNull OutboundRecord<PulsarOutboundMetadata> formattedRecord)
+            @NonNull FormatterInput<PulsarOutboundMetadata> formatterInput)
             throws JsonProcessingException {
-        logger.debug("Formatting record {}", record.getMetadata().getKey());
+        logger.debug("Formatting record {}",
+                formatterInput.getRecord().getMetadata().getKey());
 
         byte[] payload =
-                ((BytesOutboundRecord<PulsarOutboundMetadata>) formattedRecord)
+                ((BytesOutboundRecord<PulsarOutboundMetadata>) formatterInput.getFormattedRecord())
                         .getPayload()
                         .orElseThrow(() -> new IllegalArgumentException(
                                 "payload missing, expected json payload"));
@@ -79,7 +79,8 @@ public class PulsarWrapBuiltinJsonFormatter
         byte[] jsonRecordPayload = objectMapper.writeValueAsBytes(jsonRecord);
 
         return new DefaultBytesOutboundRecord<>(jsonRecordPayload,
-                MediaType.JSON, formattedRecord.getMetadata(),
+                MediaType.JSON,
+                formatterInput.getFormattedRecord().getMetadata(),
                 Collections.emptySet());
     }
 }

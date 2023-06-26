@@ -18,9 +18,9 @@
 
 package com.aerospike.connect.outbound.transformer.examples.pubsub;
 
-import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.format.Formatter;
 import com.aerospike.connect.outbound.format.FormatterConfig;
+import com.aerospike.connect.outbound.format.FormatterInput;
 import com.aerospike.connect.outbound.format.MediaType;
 import com.aerospike.connect.outbound.format.OutboundRecord;
 import com.aerospike.connect.outbound.format.SkipOutboundRecord;
@@ -66,24 +66,26 @@ public class PubSubSkipFormatter implements Formatter<PubSubOutboundMetadata> {
 
     @Override
     public OutboundRecord<PubSubOutboundMetadata> format(
-            @NonNull ChangeNotificationRecord record,
-            @NonNull OutboundRecord<PubSubOutboundMetadata> formattedRecord) {
-        logger.debug("Formatting record {}", record.getMetadata().getKey());
+            @NonNull FormatterInput<PubSubOutboundMetadata> formatterInput) {
+        logger.debug("Formatting record {}",
+                formatterInput.getRecord().getMetadata().getKey());
 
         // Record generation is not shipped by Aerospike XDR versions before
         // v5.0.0.
-        Optional<Integer> generation = record.getMetadata().getGeneration();
+        Optional<Integer> generation =
+                formatterInput.getRecord().getMetadata().getGeneration();
 
         // "genNumber" is to be set in params option of the PubSub formatter
         // config.
         if (generation.isPresent() &&
                 generation.get() > (int) configParams.get("genNumber")) {
-            logger.debug("Skipping record {}", record.getMetadata().getKey());
+            logger.debug("Skipping record {}",
+                    formatterInput.getRecord().getMetadata().getKey());
             return new SkipOutboundRecord<>(MediaType.OCTET_STREAM,
-                    formattedRecord.getMetadata());
+                    formatterInput.getFormattedRecord().getMetadata());
         }
 
         // Return built-in JSON formatted record.
-        return formattedRecord;
+        return formatterInput.getFormattedRecord();
     }
 }

@@ -19,12 +19,12 @@
 package com.aerospike.connect.outbound.transformer.examples.esp;
 
 
-import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.esp.EspOutboundMetadata;
 import com.aerospike.connect.outbound.esp.HttpMethod;
 import com.aerospike.connect.outbound.format.DefaultBytesOutboundRecord;
 import com.aerospike.connect.outbound.format.Formatter;
 import com.aerospike.connect.outbound.format.FormatterConfig;
+import com.aerospike.connect.outbound.format.FormatterInput;
 import com.aerospike.connect.outbound.format.MediaType;
 import com.aerospike.connect.outbound.format.OutboundRecord;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -35,7 +35,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -85,9 +84,8 @@ class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
 
     @Override
     public OutboundRecord<EspOutboundMetadata> format(
-            @NonNull ChangeNotificationRecord record,
-            @NonNull OutboundRecord<EspOutboundMetadata> formattedRecord)
-            throws UnsupportedEncodingException, JsonProcessingException {
+            @NonNull FormatterInput<EspOutboundMetadata> formatterInput)
+            throws Exception {
         // ESP config should be passed the Elasticsearch username, password for
         // BasicAuth.
         Map<String, String> httpHeaders =
@@ -95,15 +93,17 @@ class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
                         (String) configParams.get("password"));
 
         // Format bins as JSON.
-        byte[] jsonFormat = toJsonFormat(record.getBins());
+        byte[] jsonFormat = toJsonFormat(formatterInput.getRecord().getBins());
 
         // Delete a document.
         // See https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-delete.html
-        if (record.getMetadata().getOperation().isDelete()) {
+        if (formatterInput.getRecord().getMetadata().getOperation()
+                .isDelete()) {
             logger.debug("Deleting document for record {}",
-                    record.getMetadata().getKey());
+                    formatterInput.getRecord().getMetadata().getKey());
             String path =
-                    toElasticsearchPath(record.getMetadata().getKey().digest,
+                    toElasticsearchPath(formatterInput.getRecord().getMetadata()
+                                    .getKey().digest,
                             "_doc");
             EspOutboundMetadata metadata =
                     EspOutboundMetadata.builder(HttpMethod.DELETE)
@@ -117,8 +117,9 @@ class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
         // Insert/Update a document.
         // See https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-index_.html
         logger.debug("Inserting/updating document for record {}",
-                record.getMetadata().getKey());
-        String path = toElasticsearchPath(record.getMetadata().getKey().digest,
+                formatterInput.getRecord().getMetadata().getKey());
+        String path = toElasticsearchPath(
+                formatterInput.getRecord().getMetadata().getKey().digest,
                 "_doc");
         EspOutboundMetadata metadata =
                 EspOutboundMetadata.builder(HttpMethod.PUT)
@@ -130,15 +131,13 @@ class EspElasticsearchFormatter implements Formatter<EspOutboundMetadata> {
     }
 
 
-    private String toDocId(byte[] aerospikeKeyDigest)
-            throws UnsupportedEncodingException {
+    private String toDocId(byte[] aerospikeKeyDigest) {
         return URLEncoder.encode(
                 Base64.getEncoder().encodeToString(aerospikeKeyDigest),
-                "UTF-8");
+                StandardCharsets.UTF_8);
     }
 
-    private String toElasticsearchPath(byte[] aerospikeKeyDigest, String api)
-            throws UnsupportedEncodingException {
+    private String toElasticsearchPath(byte[] aerospikeKeyDigest, String api) {
         String docId = toDocId(aerospikeKeyDigest);
         return ELASTICSEARCH_INDEX_NAME + "/" + api + "/" + docId;
     }

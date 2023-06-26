@@ -18,12 +18,12 @@
 
 package com.aerospike.connect.outbound.transformer.examples.jms;
 
-import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.format.BytesOutboundRecord;
 import com.aerospike.connect.outbound.format.DefaultBytesOutboundRecord;
 import com.aerospike.connect.outbound.format.DefaultTextOutboundRecord;
 import com.aerospike.connect.outbound.format.Formatter;
 import com.aerospike.connect.outbound.format.FormatterConfig;
+import com.aerospike.connect.outbound.format.FormatterInput;
 import com.aerospike.connect.outbound.format.OutboundRecord;
 import com.aerospike.connect.outbound.jms.JmsOutboundMetadata;
 import lombok.NonNull;
@@ -68,10 +68,12 @@ public class JmsMessageTypeFormatter implements Formatter<JmsOutboundMetadata> {
 
     @Override
     public OutboundRecord<JmsOutboundMetadata> format(
-            @NonNull ChangeNotificationRecord record,
-            @NonNull OutboundRecord<JmsOutboundMetadata> formattedRecord) {
-        logger.debug("Formatting record {}", record.getMetadata().getKey());
+            @NonNull FormatterInput<JmsOutboundMetadata> formatterInput) {
+        logger.debug("Formatting record {}",
+                formatterInput.getRecord().getMetadata().getKey());
 
+        OutboundRecord<JmsOutboundMetadata> formattedRecord =
+                formatterInput.getFormattedRecord();
         byte[] payload =
                 ((BytesOutboundRecord<JmsOutboundMetadata>) formattedRecord)
                         .getPayload()
@@ -84,12 +86,14 @@ public class JmsMessageTypeFormatter implements Formatter<JmsOutboundMetadata> {
             // Will be dispatched as JMS TextMessage.
             return new DefaultTextOutboundRecord<>(payload,
                     formattedRecord.getMediaType(),
-                    formattedRecord.getMetadata(), Collections.emptySet());
+                    formattedRecord.getMetadata(),
+                    Collections.emptySet());
         } else {
             // Will be dispatched as JMS BytesMessage.
             return new DefaultBytesOutboundRecord<>(payload,
                     formattedRecord.getMediaType(),
-                    formattedRecord.getMetadata(), Collections.emptySet());
+                    formattedRecord.getMetadata(),
+                    Collections.emptySet());
         }
     }
 }
