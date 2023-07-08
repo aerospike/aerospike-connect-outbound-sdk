@@ -30,7 +30,7 @@ public class DynamicFieldSourceKeyConcat implements DynamicFieldSource {
     @Override
     public DynamicFieldSourceFailureStrategy getDynamicFieldSourceFailureStrategy()
             throws Exception {
-        throw new Exception("key-concatenation is always possible");
+        throw new Exception("key-concat is always possible");
     }
 
     @Override
