@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright 2012-2022 Aerospike, Inc.
+ *  Copyright 2012-2023 Aerospike, Inc.
  *
  *  Portions may be licensed to Aerospike, Inc. under one or more contributor
  *  license agreements WHICH ARE COMPATIBLE WITH THE APACHE LICENSE, VERSION 2.0.
@@ -18,24 +18,27 @@
 
 package com.aerospike.connect.outbound.config;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 
 /**
- * Generates static [null]/no value for the field.
+ * Hash the Change Notification Record keys in a batch into a fixed length byte
+ * array.
  */
 @EqualsAndHashCode
-public class DynamicFieldSourceNone implements DynamicFieldSource {
-    @JsonIgnore
+public class DynamicFieldSourceKeyHash implements DynamicFieldSource {
     @Override
-    public DynamicFieldSourceFailureStrategy
-    getDynamicFieldSourceFailureStrategy() throws Exception {
-        throw new Exception(
-                "destination system will auto-generate or use null");
+    public DynamicFieldSourceFailureStrategy getDynamicFieldSourceFailureStrategy()
+            throws Exception {
+        throw new Exception("key-hash is always possible");
     }
 
     @Override
     public boolean isAllowedForBatchRecordKey() {
         return true;
+    }
+
+    @Override
+    public boolean isAllowedForSingleRecordKey() {
+        return false;
     }
 }

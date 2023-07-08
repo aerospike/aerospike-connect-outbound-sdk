@@ -27,7 +27,11 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
         @JsonSubTypes.Type(value = DynamicFieldSourceBinValue.class,
                 name = "bin-value"),
         @JsonSubTypes.Type(value = DynamicFieldSourceStatic.class,
-                name = "static")
+                name = "static"),
+        @JsonSubTypes.Type(value = DynamicFieldSourceKeyConcat.class,
+                name = "key-concat"),
+        @JsonSubTypes.Type(value = DynamicFieldSourceKeyHash.class,
+                name = "key-hash")
 })
 @JsonIgnoreProperties(ignoreUnknown = true)
 public interface DynamicFieldSource {
@@ -48,5 +52,29 @@ public interface DynamicFieldSource {
      * @throws Exception if validation fails.
      */
     default void validate() throws Exception {
+    }
+
+    /**
+     * Specifies whether this {@link DynamicFieldSource} can be used for
+     * generating a key of a batch of records.
+     *
+     * @return a boolean value indicating whether this
+     * {@link DynamicFieldSource} can be used for generating a key of a batch of
+     * records.
+     */
+    default boolean isAllowedForBatchRecordKey() {
+        return false;
+    }
+
+    /**
+     * Specifies whether this {@link DynamicFieldSource} can be used for
+     * generating a key of a single record.
+     *
+     * @return a boolean value indicating whether this
+     * {@link DynamicFieldSource} can be used for generating a key of a single
+     * record.
+     */
+    default boolean isAllowedForSingleRecordKey() {
+        return true;
     }
 }
