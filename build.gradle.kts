@@ -29,7 +29,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath("io.freefair.gradle:lombok-plugin:8.0.1")
+        classpath("io.freefair.gradle:lombok-plugin:8.1.0")
     }
 }
 
@@ -43,7 +43,7 @@ allprojects {
     pluginManager.withPlugin("jacoco") {
         // If this project has the plugin applied, configure the tool version.
         jacoco {
-            toolVersion = "0.8.7"
+            toolVersion = "0.8.10"
         }
     }
 }
