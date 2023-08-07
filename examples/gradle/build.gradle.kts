@@ -49,9 +49,9 @@ dependencies {
     api("com.fasterxml.jackson.core:jackson-databind:2.15.2")
 
     // Aerospike outbound SDK.
-    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:2.0.0")
+    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:2.2.0")
     compileOnly(
-        "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.0.0"
+        "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.1.1"
     )
 
     // Logging.
