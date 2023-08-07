@@ -18,10 +18,10 @@
 
 dependencies {
     // Aerospike connect outbound sdk
-    api("com.aerospike:aerospike-connect-outbound-sdk:2.1.0")
+    api("com.aerospike:aerospike-connect-outbound-sdk:2.2.0")
 
     // Elasticsearch client
-    api("co.elastic.clients:elasticsearch-java:8.8.2")
+    api("co.elastic.clients:elasticsearch-java:8.9.0")
 
     // Jackson annotations
     compileOnly(
