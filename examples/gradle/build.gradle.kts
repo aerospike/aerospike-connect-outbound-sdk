@@ -51,8 +51,9 @@ dependencies {
     // Aerospike outbound SDK.
     compileOnly("com.aerospike:aerospike-connect-outbound-sdk:2.2.0")
     compileOnly(
-        "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.1.1"
+        "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.1.2"
     )
+    compileOnly("co.elastic.clients:elasticsearch-java:8.10.4")
 
     // Logging.
     compileOnly("org.slf4j:slf4j-api:2.0.7")
