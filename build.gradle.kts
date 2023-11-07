@@ -29,7 +29,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath("io.freefair.gradle:lombok-plugin:8.1.0")
+        classpath("io.freefair.gradle:lombok-plugin:8.4")
     }
 }
 
@@ -69,9 +69,14 @@ subprojects {
         mavenCentral()
     }
 
+    dependencies {
+        // TODO: Investigate. Snyk fails on older version of this dependency.
+        "dataFiles"("org.json:json:20231013")
+    }
+
     group = "com.aerospike"
 
-    project.extra["jacksonVersion"] = "2.15.2"
+    project.extra["jacksonVersion"] = "2.15.3"
 
     setupJavaBuild()
     setupReleaseTasks()

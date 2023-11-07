@@ -25,9 +25,13 @@ dependencies {
 
     // Jackson annotations
     compileOnly(
-        "com.fasterxml.jackson.core:jackson-annotations:${project.extra["jacksonVersion"]}"
+        "com.fasterxml.jackson.core:jackson-annotations:${
+            project.extra["jacksonVersion"]
+        }",
     )
     compileOnly(
-        "com.fasterxml.jackson.core:jackson-databind:${project.extra["jacksonVersion"]}"
+        "com.fasterxml.jackson.core:jackson-databind:${
+            project.extra["jacksonVersion"]
+        }",
     )
 }
