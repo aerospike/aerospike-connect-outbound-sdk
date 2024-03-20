@@ -24,7 +24,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("io.freefair.gradle:lombok-plugin:6.5.0.3")
+        classpath("io.freefair.gradle:lombok-plugin:8.6")
     }
 }
 
@@ -43,23 +43,23 @@ configurations.all {
 
 dependencies {
     // Aerospike client.
-    compileOnly("com.aerospike:aerospike-client:7.0.0")
+    compileOnly("com.aerospike:aerospike-client-jdk8:8.0.2")
 
     // JSON formatting in some examples.
-    api("com.fasterxml.jackson.core:jackson-databind:2.15.2")
+    api("com.fasterxml.jackson.core:jackson-databind:2.15.3")
 
     // Aerospike outbound SDK.
     compileOnly("com.aerospike:aerospike-connect-outbound-sdk:2.2.0")
     compileOnly(
         "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.1.2"
     )
-    compileOnly("co.elastic.clients:elasticsearch-java:8.10.4")
+    compileOnly("co.elastic.clients:elasticsearch-java:8.12.2")
 
     // Logging.
-    compileOnly("org.slf4j:slf4j-api:2.0.7")
+    compileOnly("org.slf4j:slf4j-api:2.0.12")
 
     // Lombok's annotations.
-    compileOnly("org.projectlombok:lombok:1.18.26")
+    compileOnly("org.projectlombok:lombok:1.18.32")
 
     // Javax inject annotations.
     compileOnly("javax.inject:javax.inject:1")
@@ -73,6 +73,9 @@ compileJava.targetCompatibility = "1.8"
 compileJava.options.apply {
     compilerArgs.add("-Xlint:all")
     compilerArgs.add("-Werror")
+    // Suppress warning: [options] source value 8 is obsolete and will be
+    // removed in a future release.
+    compilerArgs.add("-Xlint:-options")
 }
 
 val compileTestJava: JavaCompile by tasks
@@ -81,6 +84,9 @@ compileTestJava.targetCompatibility = "1.8"
 compileTestJava.options.apply {
     compilerArgs.add("-Xlint:all")
     compilerArgs.add("-Werror")
+    // Suppress warning: [options] source value 8 is obsolete and will be
+    // removed in a future release.
+    compilerArgs.add("-Xlint:-options")
 }
 
 plugins {

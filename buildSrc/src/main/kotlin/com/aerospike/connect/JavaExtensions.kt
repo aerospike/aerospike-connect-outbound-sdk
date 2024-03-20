@@ -38,6 +38,9 @@ fun Project.setupJavaBuild() {
     compileJava.options.apply {
         compilerArgs.add("-Xlint:all")
         compilerArgs.add("-Werror")
+        // Suppress warning: [options] source value 8 is obsolete and will be
+        // removed in a future release.
+        compilerArgs.add("-Xlint:-options")
         compilerArgs.add("-Xlint:-processing")
     }
 
