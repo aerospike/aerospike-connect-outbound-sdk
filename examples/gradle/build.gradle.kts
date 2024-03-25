@@ -91,11 +91,11 @@ compileTestJava.options.apply {
 
 plugins {
     `java-library`
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.github.goooler.shadow") version "8.1.5"
 }
 
 apply {
-    plugin("com.github.johnrengelman.shadow") // Shade dependencies.
+    plugin("io.github.goooler.shadow") // Shade dependencies.
     plugin("java")
     plugin("io.freefair.lombok")
 }
