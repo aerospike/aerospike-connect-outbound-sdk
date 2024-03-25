@@ -43,7 +43,7 @@ configurations.all {
 
 dependencies {
     // Aerospike client.
-    compileOnly("com.aerospike:aerospike-client-jdk8:8.0.2")
+    compileOnly("com.aerospike:aerospike-client-jdk8:8.1.0")
 
     // JSON formatting in some examples.
     api("com.fasterxml.jackson.core:jackson-databind:2.15.3")
