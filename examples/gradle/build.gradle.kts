@@ -46,7 +46,7 @@ dependencies {
     compileOnly("com.aerospike:aerospike-client-jdk8:8.1.0")
 
     // JSON formatting in some examples.
-    api("com.fasterxml.jackson.core:jackson-databind:2.15.3")
+    api("com.fasterxml.jackson.core:jackson-databind:2.17.0")
 
     // Aerospike outbound SDK.
     compileOnly("com.aerospike:aerospike-connect-outbound-sdk:2.2.0")
