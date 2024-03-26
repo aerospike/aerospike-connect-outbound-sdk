@@ -21,17 +21,17 @@ dependencies {
     compileOnly("com.google.code.findbugs:jsr305:3.0.2")
 
     // Aerospike Java Client
-    compileOnly("com.aerospike:aerospike-client:7.0.0")
+    compileOnly("com.aerospike:aerospike-client-jdk8:8.1.0")
 
     // Jackson annotations
     compileOnly(
         "com.fasterxml.jackson.core:jackson-annotations:${
             project.extra["jacksonVersion"]
-        }",
+        }"
     )
     compileOnly(
         "com.fasterxml.jackson.core:jackson-databind:${
             project.extra["jacksonVersion"]
-        }",
+        }"
     )
 }
