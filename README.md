@@ -4,7 +4,7 @@ An outbound SDK for creating custom transformers for streaming connectors.
 
 Aerospike Connect outbound transformer provides a plugin system in Aerospike
 outbound connectors to transform incoming XDR change notification records
-dispatched to the outbound destination with custom code.
+dispatched to the outbound destination with a custom code.
 
 Three transformers can be configured in any combination in the outbound
 connectors to apply to the incoming Aerospike change notification records
@@ -21,7 +21,7 @@ dispatched by XDR:
 - **Format transformer:** Transform the Aerospike record into a custom format
   written to the outbound destination.
 
-The transformers are plugged in by specifying the Java class path of the custom
+The transformers are plugged in by specifying the Java classpath of the custom
 transformer class in the outbound config YAML file. An optional params map can
 be specified which will be passed to the constructor of the custom transformer
 class.
@@ -37,16 +37,28 @@ with the same/compatible Java version running the outbound connector.
 See the build files in the [examples](/examples) folder for further details.
 
 **NOTE** It is recommended to shade all the custom plugin dependencies to avoid
-class path conflicts with the outbound connectors.
+classpath conflicts with the outbound connectors.
 
 ### Maven
 
-```xml
+Use the artifact `aerospike-connect-outbound-sdk` for all the outbound connectors except Elasticsearch:
 
+```xml
 <dependency>
     <groupId>com.aerospike</groupId>
     <artifactId>aerospike-connect-outbound-sdk</artifactId>
-    <version>1.1.1</version>
+    <version>2.2.0</version>
+    <scope>provided</scope>
+</dependency>
+```
+
+Use the artifact `aerospike-connect-elasticsearch-outbound-sdk` for Elasticsearch outbound:
+
+```xml
+<dependency>
+    <groupId>com.aerospike</groupId>
+    <artifactId>aerospike-connect-elasticsearch-outbound-sdk</artifactId>
+    <version>2.1.2</version>
     <scope>provided</scope>
 </dependency>
 ```
@@ -55,17 +67,37 @@ class path conflicts with the outbound connectors.
 
 #### Kotlin DSL
 
+Use the artifact `aerospike-connect-outbound-sdk` for all the outbound connectors except Elasticsearch:
+
 ```kotlin
 dependencies {
-    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:1.1.1")
+    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:2.2.0")
+}
+```
+
+Use the artifact `aerospike-connect-elasticsearch-outbound-sdk` for Elasticsearch outbound:
+
+```kotlin
+dependencies {
+    compileOnly("com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.1.2")
 }
 ```
 
 #### Groovy
 
+Use the artifact `aerospike-connect-outbound-sdk` for all the outbound connectors except Elasticsearch:
+
 ```groovy
 dependencies {
-    compileOnly "com.aerospike:aerospike-connect-outbound-sdk:1.1.1"
+    compileOnly "com.aerospike:aerospike-connect-outbound-sdk:2.2.0"
+}
+```
+
+Use the artifact `aerospike-connect-elasticsearch-outbound-sdk` for Elasticsearch outbound:
+
+```groovy
+dependencies {
+    compileOnly "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.1.2"
 }
 ```
 
