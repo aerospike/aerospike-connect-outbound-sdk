@@ -41,8 +41,9 @@ classpath conflicts with the outbound connectors.
 
 ### Maven
 
-```xml
+Use the artifact `aerospike-connect-outbound-sdk` for all the outbound connectors except Elasticsearch:
 
+```xml
 <dependency>
     <groupId>com.aerospike</groupId>
     <artifactId>aerospike-connect-outbound-sdk</artifactId>
@@ -51,9 +52,22 @@ classpath conflicts with the outbound connectors.
 </dependency>
 ```
 
+Use the artifact `aerospike-connect-elasticsearch-outbound-sdk` for Elasticsearch outbound:
+
+```xml
+<dependency>
+    <groupId>com.aerospike</groupId>
+    <artifactId>aerospike-connect-elasticsearch-outbound-sdk</artifactId>
+    <version>2.1.2</version>
+    <scope>provided</scope>
+</dependency>
+```
+
 ### Gradle
 
 #### Kotlin DSL
+
+Use the artifact `aerospike-connect-outbound-sdk` for all the outbound connectors except Elasticsearch:
 
 ```kotlin
 dependencies {
@@ -61,11 +75,29 @@ dependencies {
 }
 ```
 
+Use the artifact `aerospike-connect-elasticsearch-outbound-sdk` for Elasticsearch outbound:
+
+```kotlin
+dependencies {
+    compileOnly("com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.1.2")
+}
+```
+
 #### Groovy
+
+Use the artifact `aerospike-connect-outbound-sdk` for all the outbound connectors except Elasticsearch:
 
 ```groovy
 dependencies {
     compileOnly "com.aerospike:aerospike-connect-outbound-sdk:2.2.0"
+}
+```
+
+Use the artifact `aerospike-connect-elasticsearch-outbound-sdk` for Elasticsearch outbound:
+
+```groovy
+dependencies {
+    compileOnly "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.1.2"
 }
 ```
 
