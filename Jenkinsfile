@@ -33,7 +33,7 @@ pipeline {
                 stage("Vulnerability scanning") {
                     steps {
                        echo "Running snyk scan.."
-                       sh "./gradlew --no-daemon snyk-test"
+                       sh "./gradlew --no-daemon snyk-test --no-parallel"
                     }
                 }
             }
