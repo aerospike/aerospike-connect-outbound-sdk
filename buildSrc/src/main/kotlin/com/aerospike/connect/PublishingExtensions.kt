@@ -64,28 +64,34 @@ fun Project.setupPublishingTasks() {
             pom {
                 name.set("Aerospike Connect Outbound SDK")
                 description.set(
-                    "Outbound connector SDK for change notification transformers.")
+                    "Outbound connector SDK for change notification transformers."
+                )
                 url.set(
-                    "https://github.com/aerospike/aerospike-connect-outbound-sdk")
+                    "https://github.com/aerospike/aerospike-connect-outbound-sdk"
+                )
                 licenses {
                     license {
                         name.set("The Apache License, Version 2.0")
                         url.set(
-                            "https://www.apache.org/licenses/LICENSE-2.0.txt")
+                            "https://www.apache.org/licenses/LICENSE-2.0.txt"
+                        )
                     }
                 }
                 scm {
                     connection.set(
-                        "scm:git@github.com:aerospike/aerospike-connect-outbound-sdk.git")
+                        "scm:git@github.com:aerospike/aerospike-connect-outbound-sdk.git"
+                    )
                     developerConnection.set(
-                        "scm:git@github.com:aerospike/aerospike-connect-outbound-sdk.git")
+                        "scm:git@github.com:aerospike/aerospike-connect-outbound-sdk.git"
+                    )
                     url.set(
-                        "https://github.com/aerospike/aerospike-connect-outbound-sdk")
+                        "https://github.com/aerospike/aerospike-connect-outbound-sdk"
+                    )
                 }
                 developers {
                     developer {
                         name.set("Aerospike")
-                        email.set("developers@aerospike.com")
+                        email.set("helpdesk@aerospike.com")
                         organization.set("Aerospike")
                         url.set("https://www.aerospike.com/")
                     }

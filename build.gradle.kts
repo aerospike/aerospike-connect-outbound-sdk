@@ -29,7 +29,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath("io.freefair.gradle:lombok-plugin:8.6")
+        classpath("io.freefair.gradle:lombok-plugin:8.14")
     }
 }
 
@@ -43,7 +43,7 @@ allprojects {
     pluginManager.withPlugin("jacoco") {
         // If this project has the plugin applied, configure the tool version.
         jacoco {
-            toolVersion = "0.8.11"
+            toolVersion = "0.8.13"
         }
     }
 }
@@ -69,14 +69,9 @@ subprojects {
         mavenCentral()
     }
 
-    dependencies {
-        // TODO: Investigate. Snyk fails on older version of this dependency.
-        "dataFiles"("org.json:json:20240303")
-    }
-
     group = "com.aerospike"
 
-    project.extra["jacksonVersion"] = "2.17.0"
+    project.extra["jacksonVersion"] = "2.19.1"
 
     setupJavaBuild()
     setupReleaseTasks()

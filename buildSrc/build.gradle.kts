@@ -30,6 +30,6 @@ repositories {
 }
 
 dependencies {
-    api("net.researchgate:gradle-release:2.8.1")
-    api("io.snyk.gradle.plugin.snykplugin:io.snyk.gradle.plugin.snykplugin.gradle.plugin:0.4")
+    api("net.researchgate:gradle-release:3.1.0")
+    api("io.snyk.gradle.plugin.snykplugin:io.snyk.gradle.plugin.snykplugin.gradle.plugin:0.7.0")
 }

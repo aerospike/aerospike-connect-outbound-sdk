@@ -21,7 +21,7 @@ dependencies {
     compileOnly(project(":aerospike-connect-outbound-sdk"))
 
     // Elasticsearch client
-    compileOnly("co.elastic.clients:elasticsearch-java:8.12.2")
+    compileOnly("co.elastic.clients:elasticsearch-java:8.18.2")
 
     // Jackson dependencies
     compileOnly(
