@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright 2012-2022 Aerospike, Inc.
+ *  Copyright 2012-2025 Aerospike, Inc.
  *
  *  Portions may be licensed to Aerospike, Inc. under one or more contributor
  *  license agreements WHICH ARE COMPATIBLE WITH THE APACHE LICENSE, VERSION 2.0.
@@ -37,14 +37,25 @@ fun Project.setupPublishingTasks() {
 
     publishing.repositories {
         maven {
+            val connectSnapshotsRepo: String by project
+            val connectSnapshotsRepoUser: String by project
+            val connectSnapshotsRepoPassword: String by project
+            val snapshotRepo = URI(connectSnapshotsRepo)
             val releaseRepo =
                 URI("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
-            val snapshotRepo =
-                URI("https://oss.sonatype.org/content/repositories/snapshots/")
+
             url = if (!isSnapshotVersion()) releaseRepo else snapshotRepo
             credentials {
-                username = project.properties["ossrhUsername"] as? String
-                password = project.properties["ossrhPassword"] as? String
+                username = if (!isSnapshotVersion()) {
+                    project.properties["ossrhUsername"] as? String
+                } else {
+                    connectSnapshotsRepoUser
+                }
+                password = if (!isSnapshotVersion()) {
+                    project.properties["ossrhPassword"] as? String
+                } else {
+                    connectSnapshotsRepoPassword
+                }
             }
         }
     }

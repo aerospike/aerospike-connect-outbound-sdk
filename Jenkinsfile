@@ -36,6 +36,13 @@ pipeline {
                        sh "./gradlew --no-daemon snyk-test --no-parallel"
                     }
                 }
+
+                stage("Upload") {
+                    steps {
+                        echo "Uploading archives.."
+                        sh "./gradlew --no-daemon publish"
+                    }
+                }
             }
         }
     }
