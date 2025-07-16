@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright 2012-2022 Aerospike, Inc.
+ *  Copyright 2012-2025 Aerospike, Inc.
  *
  *  Portions may be licensed to Aerospike, Inc. under one or more contributor
  *  license agreements WHICH ARE COMPATIBLE WITH THE APACHE LICENSE, VERSION 2.0.
@@ -29,16 +29,24 @@ import org.gradle.kotlin.dsl.getByName
 import org.gradle.kotlin.dsl.getValue
 import org.gradle.kotlin.dsl.provideDelegate
 
+private val defaultJavaTarget = JavaVersion.VERSION_1_8.majorVersion
+
 /**
  * Setup Java tasks and compiler arguments.
  */
 fun Project.setupJavaBuild() {
+    val javaVersion = (project.project.findProperty("javaTarget") as? String)
+        ?: defaultJavaTarget
+    println("using java version: $javaVersion for project ${project.name}")
     val compileJava: JavaCompile by tasks
-    compileJava.sourceCompatibility = JavaVersion.VERSION_11.majorVersion
-    compileJava.targetCompatibility = JavaVersion.VERSION_11.majorVersion
+    compileJava.sourceCompatibility = javaVersion
+    compileJava.targetCompatibility = javaVersion
     compileJava.options.apply {
         compilerArgs.add("-Xlint:all")
         compilerArgs.add("-Werror")
+        // Suppress warning: [options] source value 8 is obsolete and will be
+        // removed in a future release.
+        compilerArgs.add("-Xlint:-options")
         compilerArgs.add("-Xlint:-processing")
     }
 
