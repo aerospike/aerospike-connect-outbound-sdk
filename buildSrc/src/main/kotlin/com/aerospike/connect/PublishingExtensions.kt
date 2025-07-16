@@ -36,13 +36,14 @@ fun Project.setupPublishingTasks() {
         (project.extensions["publishing"] as PublishingExtension)
 
     publishing.repositories {
+        val connectSnapshotsRepo: String by project
+        val connectSnapshotsRepoUser: String by project
+        val connectSnapshotsRepoPassword: String by project
+
         maven {
-            val connectSnapshotsRepo: String by project
-            val connectSnapshotsRepoUser: String by project
-            val connectSnapshotsRepoPassword: String by project
-            val snapshotRepo = URI(connectSnapshotsRepo)
             val releaseRepo =
                 URI("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+            val snapshotRepo = URI(connectSnapshotsRepo)
 
             url = if (!isSnapshotVersion()) releaseRepo else snapshotRepo
             credentials {
