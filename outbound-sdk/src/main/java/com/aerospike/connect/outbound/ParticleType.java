@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright 2012-2025 Aerospike, Inc.
+ *  Copyright 2012-2022 Aerospike, Inc.
  *
  *  Portions may be licensed to Aerospike, Inc. under one or more contributor
  *  license agreements WHICH ARE COMPATIBLE WITH THE APACHE LICENSE, VERSION 2.0.
@@ -18,8 +18,6 @@
 
 package com.aerospike.connect.outbound;
 
-import lombok.Getter;
-
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
@@ -28,12 +26,11 @@ import java.util.stream.Collectors;
 /**
  * The Aerospike record bin particle types.
  */
-@Getter
 public enum ParticleType {
     /**
-     * Indicates an unknown value. Used as return value in
-     * {@link ParticleType#fromByte}  and {@link ParticleType#fromInt} to
-     * indicate an unknown value type.
+     * Indicates an unknown value. Used as return value in {@link
+     * ParticleType#fromByte}  and {@link ParticleType#fromInt} to indicate an
+     * unknown value type.
      */
     UNKNOWN(-1),
     /**
@@ -60,6 +57,26 @@ public enum ParticleType {
      * Serialized Java object.
      */
     JAVA_BLOB(7),
+    /**
+     * Serialized C# object.
+     */
+    CSHARP_BLOB(8),
+    /**
+     * Serialized Python object.
+     */
+    PYTHON_BLOB(9),
+    /**
+     * Serialized Ruby object.
+     */
+    RUBY_BLOB(10),
+    /**
+     * Serialized PHP object.
+     */
+    PHP_BLOB(11),
+    /**
+     * Serialized Erlang object.
+     */
+    ERLANG_BLOB(12),
     /**
      * Boolean type. Added in Aerospike server 5.6.
      */
@@ -92,6 +109,13 @@ public enum ParticleType {
     }
 
     /**
+     * @return the value representing the particle type.
+     */
+    public int getValue() {
+        return value;
+    }
+
+    /**
      * Map of Particle type value to Particle type.
      */
     private static final Map<Integer, ParticleType> valueToType =
@@ -103,8 +127,8 @@ public enum ParticleType {
      * Get the ParticleType from the value.
      *
      * @param value the value representing the particle type.
-     * @return the ParticleType represented by value,
-     * {@link ParticleType#UNKNOWN} if an unknown value.
+     * @return the ParticleType represented by value, {@link
+     * ParticleType#UNKNOWN} if an unknown value.
      */
     public static ParticleType fromInt(int value) {
         return valueToType.getOrDefault(value, ParticleType.UNKNOWN);
@@ -114,8 +138,8 @@ public enum ParticleType {
      * Get the ParticleType from the value.
      *
      * @param value the value representing the particle type.
-     * @return the ParticleType represented by value,
-     * {@link ParticleType#UNKNOWN} if an unknown value.
+     * @return the ParticleType represented by value, {@link
+     * ParticleType#UNKNOWN} if an unknown value.
      */
     public static ParticleType fromByte(byte value) {
         return fromInt(value);
