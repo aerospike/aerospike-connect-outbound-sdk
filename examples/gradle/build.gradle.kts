@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright 2012-2022 Aerospike, Inc.
+ *  Copyright 2012-2025 Aerospike, Inc.
  *
  *  Portions may be licensed to Aerospike, Inc. under one or more contributor
  *  license agreements WHICH ARE COMPATIBLE WITH THE APACHE LICENSE, VERSION 2.0.
@@ -15,8 +15,6 @@
  *  License for the specific language governing permissions and limitations under
  *  the License.
  */
-
-import org.gradle.api.JavaVersion
 
 buildscript {
     repositories {
@@ -48,7 +46,7 @@ dependencies {
     compileOnly("com.aerospike:aerospike-client-jdk8:9.0.5")
 
     // JSON formatting in some examples.
-    api("com.fasterxml.jackson.core:jackson-databind:2.19.1")
+    api("com.fasterxml.jackson.core:jackson-databind:2.18.4")
 
     // Aerospike outbound SDK.
     compileOnly("com.aerospike:aerospike-connect-outbound-sdk:2.2.0")
