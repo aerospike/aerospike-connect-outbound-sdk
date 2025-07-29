@@ -43,7 +43,7 @@ fun Project.setupPublishingTasks() {
 
         maven {
             val releaseRepo =
-                URI("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+                URI("https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/")
             val snapshotRepo = URI(connectSnapshotsRepo)
 
             url = if (!isSnapshotVersion()) releaseRepo else snapshotRepo
