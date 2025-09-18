@@ -77,11 +77,11 @@ compileJava.options.apply {
 
 plugins {
     `java-library`
-    id("io.github.goooler.shadow") version "8.1.8"
+    id("com.gradleup.shadow") version "9.1.0"
 }
 
 apply {
-    plugin("io.github.goooler.shadow") // Shade dependencies.
+    plugin("com.gradleup.shadow") // Shade dependencies.
     plugin("java")
     plugin("io.freefair.lombok")
 }
