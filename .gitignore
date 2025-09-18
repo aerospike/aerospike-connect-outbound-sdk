@@ -109,3 +109,7 @@ examples/maven/dependency-reduced-pom.xml
 !examples/gradle/wrapper/gradle-wrapper.jar
 
 snyk
+/examples/gradle/wrapper/gradle-wrapper.jar
+/examples/gradle/wrapper/gradle-wrapper.properties
+/examples/gradlew
+/examples/gradlew.bat

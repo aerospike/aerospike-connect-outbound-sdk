@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright 2012-2022 Aerospike, Inc.
+ *  Copyright 2012-2025 Aerospike, Inc.
  *
  *  Portions may be licensed to Aerospike, Inc. under one or more contributor
  *  license agreements WHICH ARE COMPATIBLE WITH THE APACHE LICENSE, VERSION 2.0.
@@ -24,7 +24,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("io.freefair.gradle:lombok-plugin:8.6")
+        classpath("io.freefair.gradle:lombok-plugin:8.14")
     }
 }
 
@@ -43,23 +43,23 @@ configurations.all {
 
 dependencies {
     // Aerospike client.
-    compileOnly("com.aerospike:aerospike-client-jdk8:8.1.0")
+    compileOnly("com.aerospike:aerospike-client-jdk8:9.0.5")
 
     // JSON formatting in some examples.
-    api("com.fasterxml.jackson.core:jackson-databind:2.17.0")
+    api("com.fasterxml.jackson.core:jackson-databind:2.18.4")
 
     // Aerospike outbound SDK.
     compileOnly("com.aerospike:aerospike-connect-outbound-sdk:2.2.0")
     compileOnly(
         "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.1.2"
     )
-    compileOnly("co.elastic.clients:elasticsearch-java:8.12.2")
+    compileOnly("co.elastic.clients:elasticsearch-java:8.18.2")
 
     // Logging.
-    compileOnly("org.slf4j:slf4j-api:2.0.12")
+    compileOnly("org.slf4j:slf4j-api:2.0.17")
 
     // Lombok's annotations.
-    compileOnly("org.projectlombok:lombok:1.18.32")
+    compileOnly("org.projectlombok:lombok:1.18.38")
 
     // Javax inject annotations.
     compileOnly("javax.inject:javax.inject:1")
@@ -68,34 +68,20 @@ dependencies {
 // Plugin should be compiled with the same/compatible Java version running
 // the outbound connector.
 val compileJava: JavaCompile by tasks
-compileJava.sourceCompatibility = "1.8"
-compileJava.targetCompatibility = "1.8"
+compileJava.sourceCompatibility = JavaVersion.VERSION_11.majorVersion
+compileJava.targetCompatibility = JavaVersion.VERSION_11.majorVersion
 compileJava.options.apply {
     compilerArgs.add("-Xlint:all")
     compilerArgs.add("-Werror")
-    // Suppress warning: [options] source value 8 is obsolete and will be
-    // removed in a future release.
-    compilerArgs.add("-Xlint:-options")
-}
-
-val compileTestJava: JavaCompile by tasks
-compileTestJava.sourceCompatibility = "1.8"
-compileTestJava.targetCompatibility = "1.8"
-compileTestJava.options.apply {
-    compilerArgs.add("-Xlint:all")
-    compilerArgs.add("-Werror")
-    // Suppress warning: [options] source value 8 is obsolete and will be
-    // removed in a future release.
-    compilerArgs.add("-Xlint:-options")
 }
 
 plugins {
     `java-library`
-    id("io.github.goooler.shadow") version "8.1.5"
+    id("com.gradleup.shadow") version "9.1.0"
 }
 
 apply {
-    plugin("io.github.goooler.shadow") // Shade dependencies.
+    plugin("com.gradleup.shadow") // Shade dependencies.
     plugin("java")
     plugin("io.freefair.lombok")
 }
