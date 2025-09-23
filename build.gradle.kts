@@ -16,6 +16,7 @@
  *  the License.
  */
 
+import com.aerospike.connect.createGithubPublishTasks
 import com.aerospike.connect.setupJavaBuild
 import com.aerospike.connect.setupPublishingTasks
 import com.aerospike.connect.setupReleaseTasks
@@ -77,4 +78,5 @@ subprojects {
     setupReleaseTasks()
     setupPublishingTasks()
     setupVulnerabilityScanning()
+    createGithubPublishTasks()
 }
