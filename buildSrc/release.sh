@@ -83,7 +83,7 @@ echo "Args release-notes-file:$releaseNotesFile"
 echo "--------------------------------------------------------------------------"
 
 # Run vulnerability scan on the module
-./gradlew --stacktrace --no-daemon ":$module:snyk-test --no-parallel"
+./gradlew --stacktrace --no-daemon ":$module:snyk-test" --no-parallel
 
 # Switch to module directory
 moduleDir=${module/aerospike-/}
