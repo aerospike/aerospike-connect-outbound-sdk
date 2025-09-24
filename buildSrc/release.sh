@@ -86,7 +86,7 @@ echo "--------------------------------------------------------------------------
 ./gradlew --stacktrace --no-daemon ":$module:snyk-test" --no-parallel
 
 # Switch to module directory
-moduleDir=${module/aerospike-/}
+moduleDir=${module/aerospike-connect-/}
 cd "$moduleDir" || exit
 
 # Run the release task
