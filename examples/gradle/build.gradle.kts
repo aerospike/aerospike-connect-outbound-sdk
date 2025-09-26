@@ -42,16 +42,10 @@ configurations.all {
 }
 
 dependencies {
-    // Aerospike client.
-    compileOnly("com.aerospike:aerospike-client-jdk8:9.0.5")
-
-    // JSON formatting in some examples.
-    api("com.fasterxml.jackson.core:jackson-databind:2.18.4")
-
     // Aerospike outbound SDK.
-    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:2.2.1")
+    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:2.2.2-SNAPSHOT")
     compileOnly(
-        "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.1.2"
+        "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.1.4-SNAPSHOT"
     )
     compileOnly("co.elastic.clients:elasticsearch-java:8.18.2")
 
@@ -60,9 +54,6 @@ dependencies {
 
     // Lombok's annotations.
     compileOnly("org.projectlombok:lombok:1.18.38")
-
-    // Javax inject annotations.
-    compileOnly("javax.inject:javax.inject:1")
 }
 
 // Plugin should be compiled with the same/compatible Java version running

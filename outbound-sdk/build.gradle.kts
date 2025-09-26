@@ -18,18 +18,18 @@
 
 dependencies {
     // JSR 305 for annotations
-    compileOnly("com.google.code.findbugs:jsr305:3.0.2")
+    api("com.google.code.findbugs:jsr305:3.0.2")
 
     // Aerospike Java Client
-    compileOnly("com.aerospike:aerospike-client-jdk8:9.2.0")
+    api("com.aerospike:aerospike-client-jdk8:9.2.0")
 
     // Jackson annotations
-    compileOnly(
+    api(
         "com.fasterxml.jackson.core:jackson-annotations:${
             project.extra["jacksonVersion"]
         }"
     )
-    compileOnly(
+    api(
         "com.fasterxml.jackson.core:jackson-databind:${
             project.extra["jacksonVersion"]
         }"

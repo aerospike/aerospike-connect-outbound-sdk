@@ -20,20 +20,22 @@ pipeline {
                     }
                 }
 
-                stage("Build") {
-                    steps {
-                        echo "Building.."
-                        sh "cd outbound-sdk; ../gradlew --no-daemon clean build; cd ../"
-                        sh "cd elasticsearch-outbound-sdk; ../gradlew --no-daemon clean build; cd ../"
-                        sh "cd examples/maven; mvn clean package; cd ../.."
-                        sh "cd examples/gradle;  ./gradlew --no-daemon clean shadowJar; cd ../.."
-                    }
-                }
+                stage("Checks") {
+                    parallel {
+                        stage("Build") {
+                            steps {
+                                echo "Building.."
+                                sh "cd outbound-sdk; ../gradlew --no-daemon clean build; cd ../"
+                                sh "cd elasticsearch-outbound-sdk; ../gradlew --no-daemon clean build; cd ../"
+                            }
+                        }
 
-                stage("Vulnerability scanning") {
-                    steps {
-                       echo "Running snyk scan.."
-                       sh "./gradlew --no-daemon snyk-test --no-parallel"
+                        stage("Vulnerability scanning") {
+                            steps {
+                               echo "Running snyk scan.."
+                               sh "./gradlew --no-daemon snyk-test --no-parallel"
+                            }
+                        }
                     }
                 }
 
@@ -41,6 +43,14 @@ pipeline {
                     steps {
                         echo "Uploading archives.."
                         sh "./gradlew --no-daemon publish"
+                    }
+                }
+
+                stage("Compile Examples") {
+                    steps {
+                        echo "Compiling Examples.."
+                        sh "cd examples/maven; mvn -U clean package; cd ../.."
+                        sh "cd examples/gradle;  ./gradlew --no-daemon clean shadowJar; cd ../.."
                     }
                 }
             }
