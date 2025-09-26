@@ -18,8 +18,8 @@
 
 dependencies {
     // Aerospike connect outbound sdk
-    api(project(":aerospike-connect-outbound-sdk"))
+    implementation(project(":aerospike-connect-outbound-sdk"))
 
     // Elasticsearch client
-    api("co.elastic.clients:elasticsearch-java:8.18.2")
+    implementation("co.elastic.clients:elasticsearch-java:8.18.2")
 }
