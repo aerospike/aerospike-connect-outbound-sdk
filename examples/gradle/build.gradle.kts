@@ -64,6 +64,10 @@ dependencies {
 
     // Lombok's annotations.
     compileOnly("org.projectlombok:lombok:1.18.38")
+
+    // Jakarta annotations.
+    compileOnly("jakarta.annotation:jakarta.annotation-api:3.0.0")
+    compileOnly("jakarta.inject:jakarta.inject-api:2.0.1")
 }
 
 // Plugin should be compiled with the same/compatible Java version running

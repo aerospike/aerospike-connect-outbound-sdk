@@ -19,13 +19,13 @@
 package com.aerospike.connect.outbound.esp;
 
 import com.aerospike.connect.outbound.format.OutboundMetadata;
+import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 
-import javax.annotation.Nullable;
 import java.net.URI;
 import java.util.Map;
 import java.util.Optional;

@@ -17,8 +17,7 @@
  */
 
 dependencies {
-    // JSR 305 for annotations
-    api("com.google.code.findbugs:jsr305:3.0.2")
+    api("jakarta.annotation:jakarta.annotation-api:3.0.0")
 
     // Aerospike Java Client
     api("com.aerospike:aerospike-client-jdk8:9.2.0")

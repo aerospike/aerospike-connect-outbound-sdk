@@ -27,13 +27,13 @@ import com.aerospike.connect.outbound.format.BatchFormatter;
 import com.aerospike.connect.outbound.format.BatchItem;
 import com.aerospike.connect.outbound.format.OutboundRecord;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
