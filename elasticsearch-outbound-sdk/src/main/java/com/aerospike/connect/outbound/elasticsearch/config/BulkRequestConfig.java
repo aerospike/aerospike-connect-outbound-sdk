@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright 2012-2022 Aerospike, Inc.
+ *  Copyright 2012-2025 Aerospike, Inc.
  *
  *  Portions may be licensed to Aerospike, Inc. under one or more contributor
  *  license agreements WHICH ARE COMPATIBLE WITH THE APACHE LICENSE, VERSION 2.0.
@@ -27,12 +27,12 @@ import com.aerospike.connect.outbound.config.DynamicFieldSource;
 import com.aerospike.connect.outbound.format.BatchFormatter;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.annotation.Nullable;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
-import javax.annotation.Nullable;
 import java.util.Objects;
 
 /**

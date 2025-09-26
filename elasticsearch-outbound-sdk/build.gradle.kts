@@ -18,20 +18,8 @@
 
 dependencies {
     // Aerospike connect outbound sdk
-    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:2.2.1")
+    implementation(project(":aerospike-connect-outbound-sdk"))
 
     // Elasticsearch client
-    compileOnly("co.elastic.clients:elasticsearch-java:8.18.2")
-
-    // Jackson dependencies
-    compileOnly(
-        "com.fasterxml.jackson.core:jackson-annotations:${
-            project.extra["jacksonVersion"]
-        }"
-    )
-    compileOnly(
-        "com.fasterxml.jackson.core:jackson-databind:${
-            project.extra["jacksonVersion"]
-        }"
-    )
+    implementation("co.elastic.clients:elasticsearch-java:8.18.2")
 }

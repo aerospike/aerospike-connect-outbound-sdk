@@ -22,12 +22,12 @@ import com.aerospike.connect.outbound.ChangeNotificationMetadata;
 import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.transformer.Transformer;
 import com.aerospike.connect.outbound.transformer.TransformerConfig;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 

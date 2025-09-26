@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright 2012-2022 Aerospike, Inc.
+ *  Copyright 2012-2025 Aerospike, Inc.
  *
  *  Portions may be licensed to Aerospike, Inc. under one or more contributor
  *  license agreements WHICH ARE COMPATIBLE WITH THE APACHE LICENSE, VERSION 2.0.
@@ -22,11 +22,11 @@ import com.aerospike.connect.outbound.ChangeNotificationRecord;
 import com.aerospike.connect.outbound.transformer.SkipChangeNotificationRecord;
 import com.aerospike.connect.outbound.transformer.Transformer;
 import com.aerospike.connect.outbound.transformer.TransformerConfig;
+import jakarta.inject.Inject;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
 import java.util.Map;
 import java.util.Optional;
 
