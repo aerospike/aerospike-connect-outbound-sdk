@@ -58,7 +58,7 @@ Use the artifact `aerospike-connect-elasticsearch-outbound-sdk` for Elasticsearc
 <dependency>
     <groupId>com.aerospike</groupId>
     <artifactId>aerospike-connect-elasticsearch-outbound-sdk</artifactId>
-    <version>2.1.3</version>
+    <version>2.1.4</version>
     <scope>provided</scope>
 </dependency>
 ```
@@ -79,7 +79,7 @@ Use the artifact `aerospike-connect-elasticsearch-outbound-sdk` for Elasticsearc
 
 ```kotlin
 dependencies {
-    compileOnly("com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.1.3")
+    compileOnly("com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.1.4")
 }
 ```
 
@@ -97,7 +97,7 @@ Use the artifact `aerospike-connect-elasticsearch-outbound-sdk` for Elasticsearc
 
 ```groovy
 dependencies {
-    compileOnly "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.1.3"
+    compileOnly "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.1.4"
 }
 ```
 
