@@ -34,6 +34,16 @@ repositories {
     maven {
         url = uri("https://oss.sonatype.org/content/repositories/snapshots")
     }
+    maven {
+        val connectSnapshotsRepo: String by project
+        val connectSnapshotsRepoUser: String by project
+        val connectSnapshotsRepoPassword: String by project
+        url = uri(connectSnapshotsRepo)
+        credentials {
+            username = connectSnapshotsRepoUser
+            password = connectSnapshotsRepoPassword
+        }
+    }
 }
 
 configurations.all {
