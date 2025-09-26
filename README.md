@@ -47,7 +47,7 @@ Use the artifact `aerospike-connect-outbound-sdk` for all the outbound connector
 <dependency>
     <groupId>com.aerospike</groupId>
     <artifactId>aerospike-connect-outbound-sdk</artifactId>
-    <version>2.2.1</version>
+    <version>2.2.2</version>
     <scope>provided</scope>
 </dependency>
 ```
@@ -71,7 +71,7 @@ Use the artifact `aerospike-connect-outbound-sdk` for all the outbound connector
 
 ```kotlin
 dependencies {
-    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:2.2.1")
+    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:2.2.2")
 }
 ```
 
@@ -89,7 +89,7 @@ Use the artifact `aerospike-connect-outbound-sdk` for all the outbound connector
 
 ```groovy
 dependencies {
-    compileOnly "com.aerospike:aerospike-connect-outbound-sdk:2.2.1"
+    compileOnly "com.aerospike:aerospike-connect-outbound-sdk:2.2.2"
 }
 ```
 
