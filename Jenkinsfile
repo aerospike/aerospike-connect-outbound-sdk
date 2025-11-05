@@ -49,7 +49,7 @@ pipeline {
                 stage("Compile Examples") {
                     steps {
                         echo "Compiling Examples.."
-                        sh "cd examples/maven; mvn -B -Dstyle.color=neve -U clean package; cd ../.."
+                        sh "cd examples/maven; mvn -B -Dstyle.color=never -U clean package; cd ../.."
                         sh "cd examples/gradle;  ./gradlew --no-daemon clean shadowJar; cd ../.."
                     }
                 }
