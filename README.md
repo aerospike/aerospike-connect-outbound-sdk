@@ -29,6 +29,13 @@ class.
 For detailed documentation
 see [Aerospike connector docs](https://docs.aerospike.com/docs/connect/streaming-from-asdb/outbound-message-transform.html)
 
+## Java version compatibility
+
+| SDK Version                | Minimum Java Version                                                                   |
+|----------------------------|----------------------------------------------------------------------------------------|
+| Outbound SDK               | <table><tr><td><= 2.2.2</td><td>8</td></tr><tr><td>2.3.0+</td><td>11</td></tr></table> |
+| Elasticsearch Outbound SDK | <table><tr><td><= 2.1.4</td><td>8</td></tr><tr><td>2.2.0+</td><td>11</td></tr></table> |
+
 ## Usage
 
 Add a dependency to this repo in your project. The plugin should be compiled
@@ -41,9 +48,11 @@ classpath conflicts with the outbound connectors.
 
 ### Maven
 
-Use the artifact `aerospike-connect-outbound-sdk` for all the outbound connectors except Elasticsearch:
+Use the artifact `aerospike-connect-outbound-sdk` for all the outbound
+connectors except Elasticsearch:
 
 ```xml
+
 <dependency>
     <groupId>com.aerospike</groupId>
     <artifactId>aerospike-connect-outbound-sdk</artifactId>
@@ -52,9 +61,11 @@ Use the artifact `aerospike-connect-outbound-sdk` for all the outbound connector
 </dependency>
 ```
 
-Use the artifact `aerospike-connect-elasticsearch-outbound-sdk` for Elasticsearch outbound:
+Use the artifact `aerospike-connect-elasticsearch-outbound-sdk` for
+Elasticsearch outbound:
 
 ```xml
+
 <dependency>
     <groupId>com.aerospike</groupId>
     <artifactId>aerospike-connect-elasticsearch-outbound-sdk</artifactId>
@@ -67,7 +78,8 @@ Use the artifact `aerospike-connect-elasticsearch-outbound-sdk` for Elasticsearc
 
 #### Kotlin DSL
 
-Use the artifact `aerospike-connect-outbound-sdk` for all the outbound connectors except Elasticsearch:
+Use the artifact `aerospike-connect-outbound-sdk` for all the outbound
+connectors except Elasticsearch:
 
 ```kotlin
 dependencies {
@@ -75,7 +87,8 @@ dependencies {
 }
 ```
 
-Use the artifact `aerospike-connect-elasticsearch-outbound-sdk` for Elasticsearch outbound:
+Use the artifact `aerospike-connect-elasticsearch-outbound-sdk` for
+Elasticsearch outbound:
 
 ```kotlin
 dependencies {
@@ -85,7 +98,8 @@ dependencies {
 
 #### Groovy
 
-Use the artifact `aerospike-connect-outbound-sdk` for all the outbound connectors except Elasticsearch:
+Use the artifact `aerospike-connect-outbound-sdk` for all the outbound
+connectors except Elasticsearch:
 
 ```groovy
 dependencies {
@@ -93,7 +107,8 @@ dependencies {
 }
 ```
 
-Use the artifact `aerospike-connect-elasticsearch-outbound-sdk` for Elasticsearch outbound:
+Use the artifact `aerospike-connect-elasticsearch-outbound-sdk` for
+Elasticsearch outbound:
 
 ```groovy
 dependencies {
