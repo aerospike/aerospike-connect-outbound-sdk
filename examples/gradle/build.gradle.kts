@@ -53,9 +53,9 @@ configurations.all {
 
 dependencies {
     // Aerospike outbound SDK.
-    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:2.2.2")
+    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:2.3.0-SNAPSHOT")
     compileOnly(
-        "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.1.4"
+        "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.2.0-SNAPSHOT"
     )
     compileOnly("co.elastic.clients:elasticsearch-java:8.18.2")
 
