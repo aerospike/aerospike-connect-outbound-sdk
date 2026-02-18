@@ -21,7 +21,6 @@ package com.aerospike.connect.outbound;
 import jakarta.annotation.Nullable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.ToString;
 
 /**
@@ -34,7 +33,7 @@ public class BinData {
     /**
      * The bin value.
      */
-    @NonNull
+    @Nullable
     private final Object value;
 
     /**
@@ -43,7 +42,7 @@ public class BinData {
     @Nullable
     private final Long lastUpdateTimeMs;
 
-    public BinData(@NonNull Object value, long lastUpdateTimeMs) {
+    public BinData(@Nullable Object value, @Nullable Long lastUpdateTimeMs) {
         this.value = value;
         this.lastUpdateTimeMs = lastUpdateTimeMs;
     }
