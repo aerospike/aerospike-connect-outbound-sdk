@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright 2012-2022 Aerospike, Inc.
+ *  Copyright 2012-2026 Aerospike, Inc.
  *
  *  Portions may be licensed to Aerospike, Inc. under one or more contributor
  *  license agreements WHICH ARE COMPATIBLE WITH THE APACHE LICENSE, VERSION 2.0.
@@ -48,9 +48,9 @@ public class ChangeNotificationRecord {
      * in case of a delete operation.
      *
      * <p>
-     * When passed as input to the {@link Formatter}, {@link Router}, or {@link
-     * Transformer} the blob and GeoJSON values in top level bins, in maps and
-     * lists are formatted as mentioned below
+     * When passed as input to the {@link Formatter}, {@link Router}, or
+     * {@link Transformer} the blob and GeoJSON values in top level bins, in
+     * maps and lists are formatted as mentioned below
      * <ul>
      *     <li>Java blob, C# blob, Python blob, Ruby blob, PHP blob, Erlang
      *     blob and HLL types; are formatted as
@@ -77,11 +77,11 @@ public class ChangeNotificationRecord {
      * be empty in case of a delete operation.
      */
     @NonNull
-    private final Map<String, Object> bins;
+    private final Map<String, BinData> bins;
 
     public ChangeNotificationRecord(
             @NonNull ChangeNotificationMetadata metadata,
-            @NonNull Map<String, Object> bins) {
+            @NonNull Map<String, BinData> bins) {
         this.metadata = metadata;
         this.bins = Collections.unmodifiableMap(bins);
     }
