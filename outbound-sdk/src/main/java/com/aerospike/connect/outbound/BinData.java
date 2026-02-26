@@ -21,6 +21,7 @@ package com.aerospike.connect.outbound;
 import com.aerospike.client.cdt.ListOrder;
 import com.aerospike.client.cdt.MapOrder;
 import jakarta.annotation.Nullable;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -28,6 +29,7 @@ import lombok.ToString;
 /**
  * The Aerospike Bin related data.
  */
+@AllArgsConstructor
 @EqualsAndHashCode
 @Getter
 @ToString
@@ -56,11 +58,7 @@ public class BinData {
     @Nullable
     private final MapOrder mapOrder;
 
-    public BinData(@Nullable Object value, @Nullable Long lastUpdateTimeMs,
-                   @Nullable ListOrder listOrder, @Nullable MapOrder mapOrder) {
-        this.value = value;
-        this.lastUpdateTimeMs = lastUpdateTimeMs;
-        this.listOrder = listOrder;
-        this.mapOrder = mapOrder;
+    public BinData(@Nullable Object value, @Nullable Long lastUpdateTimeMs) {
+        this(value, lastUpdateTimeMs, null, null);
     }
 }
