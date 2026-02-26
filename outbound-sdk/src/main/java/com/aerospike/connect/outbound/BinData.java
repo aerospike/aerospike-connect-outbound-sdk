@@ -18,6 +18,8 @@
 
 package com.aerospike.connect.outbound;
 
+import com.aerospike.client.cdt.ListOrder;
+import com.aerospike.client.cdt.MapOrder;
 import jakarta.annotation.Nullable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -42,8 +44,23 @@ public class BinData {
     @Nullable
     private final Long lastUpdateTimeMs;
 
-    public BinData(@Nullable Object value, @Nullable Long lastUpdateTimeMs) {
+    /**
+     * The order of the list if a {@link #value} is a list.
+     */
+    @Nullable
+    private final ListOrder listOrder;
+
+    /**
+     * The order of the map if a {@link #value} is a map.
+     */
+    @Nullable
+    private final MapOrder mapOrder;
+
+    public BinData(@Nullable Object value, @Nullable Long lastUpdateTimeMs,
+                   @Nullable ListOrder listOrder, @Nullable MapOrder mapOrder) {
         this.value = value;
         this.lastUpdateTimeMs = lastUpdateTimeMs;
+        this.listOrder = listOrder;
+        this.mapOrder = mapOrder;
     }
 }
