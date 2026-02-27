@@ -18,57 +18,30 @@
 
 package com.aerospike.connect.outbound;
 
+import com.aerospike.client.cdt.ListOrder;
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
 /**
- * The Aerospike Bin related data.
+ * Meta information about the list bin.
  */
 @AllArgsConstructor
 @EqualsAndHashCode
 @Getter
 @ToString
-public class BinData {
+public class ListContext {
     /**
-     * The {@link ParticleType} of a bin.
+     * The order of the list.
      */
     @Nonnull
-    private final ParticleType particleType;
+    private final ListOrder listOrder;
 
     /**
-     * The bin value.
+     * The size of the list.
      */
-    @Nullable
-    private final Object value;
-
-    /**
-     * The bin's last-updated-time.
-     */
-    @Nullable
-    private final Long lastUpdateTimeMs;
-
-    /**
-     * The meta info of the list if a {@link #value} is a list.
-     */
-    @Nullable
-    private final ListContext listContext;
-
-    /**
-     * The meta info of the map if a {@link #value} is a map.
-     */
-    @Nullable
-    private final MapContext mapContext;
-
-    public BinData(@Nonnull ParticleType particleType, @Nullable Object value) {
-        this(particleType, value, null, null, null);
-    }
-
-    public BinData(@Nonnull ParticleType particleType, @Nullable Object value,
-                   @Nullable Long lastUpdateTimeMs) {
-        this(particleType, value, lastUpdateTimeMs, null, null);
-    }
+    @Nonnull
+    private final Integer size;
 }

@@ -52,8 +52,7 @@ public class ChangeNotificationRecord {
      * {@link Transformer} the blob and GeoJSON values in top level bins, in
      * maps and lists are formatted as mentioned below
      * <ul>
-     *     <li>Java blob, C# blob, Python blob, Ruby blob, PHP blob, Erlang
-     *     blob and HLL types; are formatted as
+     *     <li>Java blob and HLL types; are formatted as
      *     {@link com.aerospike.client.Value.BytesValue BytesValue}. The
      *     BytesValue stores the underlying byte array and the
      *     {@link ParticleType}. The
