@@ -58,6 +58,10 @@ public class BinData {
     @Nullable
     private final MapOrder mapOrder;
 
+    public BinData(@Nullable Object value) {
+        this(value, null, null, null);
+    }
+
     public BinData(@Nullable Object value, @Nullable Long lastUpdateTimeMs) {
         this(value, lastUpdateTimeMs, null, null);
     }
