@@ -20,6 +20,7 @@ package com.aerospike.connect.outbound;
 
 import com.aerospike.client.cdt.ListOrder;
 import com.aerospike.client.cdt.MapOrder;
+import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -34,6 +35,12 @@ import lombok.ToString;
 @Getter
 @ToString
 public class BinData {
+    /**
+     * The {@link ParticleType} of a bin.
+     */
+    @Nonnull
+    private final ParticleType particleType;
+
     /**
      * The bin value.
      */
@@ -58,11 +65,12 @@ public class BinData {
     @Nullable
     private final MapOrder mapOrder;
 
-    public BinData(@Nullable Object value) {
-        this(value, null, null, null);
+    public BinData(@Nonnull ParticleType particleType, @Nullable Object value) {
+        this(particleType, value, null, null, null);
     }
 
-    public BinData(@Nullable Object value, @Nullable Long lastUpdateTimeMs) {
-        this(value, lastUpdateTimeMs, null, null);
+    public BinData(@Nonnull ParticleType particleType, @Nullable Object value,
+                   @Nullable Long lastUpdateTimeMs) {
+        this(particleType, value, lastUpdateTimeMs, null, null);
     }
 }
