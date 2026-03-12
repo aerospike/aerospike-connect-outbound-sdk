@@ -24,7 +24,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("io.freefair.gradle:lombok-plugin:8.14")
+        classpath("io.freefair.gradle:lombok-plugin:8.14.4")
     }
 }
 
@@ -55,15 +55,11 @@ dependencies {
     // Aerospike outbound SDK.
     compileOnly("com.aerospike:aerospike-connect-outbound-sdk:2.3.1")
     compileOnly(
-        "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.2.0"
+        "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.2.1"
     )
-    compileOnly("co.elastic.clients:elasticsearch-java:8.18.2")
 
     // Logging.
     compileOnly("org.slf4j:slf4j-api:2.0.17")
-
-    // Lombok's annotations.
-    compileOnly("org.projectlombok:lombok:1.18.38")
 
     // Jakarta annotations.
     compileOnly("jakarta.annotation:jakarta.annotation-api:3.0.0")
@@ -82,7 +78,7 @@ compileJava.options.apply {
 
 plugins {
     `java-library`
-    id("com.gradleup.shadow") version "9.1.0"
+    id("com.gradleup.shadow") version "9.3.2"
 }
 
 apply {
