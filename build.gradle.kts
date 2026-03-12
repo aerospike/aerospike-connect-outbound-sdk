@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright 2012-2025 Aerospike, Inc.
+ *  Copyright 2012-2026 Aerospike, Inc.
  *
  *  Portions may be licensed to Aerospike, Inc. under one or more contributor
  *  license agreements WHICH ARE COMPATIBLE WITH THE APACHE LICENSE, VERSION 2.0.
@@ -30,7 +30,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath("io.freefair.gradle:lombok-plugin:8.14")
+        classpath("io.freefair.gradle:lombok-plugin:8.14.4")
     }
 }
 
@@ -44,8 +44,11 @@ allprojects {
     pluginManager.withPlugin("jacoco") {
         // If this project has the plugin applied, configure the tool version.
         jacoco {
-            toolVersion = "0.8.13"
+            toolVersion = "0.8.14"
         }
+    }
+    apply {
+        plugin("com.github.ben-manes.versions")
     }
 }
 
@@ -72,7 +75,7 @@ subprojects {
 
     group = "com.aerospike"
 
-    project.extra["jacksonVersion"] = "2.18.4"
+    project.extra["jacksonVersion"] = "2.18.6"
 
     setupJavaBuild()
     setupReleaseTasks()

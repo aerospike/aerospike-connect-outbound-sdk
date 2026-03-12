@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright 2012-2025 Aerospike, Inc.
+ *  Copyright 2012-2026 Aerospike, Inc.
  *
  *  Portions may be licensed to Aerospike, Inc. under one or more contributor
  *  license agreements WHICH ARE COMPATIBLE WITH THE APACHE LICENSE, VERSION 2.0.
@@ -20,7 +20,7 @@ dependencies {
     api("jakarta.annotation:jakarta.annotation-api:3.0.0")
 
     // Aerospike Java Client
-    api("com.aerospike:aerospike-client-jdk8:9.2.0")
+    api("com.aerospike:aerospike-client-jdk8:9.3.0")
 
     // Jackson annotations
     api(
