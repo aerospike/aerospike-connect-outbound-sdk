@@ -16,10 +16,32 @@
  *  the License.
  */
 
-dependencies {
-    // Aerospike connect outbound sdk
-    api(project(":aerospike-connect-outbound-sdk"))
+package com.aerospike.connect.outbound;
 
-    // Elasticsearch client
-    api("co.elastic.clients:elasticsearch-java:8.19.11")
+import com.aerospike.client.cdt.MapOrder;
+import jakarta.annotation.Nonnull;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
+/**
+ * Meta information about the map bin.
+ */
+@AllArgsConstructor
+@EqualsAndHashCode
+@Getter
+@ToString
+public class MapContext {
+    /**
+     * The order of the map.
+     */
+    @Nonnull
+    private final MapOrder mapOrder;
+
+    /**
+     * The entries size of the map.
+     */
+    @Nonnull
+    private final Integer size;
 }

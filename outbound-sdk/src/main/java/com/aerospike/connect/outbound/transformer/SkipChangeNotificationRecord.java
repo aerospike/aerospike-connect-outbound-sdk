@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright 2012-2022 Aerospike, Inc.
+ *  Copyright 2012-2026 Aerospike, Inc.
  *
  *  Portions may be licensed to Aerospike, Inc. under one or more contributor
  *  license agreements WHICH ARE COMPATIBLE WITH THE APACHE LICENSE, VERSION 2.0.
@@ -40,7 +40,7 @@ import java.util.HashMap;
 public class SkipChangeNotificationRecord extends ChangeNotificationRecord {
     public SkipChangeNotificationRecord() {
         super(new ChangeNotificationMetadata(new Key("", "", ""),
-                        AerospikeOperation.WRITE, null, null, null,
+                        AerospikeOperation.WRITE, false, null, null, null,
                         RecordExistsAction.UPDATE, GenerationPolicy.NONE),
                 new HashMap<>());
     }
