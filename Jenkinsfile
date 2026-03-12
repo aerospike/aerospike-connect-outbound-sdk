@@ -36,6 +36,15 @@ pipeline {
                                sh "./gradlew --no-daemon snyk-test --no-parallel"
                             }
                         }
+
+                        stage("Dependency Upgrades") {
+                            steps {
+                                script {
+                                    echo "Checking dependencies.."
+                                    sh "./gradlew dependencyUpdates -Drevision=release -DgradleReleaseChannel=current -DoutputFormatter=html --no-parallel --warning-mode all"
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -58,6 +67,10 @@ pipeline {
     }
 
     post {
+        always {
+            archiveArtifacts artifacts: '**/build/dependencyUpdates/*'
+            recordCoverage(tools: [[parser: 'JACOCO']])
+        }
         cleanup {
             cleanWs()
         }

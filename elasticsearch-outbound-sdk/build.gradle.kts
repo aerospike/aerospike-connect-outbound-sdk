@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright 2012-2025 Aerospike, Inc.
+ *  Copyright 2012-2026 Aerospike, Inc.
  *
  *  Portions may be licensed to Aerospike, Inc. under one or more contributor
  *  license agreements WHICH ARE COMPATIBLE WITH THE APACHE LICENSE, VERSION 2.0.
@@ -18,8 +18,8 @@
 
 dependencies {
     // Aerospike connect outbound sdk
-    implementation("com.aerospike:aerospike-connect-outbound-sdk:2.3.0")
+    implementation(project(":aerospike-connect-outbound-sdk"))
 
     // Elasticsearch client
-    implementation("co.elastic.clients:elasticsearch-java:8.18.2")
+    api("co.elastic.clients:elasticsearch-java:8.19.11")
 }
