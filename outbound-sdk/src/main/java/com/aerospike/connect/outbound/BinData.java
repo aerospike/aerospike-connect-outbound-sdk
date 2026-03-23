@@ -55,7 +55,7 @@ public class BinData {
      * The src-id of XDR.
      */
     @Nullable
-    private final Byte srcId;
+    private final Short srcId;
 
     /**
      * The meta info of the list if a {@link #value} is a list.
@@ -79,7 +79,7 @@ public class BinData {
     }
 
     public BinData(@Nonnull ParticleType particleType, @Nullable Object value,
-                   @Nullable Long lastUpdateTimeMs, @Nullable Byte srcId) {
+                   @Nullable Long lastUpdateTimeMs, @Nullable Short srcId) {
         this(particleType, value, lastUpdateTimeMs, srcId, null, null);
     }
 }
