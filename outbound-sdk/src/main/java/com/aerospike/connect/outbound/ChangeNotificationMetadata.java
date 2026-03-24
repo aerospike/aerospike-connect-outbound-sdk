@@ -73,6 +73,12 @@ public class ChangeNotificationMetadata {
     private final Long lastUpdateTimeMs;
 
     /**
+     * The XDR's src-id field.
+     */
+    @Nullable
+    private final Short srcId;
+
+    /**
      * The expiry time of the record, measured in seconds since the Unix epoch.
      * It is shipped by Aerospike XDR only for write operations, and will be
      * <code>null</code> for delete operations. The value will be
@@ -92,6 +98,27 @@ public class ChangeNotificationMetadata {
      */
     @NonNull
     private final GenerationPolicy generationPolicy;
+
+    public ChangeNotificationMetadata(@NonNull Key key,
+                                      @NonNull AerospikeOperation operation,
+                                      @NonNull Boolean durable,
+                                      @Nullable Integer generation,
+                                      @Nullable Long lastUpdateTimeMs,
+                                      @Nullable Integer expiryTime,
+                                      @NonNull
+                                      RecordExistsAction recordExistsAction,
+                                      @NonNull
+                                      GenerationPolicy generationPolicy) {
+        this.key = key;
+        this.operation = operation;
+        this.durable = durable;
+        this.generation = generation;
+        this.lastUpdateTimeMs = lastUpdateTimeMs;
+        this.expiryTime = expiryTime;
+        this.recordExistsAction = recordExistsAction;
+        this.generationPolicy = generationPolicy;
+        this.srcId = 0;
+    }
 
     /**
      * Get the generation of the record. It is not shipped by Aerospike XDR
