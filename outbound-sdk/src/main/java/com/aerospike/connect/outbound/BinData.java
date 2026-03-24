@@ -52,12 +52,6 @@ public class BinData {
     private final Long lastUpdateTimeMs;
 
     /**
-     * The src-id of XDR.
-     */
-    @Nullable
-    private final Byte srcId;
-
-    /**
      * The meta info of the list if a {@link #value} is a list.
      */
     @Nullable
@@ -70,16 +64,11 @@ public class BinData {
     private final MapContext mapContext;
 
     public BinData(@Nonnull ParticleType particleType, @Nullable Object value) {
-        this(particleType, value, null, null, null, null);
+        this(particleType, value, null, null, null);
     }
 
     public BinData(@Nonnull ParticleType particleType, @Nullable Object value,
                    @Nullable Long lastUpdateTimeMs) {
-        this(particleType, value, lastUpdateTimeMs, null, null, null);
-    }
-
-    public BinData(@Nonnull ParticleType particleType, @Nullable Object value,
-                   @Nullable Long lastUpdateTimeMs, @Nullable Byte srcId) {
-        this(particleType, value, lastUpdateTimeMs, srcId, null, null);
+        this(particleType, value, lastUpdateTimeMs, null, null);
     }
 }
