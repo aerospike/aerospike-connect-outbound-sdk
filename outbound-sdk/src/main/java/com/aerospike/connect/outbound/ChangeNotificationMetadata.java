@@ -142,6 +142,16 @@ public class ChangeNotificationMetadata {
     }
 
     /**
+     * Get the XDR's src-id field value. It can be null if
+     * {@link #lastUpdateTimeMs} is null.
+     *
+     * @return the src-id of the record.
+     */
+    public Optional<Short> getSrcId() {
+        return Optional.ofNullable(srcId);
+    }
+
+    /**
      * Get the expiry time of the record, measured in seconds since the Unix
      * epoch. It is shipped by Aerospike XDR only for write operations, and will
      * be <code>null</code> for delete operations. The value will be
