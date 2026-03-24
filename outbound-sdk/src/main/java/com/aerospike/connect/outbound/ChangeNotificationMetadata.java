@@ -117,7 +117,7 @@ public class ChangeNotificationMetadata {
         this.expiryTime = expiryTime;
         this.recordExistsAction = recordExistsAction;
         this.generationPolicy = generationPolicy;
-        this.srcId = 0;
+        this.srcId = lastUpdateTimeMs == null ? null : (short) 0;
     }
 
     /**
