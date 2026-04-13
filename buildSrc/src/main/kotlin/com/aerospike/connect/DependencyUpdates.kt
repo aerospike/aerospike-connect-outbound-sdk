@@ -16,21 +16,25 @@
  *  the License.
  */
 
-dependencies {
-    api("jakarta.annotation:jakarta.annotation-api:3.0.0")
+package com.aerospike.connect
 
-    // Aerospike Java Client
-    api("com.aerospike:aerospike-client-jdk8:10.0.0")
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.gradle.api.Project
+import org.gradle.kotlin.dsl.withType
 
-    // Jackson annotations
-    api(
-        "com.fasterxml.jackson.core:jackson-annotations:${
-            project.extra["jacksonVersion"]
-        }"
-    )
-    api(
-        "com.fasterxml.jackson.core:jackson-databind:${
-            project.extra["jacksonVersion"]
-        }"
-    )
+private fun isNonStable(version: String): Boolean {
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any {
+        version.uppercase().contains(it)
+    }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    val isStable = stableKeyword || regex.matches(version)
+    return isStable.not()
+}
+
+fun Project.configureDependencyUpdate() {
+    tasks.withType<DependencyUpdatesTask> {
+        rejectVersionIf {
+            isNonStable(candidate.version) && !isNonStable(currentVersion)
+        }
+    }
 }
