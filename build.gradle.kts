@@ -16,6 +16,7 @@
  *  the License.
  */
 
+import com.aerospike.connect.configureDependencyUpdate
 import com.aerospike.connect.createGithubPublishTasks
 import com.aerospike.connect.setupJavaBuild
 import com.aerospike.connect.setupPublishingTasks
@@ -30,7 +31,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath("io.freefair.gradle:lombok-plugin:8.14.4")
+        classpath("io.freefair.gradle:lombok-plugin:9.2.0")
     }
 }
 
@@ -50,6 +51,7 @@ allprojects {
     apply {
         plugin("com.github.ben-manes.versions")
     }
+    configureDependencyUpdate()
 }
 
 tasks.withType<SnykTask> {

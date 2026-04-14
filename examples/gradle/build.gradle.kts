@@ -24,7 +24,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("io.freefair.gradle:lombok-plugin:8.14.4")
+        classpath("io.freefair.gradle:lombok-plugin:9.2.0")
     }
 }
 
