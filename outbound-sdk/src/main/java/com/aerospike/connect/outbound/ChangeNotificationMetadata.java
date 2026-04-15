@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright 2012-2025 Aerospike, Inc.
+ *  Copyright 2012-2026 Aerospike, Inc.
  *
  *  Portions may be licensed to Aerospike, Inc. under one or more contributor
  *  license agreements WHICH ARE COMPATIBLE WITH THE APACHE LICENSE, VERSION 2.0.
@@ -52,6 +52,12 @@ public class ChangeNotificationMetadata {
     private final AerospikeOperation operation;
 
     /**
+     * @return The durable delete flag value supplied by XDR.
+     */
+    @NonNull
+    private final Boolean durable;
+
+    /**
      * Record modification count. It is not shipped by Aerospike XDR versions
      * before v5.0.0, and will be <code>null</code> in these cases.
      */
@@ -65,6 +71,12 @@ public class ChangeNotificationMetadata {
      */
     @Nullable
     private final Long lastUpdateTimeMs;
+
+    /**
+     * The XDR's src-id field.
+     */
+    @Nullable
+    private final Short srcId;
 
     /**
      * The expiry time of the record, measured in seconds since the Unix epoch.
@@ -87,6 +99,27 @@ public class ChangeNotificationMetadata {
     @NonNull
     private final GenerationPolicy generationPolicy;
 
+    public ChangeNotificationMetadata(@NonNull Key key,
+                                      @NonNull AerospikeOperation operation,
+                                      @NonNull Boolean durable,
+                                      @Nullable Integer generation,
+                                      @Nullable Long lastUpdateTimeMs,
+                                      @Nullable Integer expiryTime,
+                                      @NonNull
+                                      RecordExistsAction recordExistsAction,
+                                      @NonNull
+                                      GenerationPolicy generationPolicy) {
+        this.key = key;
+        this.operation = operation;
+        this.durable = durable;
+        this.generation = generation;
+        this.lastUpdateTimeMs = lastUpdateTimeMs;
+        this.expiryTime = expiryTime;
+        this.recordExistsAction = recordExistsAction;
+        this.generationPolicy = generationPolicy;
+        this.srcId = lastUpdateTimeMs == null ? null : (short) 0;
+    }
+
     /**
      * Get the generation of the record. It is not shipped by Aerospike XDR
      * versions before v5.0.0, and will be <code>null</code> in these cases.
@@ -106,6 +139,16 @@ public class ChangeNotificationMetadata {
      */
     public Optional<Long> getLastUpdateTimeMs() {
         return Optional.ofNullable(lastUpdateTimeMs);
+    }
+
+    /**
+     * Get the XDR's src-id field value. It can be null if
+     * {@link #lastUpdateTimeMs} is null.
+     *
+     * @return the src-id of the record.
+     */
+    public Optional<Short> getSrcId() {
+        return Optional.ofNullable(srcId);
     }
 
     /**
