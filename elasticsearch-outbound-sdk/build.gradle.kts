@@ -21,5 +21,9 @@ dependencies {
     api(project(":aerospike-connect-outbound-sdk"))
 
     // Elasticsearch client
-    api("co.elastic.clients:elasticsearch-java:8.19.14")
+    api("co.elastic.clients:elasticsearch-java:8.19.14") {
+        // Exclude the Jackson 3 packages which require Java 17
+        exclude("tools.jackson.core")
+        exclude("tools.jackson")
+    }
 }
