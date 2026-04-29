@@ -25,7 +25,7 @@ dependencies {
     // Jackson annotations
     api(
         "com.fasterxml.jackson.core:jackson-annotations:${
-            project.extra["jacksonVersion"]
+            project.extra["jacksonAnnotationVersion"]
         }"
     )
     api(
