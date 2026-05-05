@@ -20,12 +20,12 @@ dependencies {
     api("jakarta.annotation:jakarta.annotation-api:3.0.0")
 
     // Aerospike Java Client
-    api("com.aerospike:aerospike-client-jdk8:10.0.0")
+    api("com.aerospike:aerospike-client-jdk8:9.3.0")
 
     // Jackson annotations
     api(
         "com.fasterxml.jackson.core:jackson-annotations:${
-            project.extra["jacksonVersion"]
+            project.extra["jacksonAnnotationVersion"]
         }"
     )
     api(
