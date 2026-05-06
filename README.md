@@ -56,7 +56,7 @@ connectors except Elasticsearch:
 <dependency>
     <groupId>com.aerospike</groupId>
     <artifactId>aerospike-connect-outbound-sdk</artifactId>
-    <version>2.3.2</version>
+    <version>2.3.3</version>
     <scope>provided</scope>
 </dependency>
 ```
@@ -83,7 +83,7 @@ connectors except Elasticsearch:
 
 ```kotlin
 dependencies {
-    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:2.3.2")
+    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:2.3.3")
 }
 ```
 
@@ -105,7 +105,7 @@ connectors except Elasticsearch:
 
 ```groovy
 dependencies {
-    compileOnly "com.aerospike:aerospike-connect-outbound-sdk:2.3.2"
+    compileOnly "com.aerospike:aerospike-connect-outbound-sdk:2.3.3"
 }
 ```
 
