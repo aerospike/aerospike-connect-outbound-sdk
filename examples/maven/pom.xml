@@ -31,7 +31,7 @@
          running the outbound connector -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>11</maven.compiler.release>
+        <maven.compiler.release>17</maven.compiler.release>
     </properties>
 
     <repositories>
@@ -46,7 +46,7 @@
         <dependency>
             <groupId>com.aerospike</groupId>
             <artifactId>aerospike-connect-outbound-sdk</artifactId>
-            <version>2.3.3</version>
+            <version>3.0.0</version>
             <scope>provided</scope> <!-- Do not include in JAR -->
         </dependency>
         <dependency>
@@ -100,13 +100,13 @@
 
     <build>
         <plugins>
-            <!-- Compile to Java 11 -->
+            <!-- Compile to Java 17 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.15.0</version>
                 <configuration>
-                    <release>11</release>
+                    <release>17</release>
                     <compilerArgs>
                         <arg>-Xlint:all</arg>
                         <arg>-Werror</arg>

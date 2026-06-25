@@ -31,10 +31,10 @@ see [Aerospike connector docs](https://docs.aerospike.com/docs/connect/streaming
 
 ## Java version compatibility
 
-| SDK Version                | Minimum Java Version                                                                   |
-|----------------------------|----------------------------------------------------------------------------------------|
-| Outbound SDK               | <table><tr><td><= 2.2.2</td><td>8</td></tr><tr><td>2.3.0+</td><td>11</td></tr></table> |
-| Elasticsearch Outbound SDK | <table><tr><td><= 2.1.4</td><td>8</td></tr><tr><td>2.2.0+</td><td>11</td></tr></table> |
+| SDK Version                | Minimum Java Version                                                                                                      |
+|----------------------------|---------------------------------------------------------------------------------------------------------------------------|
+| Outbound SDK               | <table><tr><td><= 2.2.2</td><td>8</td></tr><tr><td>2.3.0+</td><td>11</td></tr><tr><td>3.0.0+</td><td>17</td></tr></table> |
+| Elasticsearch Outbound SDK | <table><tr><td><= 2.1.4</td><td>8</td></tr><tr><td>2.2.0+</td><td>11</td></tr></table>                                    |
 
 ## Usage
 
@@ -56,7 +56,7 @@ connectors except Elasticsearch:
 <dependency>
     <groupId>com.aerospike</groupId>
     <artifactId>aerospike-connect-outbound-sdk</artifactId>
-    <version>2.3.3</version>
+    <version>3.0.0</version>
     <scope>provided</scope>
 </dependency>
 ```
@@ -83,7 +83,7 @@ connectors except Elasticsearch:
 
 ```kotlin
 dependencies {
-    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:2.3.3")
+    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:3.0.0")
 }
 ```
 
@@ -105,7 +105,7 @@ connectors except Elasticsearch:
 
 ```groovy
 dependencies {
-    compileOnly "com.aerospike:aerospike-connect-outbound-sdk:2.3.3"
+    compileOnly "com.aerospike:aerospike-connect-outbound-sdk:3.0.0"
 }
 ```
 
