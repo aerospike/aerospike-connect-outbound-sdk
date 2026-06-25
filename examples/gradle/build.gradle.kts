@@ -53,7 +53,7 @@ configurations.all {
 
 dependencies {
     // Aerospike outbound SDK.
-    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:2.3.3")
+    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:3.0.0")
     compileOnly(
         "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.2.3"
     )
@@ -69,8 +69,8 @@ dependencies {
 // Plugin should be compiled with the same/compatible Java version running
 // the outbound connector.
 val compileJava: JavaCompile by tasks
-compileJava.sourceCompatibility = JavaVersion.VERSION_11.majorVersion
-compileJava.targetCompatibility = JavaVersion.VERSION_11.majorVersion
+compileJava.sourceCompatibility = JavaVersion.VERSION_17.majorVersion
+compileJava.targetCompatibility = JavaVersion.VERSION_17.majorVersion
 compileJava.options.apply {
     compilerArgs.add("-Xlint:all")
     compilerArgs.add("-Werror")
