@@ -77,7 +77,7 @@ subprojects {
 
     group = "com.aerospike"
 
-    project.extra["jacksonVersion"] = "2.21.2"
+    project.extra["jacksonVersion"] = "2.21.4"
     project.extra["jacksonAnnotationVersion"] = "2.21"
 
     setupJavaBuild()

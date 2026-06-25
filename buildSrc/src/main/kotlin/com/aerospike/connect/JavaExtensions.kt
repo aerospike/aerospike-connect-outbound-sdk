@@ -33,8 +33,8 @@ import org.gradle.kotlin.dsl.provideDelegate
  */
 fun Project.setupJavaBuild() {
     val compileJava: JavaCompile by tasks
-    compileJava.sourceCompatibility = "11"
-    compileJava.targetCompatibility = "11"
+    compileJava.sourceCompatibility = "17"
+    compileJava.targetCompatibility = "17"
     compileJava.options.apply {
         compilerArgs.add("-Xlint:all")
         compilerArgs.add("-Werror")
