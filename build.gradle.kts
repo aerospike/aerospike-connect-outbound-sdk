@@ -81,10 +81,10 @@ subprojects {
     project.extra["jacksonVersion"] = "2.21.4"
     project.extra["jacksonAnnotationVersion"] = "2.21"
 
+    configureProperties()
     setupJavaBuild()
     setupReleaseTasks()
     setupPublishingTasks()
     setupVulnerabilityScanning()
     createGithubPublishTasks()
-    configureProperties()
 }
