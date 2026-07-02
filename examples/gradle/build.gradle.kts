@@ -30,20 +30,6 @@ buildscript {
 
 repositories {
     mavenCentral()
-
-    maven {
-        url = uri("https://oss.sonatype.org/content/repositories/snapshots")
-    }
-    maven {
-        val connectSnapshotsRepo: String by project
-        val connectSnapshotsRepoUser: String by project
-        val connectSnapshotsRepoPassword: String by project
-        url = uri(connectSnapshotsRepo)
-        credentials {
-            username = connectSnapshotsRepoUser
-            password = connectSnapshotsRepoPassword
-        }
-    }
 }
 
 configurations.all {
@@ -55,7 +41,7 @@ dependencies {
     // Aerospike outbound SDK.
     compileOnly("com.aerospike:aerospike-connect-outbound-sdk:3.0.0")
     compileOnly(
-        "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:2.2.3"
+        "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:3.0.0"
     )
 
     // Logging.

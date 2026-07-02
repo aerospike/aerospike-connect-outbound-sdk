@@ -17,6 +17,7 @@
  */
 
 import com.aerospike.connect.configureDependencyUpdate
+import com.aerospike.connect.configureProperties
 import com.aerospike.connect.createGithubPublishTasks
 import com.aerospike.connect.setupJavaBuild
 import com.aerospike.connect.setupPublishingTasks
@@ -80,6 +81,7 @@ subprojects {
     project.extra["jacksonVersion"] = "2.21.4"
     project.extra["jacksonAnnotationVersion"] = "2.21"
 
+    configureProperties()
     setupJavaBuild()
     setupReleaseTasks()
     setupPublishingTasks()
