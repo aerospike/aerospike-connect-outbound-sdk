@@ -21,6 +21,6 @@ private fun Project.applyCredentialsFromEnvironment() {
         "connectSnapshotsRepoPassword",
         "CONNECT_SNAPSHOTS_REPO_PASSWORD"
     )
-    setFromEnv("connectSnapshotsRepoURL", "CONNECT_SNAPSHOTS_REPO_URL")
+    setFromEnv("connectSnapshotsRepo", "CONNECT_SNAPSHOTS_REPO_URL")
     setFromEnv("snykTokens", "SNYK_TOKENS")
 }
