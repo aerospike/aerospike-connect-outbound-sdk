@@ -22,7 +22,10 @@ dependencies {
 
     // Elasticsearch client
     api("co.elastic.clients:elasticsearch-java:9.4.3") {
-        // Exclude the Jackson 3 packages which require Java 17
+        // Exclude unused vulnerable/incpmatible transitive dependencies
+        exclude("io.opentelemetry", "opentelemetry-api")
+        exclude("org.apache.httpcomponents.core5", "httpcore5-h2")
+        exclude("org.eclipse.parsson", "parsson")
         exclude("tools.jackson.core")
         exclude("tools.jackson")
     }
