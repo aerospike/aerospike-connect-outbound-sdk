@@ -6,6 +6,11 @@ pipeline {
         CONNECT_SNAPSHOTS_REPO_PASSWORD = credentials('connect-snapshots-repo-password')
         CONNECT_SNAPSHOTS_REPO_URL = credentials('connect-snapshots-repo-url')
         SNYK_TOKENS = credentials('snyk-tokens')
+        OSSRH_USERNAME = credentials('ossrh-username')
+        OSSRH_PASSWORD = credentials('ossrh-password')
+        SIGNING_KEY_ID = credentials('signing-key-id')
+        SIGNING_PASSWORD = credentials('signing-password')
+        SIGNING_SECRET_KEY_BASE64 = credentials('signing-secret-key-base64')
     }
 
     options {
@@ -52,6 +57,13 @@ pipeline {
                                 }
                             }
                         }
+                    }
+                }
+
+                stage("Validate Maven Central credentials") {
+                    steps {
+                        echo "Validating OSSRH credentials.."
+                        sh "./gradlew --no-daemon verifyOssrhCredentials"
                     }
                 }
 

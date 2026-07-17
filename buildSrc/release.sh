@@ -29,7 +29,10 @@ usage: bash release.sh --module aerospike-connect-outbound-sdk --version 1.1.0 -
   -n  (Required)          Path of release notes files
   -h                      Print usage help
 
-Requires github credentials as environment variables GITHUB_USERNAME and GITHUB_TOKEN
+Requires environment variables:
+  GITHUB_USERNAME, GITHUB_TOKEN
+  OSSRH_USERNAME, OSSRH_PASSWORD
+  SIGNING_KEY_ID, SIGNING_PASSWORD, SIGNING_SECRET_KEY_BASE64
 EOF
 }
 
@@ -84,6 +87,11 @@ echo "--------------------------------------------------------------------------
 
 # Run vulnerability scan on the module
 ./gradlew --stacktrace --no-daemon ":$module:snyk-test" --no-parallel
+
+# Fail fast if Maven Central credentials are invalid
+./gradlew --stacktrace --no-daemon verifyOssrhCredentials \
+  -Prelease.useAutomaticVersion=true \
+  -Prelease.releaseVersion=$version
 
 # Switch to module directory
 moduleDir=${module/aerospike-connect-/}
