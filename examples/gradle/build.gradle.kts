@@ -39,7 +39,7 @@ configurations.all {
 
 dependencies {
     // Aerospike outbound SDK.
-    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:3.0.0")
+    compileOnly("com.aerospike:aerospike-connect-outbound-sdk:3.0.1")
     compileOnly(
         "com.aerospike:aerospike-connect-elasticsearch-outbound-sdk:3.0.0"
     )
