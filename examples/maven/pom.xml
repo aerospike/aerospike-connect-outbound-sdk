@@ -46,7 +46,7 @@
         <dependency>
             <groupId>com.aerospike</groupId>
             <artifactId>aerospike-connect-outbound-sdk</artifactId>
-            <version>3.0.0</version>
+            <version>3.0.1</version>
             <scope>provided</scope> <!-- Do not include in JAR -->
         </dependency>
         <dependency>
