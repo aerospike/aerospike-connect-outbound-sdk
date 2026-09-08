@@ -17,12 +17,8 @@
  */
 
 import com.aerospike.connect.configureDependencyUpdate
-import com.aerospike.connect.configureProperties
-import com.aerospike.connect.createGithubPublishTasks
 import com.aerospike.connect.setupJavaBuild
-import com.aerospike.connect.setupOssrhCredentialValidation
 import com.aerospike.connect.setupPublishingTasks
-import com.aerospike.connect.setupReleaseTasks
 import com.aerospike.connect.setupVulnerabilityScanning
 import io.snyk.gradle.plugin.SnykTask
 
@@ -65,9 +61,7 @@ subprojects {
         plugin(JavaPlugin::class.java)
         plugin("java-library")
         plugin("jacoco")
-        plugin("signing")
         plugin("maven-publish")
-        plugin("net.researchgate.release")
         plugin("io.freefair.lombok")
         plugin("io.snyk.gradle.plugin.snykplugin")
     }
@@ -82,11 +76,7 @@ subprojects {
     project.extra["jacksonVersion"] = "2.22.1"
     project.extra["jacksonAnnotationVersion"] = "2.21"
 
-    configureProperties()
     setupJavaBuild()
-    setupReleaseTasks()
     setupPublishingTasks()
-    createGithubPublishTasks()
-    setupOssrhCredentialValidation()
     setupVulnerabilityScanning()
 }

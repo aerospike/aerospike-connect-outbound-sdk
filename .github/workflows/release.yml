@@ -1,0 +1,276 @@
+# Builds, signs, and publishes one SDK artifact to JFrog, then promotes that
+# bundle to DEV. The two artifacts release independently.
+#
+# USAGE:
+#   Dev: tag <artifact>-X.Y.Z-N from any branch to get a DEV bundle to try out
+#   QE:  squash-merge to main, tag <artifact>-X.Y.Z-N on that commit, then promote
+#   GA:  tag <artifact>-X.Y.Z at the same commit as the highest -N for that
+#        artifact on main. Push a tag, or run this workflow and enter the tag.
+#   If QE rejects, fix forward on main and tag a new N. Do not rewrite main.
+#   Then consume DEV and promote TEST then STAGE with "Promote SDK release bundle".
+#
+# ARTIFACTS (git tag prefix = JFrog bundle name = Maven artifactId):
+#   aerospike-connect-outbound-sdk
+#   aerospike-connect-elasticsearch-outbound-sdk
+#
+# A -N bundle can be built from any branch, because it only reaches DEV and the
+# next attempt just takes a new N. "Promote SDK release bundle" requires the tag
+# to be on main before TEST/STAGE. A GA version can never be rebuilt, so this
+# workflow checks it against main and the highest -N for that artifact up front.
+#
+# Bundles are immutable. Git tag is <artifact>-<Maven version>. Bundle name is
+# the artifact; bundle version and Maven GAV share X.Y.Z-N or X.Y.Z. Both
+# kinds are annotated with the logical version from that module's
+# gradle.properties.
+#
+# VERSION EXAMPLES (outbound-sdk/gradle.properties version=3.0.2):
+#   aerospike-connect-outbound-sdk-3.0.2-1 -> bundle/Maven 3.0.2-1; annotate 3.0.2
+#   aerospike-connect-outbound-sdk-3.0.2-2 -> next attempt; annotate 3.0.2
+#   aerospike-connect-outbound-sdk-3.0.2   -> GA at the same commit as the highest
+#                                            -N for this artifact on main
+#
+name: Build SDK release to DEV
+
+on:
+  push:
+    tags:
+      - "aerospike-connect-outbound-sdk-[0-9]+.[0-9]+.[0-9]+-[0-9]+"
+      - "aerospike-connect-outbound-sdk-[0-9]+.[0-9]+.[0-9]+"
+      - "aerospike-connect-elasticsearch-outbound-sdk-[0-9]+.[0-9]+.[0-9]+-[0-9]+"
+      - "aerospike-connect-elasticsearch-outbound-sdk-[0-9]+.[0-9]+.[0-9]+"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Git tag, for example aerospike-connect-outbound-sdk-3.0.2-1
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+
+# One release at a time per tag/artifact cut. The other SDK can ship in parallel.
+concurrency:
+  group: sdk-release-${{ inputs.version || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  release-metadata:
+    name: Resolve release metadata
+    runs-on: ubuntu-22.04
+    outputs:
+      artifact: ${{ steps.version.outputs.artifact }}
+      module-dir: ${{ steps.version.outputs.module-dir }}
+      version: ${{ steps.version.outputs.version }}
+      annotate-tag: ${{ steps.version.outputs.annotate-tag }}
+      maven-version: ${{ steps.version.outputs.maven-version }}
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        with:
+          egress-policy: audit
+
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Resolve and validate version
+        id: version
+        shell: bash
+        env:
+          DISPATCH_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          ref="${DISPATCH_VERSION:-${GITHUB_REF_NAME}}"
+          if [[ "$ref" =~ ^(aerospike-connect-elasticsearch-outbound-sdk|aerospike-connect-outbound-sdk)-([0-9]+\.[0-9]+\.[0-9]+)-([0-9]+)$ ]]; then
+            kind=qe
+            artifact="${BASH_REMATCH[1]}"
+            logical_version="${BASH_REMATCH[2]}"
+            build_number=$((10#${BASH_REMATCH[3]}))
+            if (( build_number < 1 )); then
+              echo "Build number N must be at least 1 in $ref" >&2
+              exit 1
+            fi
+            release_version="${logical_version}-${build_number}"
+          elif [[ "$ref" =~ ^(aerospike-connect-elasticsearch-outbound-sdk|aerospike-connect-outbound-sdk)-([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+            kind=ga
+            artifact="${BASH_REMATCH[1]}"
+            logical_version="${BASH_REMATCH[2]}"
+            release_version="$logical_version"
+          else
+            echo "Invalid release tag: $ref" >&2
+            echo "Use <artifact>-X.Y.Z-N for QE or <artifact>-X.Y.Z for GA." >&2
+            echo "Artifacts: aerospike-connect-outbound-sdk, aerospike-connect-elasticsearch-outbound-sdk" >&2
+            exit 1
+          fi
+
+          if [[ "$artifact" == aerospike-connect-elasticsearch-outbound-sdk ]]; then
+            module_dir=elasticsearch-outbound-sdk
+          else
+            module_dir=outbound-sdk
+          fi
+
+          current="$GITHUB_SHA"
+          # A -N bundle can be built from any branch: it only reaches DEV, and
+          # the next attempt just takes a new N. Promotion to TEST/STAGE is
+          # where the commit has to be on main. A GA version can never be
+          # rebuilt, so it is checked here, before the bundle name is spent.
+          if [[ "$kind" == ga ]]; then
+            git fetch origin main --tags
+            if ! git merge-base --is-ancestor "$current" origin/main; then
+              echo "GA tag $artifact-$release_version must be tagged from a commit on main" >&2
+              exit 1
+            fi
+            logical_re="${logical_version//./\\.}"
+            highest=0
+            highest_tag=""
+            while IFS= read -r tag; do
+              [[ -z "$tag" ]] && continue
+              t="${tag#refs/tags/}"
+              if [[ ! "$t" =~ ^${artifact}-${logical_re}-([0-9]+)$ ]]; then
+                continue
+              fi
+              n=$((10#${BASH_REMATCH[1]}))
+              # Only tags on main were promotable, so only those were certified.
+              # This skips -N tags a dev pushed from a branch for a DEV bundle.
+              if ! git merge-base --is-ancestor "${t}^{commit}" origin/main; then
+                echo "Ignoring $t: not on main"
+                continue
+              fi
+              if (( n > highest )); then
+                highest=$n
+                highest_tag="$t"
+              fi
+            done < <(git tag -l "${artifact}-${logical_version}-*")
+            if [[ -z "$highest_tag" ]]; then
+              echo "GA $artifact-$release_version requires a QE tag ${artifact}-${logical_version}-N on main; none found" >&2
+              exit 1
+            fi
+            certified="$(git rev-parse "${highest_tag}^{commit}")"
+            if [[ "$certified" != "$current" ]]; then
+              echo "GA $artifact-$release_version must use the same commit as the highest QE tag ${highest_tag}" >&2
+              echo "Certified commit: $certified" >&2
+              echo "This commit:      $current" >&2
+              exit 1
+            fi
+            echo "GA matches highest QE tag ${highest_tag} at $certified"
+          fi
+
+          echo "artifact=$artifact" >> "$GITHUB_OUTPUT"
+          echo "module-dir=$module_dir" >> "$GITHUB_OUTPUT"
+          echo "version=$release_version" >> "$GITHUB_OUTPUT"
+          echo "annotate-tag=$logical_version" >> "$GITHUB_OUTPUT"
+          echo "maven-version=$release_version" >> "$GITHUB_OUTPUT"
+          echo "Artifact: $artifact ($kind)"
+          echo "Release version: $release_version"
+          echo "Annotation tag: $logical_version"
+
+  build-sign-deploy:
+    name: Build, sign, and deploy
+    needs: release-metadata
+    uses: aerospike/shared-workflows/.github/workflows/reusable_artifacts-cicd.yaml@7c8b65df2568974435ab8b40c9e9de6eae13b3bb # main, includes shared-workflows#293
+    with:
+      gh-workflows-ref: 7c8b65df2568974435ab8b40c9e9de6eae13b3bb
+      gh-artifact-directory: dist
+      jf-project: connect
+      jf-build-name: ${{ needs.release-metadata.outputs.artifact }}
+      oidc-provider-name: gh-aerospike
+      oidc-audience: aerospike
+      version: ${{ needs.release-metadata.outputs.version }}
+      build-type: release
+      jar-group-id: com.aerospike
+      setup-java: true
+      java-cache: gradle
+      build-env: ARTIFACT=${{ needs.release-metadata.outputs.artifact }};MODULE_DIR=${{ needs.release-metadata.outputs.module-dir }};MAVEN_VERSION=${{ needs.release-metadata.outputs.maven-version }};LOGICAL_VERSION=${{ needs.release-metadata.outputs.annotate-tag }};SNYK_TOKENS=unused
+      build-script: |
+        set -euo pipefail
+        gradle_version=$(grep '^version=' "$MODULE_DIR/gradle.properties" | cut -d= -f2)
+        if [[ "$LOGICAL_VERSION" != "$gradle_version" ]]; then
+          echo "$MODULE_DIR/gradle.properties version ($gradle_version) must match bundle logical version ($LOGICAL_VERSION)" >&2
+          exit 1
+        fi
+        ./gradlew --no-daemon \
+          -Pversion="$MAVEN_VERSION" \
+          ":$ARTIFACT:clean" \
+          ":$ARTIFACT:build" \
+          ":$ARTIFACT:sourcesJar" \
+          ":$ARTIFACT:javadocJar" \
+          ":$ARTIFACT:generatePomFileForMavenJavaPublication" \
+          ":$ARTIFACT:generateMetadataFileForMavenJavaPublication"
+
+        mkdir -p dist
+        # The sources and javadoc jars have no sibling POM, so deploy-artifacts
+        # reads their coordinates from the Maven descriptor that the build
+        # embeds (see PublishingExtensions.embedMavenDescriptor). Without it
+        # they are stored outside the GAV of the main artifact.
+        cp "$MODULE_DIR/build/libs/"*.jar dist/
+        cp "$MODULE_DIR/build/publications/mavenJava/pom-default.xml" \
+          "dist/${ARTIFACT}-${MAVEN_VERSION}.pom"
+        # deploy-artifacts picks up stem-based Maven companions, so the Gradle
+        # Module Metadata file must share the JAR stem.
+        cp "$MODULE_DIR/build/publications/mavenJava/module.json" \
+          "dist/${ARTIFACT}-${MAVEN_VERSION}.module"
+        ls -la dist
+    secrets:
+      gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
+      gpg-public-key: ${{ secrets.GPG_PUBLIC_KEY }}
+      gpg-key-pass: ${{ secrets.GPG_PASS }}
+
+  create-release-bundle:
+    name: Create release bundle
+    needs:
+      - release-metadata
+      - build-sign-deploy
+    uses: aerospike/shared-workflows/.github/workflows/reusable_create-release-bundle.yaml@7c8b65df2568974435ab8b40c9e9de6eae13b3bb # main, includes shared-workflows#293
+    with:
+      gh-workflows-ref: 7c8b65df2568974435ab8b40c9e9de6eae13b3bb
+      jf-project: connect
+      jf-build-names: ${{ needs.build-sign-deploy.outputs.jf-build-name }}:${{ needs.build-sign-deploy.outputs.jf-build-id }}
+      jf-bundle-name: ${{ needs.release-metadata.outputs.artifact }}
+      version: ${{ needs.release-metadata.outputs.version }}
+
+  promote-to-dev:
+    name: Annotate and promote to DEV
+    needs:
+      - release-metadata
+      - create-release-bundle
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        with:
+          egress-policy: audit
+
+      - name: Set up JFrog CLI
+        uses: step-security/setup-jfrog-cli@53aeacb709fce45d0baf69a13ec3342f7e2d71a9 # v5.1.0
+        env:
+          # The JFrog CLI action has no default URL, unlike the reusable
+          # workflows, so this job sets the platform URL explicitly.
+          JF_URL: https://artifact.aerospike.io
+          JF_PROJECT: connect
+        with:
+          oidc-provider-name: gh-aerospike
+          oidc-audience: aerospike
+
+      - name: Annotate logical version
+        env:
+          BUNDLE_NAME: ${{ needs.release-metadata.outputs.artifact }}
+          BUNDLE_VERSION: ${{ needs.release-metadata.outputs.version }}
+          ANNOTATE_TAG: ${{ needs.release-metadata.outputs.annotate-tag }}
+        run: |
+          set -euo pipefail
+          echo "Annotating ${BUNDLE_NAME}/${BUNDLE_VERSION} with tag ${ANNOTATE_TAG}"
+          jf release-bundle-annotate "$BUNDLE_NAME" \
+            "$BUNDLE_VERSION" \
+            --project=connect \
+            --tag="$ANNOTATE_TAG"
+
+      - name: Promote to DEV
+        uses: aerospike/shared-workflows/.github/actions/promote-release-bundle@7c8b65df2568974435ab8b40c9e9de6eae13b3bb # main, includes shared-workflows#293
+        with:
+          bundle-name: ${{ needs.release-metadata.outputs.artifact }}
+          version: ${{ needs.release-metadata.outputs.version }}
+          environment: DEV
+          jf-project: connect

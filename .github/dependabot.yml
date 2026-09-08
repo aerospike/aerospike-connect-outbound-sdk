@@ -1,6 +1,17 @@
 version: 2
 updates:
-  - package-ecosystem: maven
-    directory: /examples/maven
+  - package-ecosystem: gradle
+    directory: /
+    target-branch: main
     schedule:
       interval: daily
+  - package-ecosystem: maven
+    directory: /examples/maven
+    target-branch: main
+    schedule:
+      interval: daily
+  - package-ecosystem: github-actions
+    directory: /
+    target-branch: main
+    schedule:
+      interval: weekly
