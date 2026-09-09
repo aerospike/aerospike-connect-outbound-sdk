@@ -1,0 +1,43 @@
+---
+description: Keep PR descriptions in sync with pushed commits
+alwaysApply: true
+---
+
+# PR Hygiene
+
+After pushing commits to a branch that already has an open PR, update that PR's
+description in the same turn. Do not treat the description as write-once.
+
+Check with `gh pr view <n> --json body`, then update with `gh pr edit <n> --body`.
+
+## What to keep current
+
+- **Summary**: every substantive change on the branch, including ones added
+  after the PR was opened. A reviewer reading only the description should not
+  be surprised by anything in the diff.
+- **Test plan**: tick items once verified; add rows for new behaviour.
+- **Base branch**: if the branch is rebased or retargeted, fix the stated base
+  and drop stale references to stacked PRs.
+
+## When to skip
+
+Skip only for commits that change nothing a reviewer would care about, such as
+a typo fix in a comment. Merge commits that pull the base branch in still count
+when they change behaviour, e.g. merging `stage` to pick up a CVE fix that
+turns CI green.
+
+## Example
+
+```bash
+# after: git push  (PR #83 already open)
+gh pr view 83 --json body --jq .body
+gh pr edit 83 --body "$(cat <<'EOF'
+## Summary
+- ... existing points ...
+- Merge `stage` to pick up the httpclient5 exclusion so the Snyk job passes.
+
+## Test plan
+- [x] CI green including Snyk
+EOF
+)"
+```

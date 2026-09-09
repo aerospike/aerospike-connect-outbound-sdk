@@ -1,0 +1,187 @@
+# Manually promote one SDK release bundle from DEV through TEST then STAGE.
+#
+# USAGE:
+#   1. Run "Build SDK release to DEV" and confirm the bundle is in DEV
+#   2. Actions → "Promote SDK release bundle" → Run workflow
+#   3. Enter the git tag (QE aerospike-connect-outbound-sdk-3.0.2-1, or
+#      GA aerospike-connect-outbound-sdk-3.0.2). Elasticsearch uses its own prefix.
+#   4. Check TEST and/or STAGE. STAGE promotes TEST first unless the
+#      bundle is already on TEST.
+#
+# A -N bundle may be built from any branch, so it can hold a dev commit. This
+# workflow is the gate: the tag named after <artifact>-<Maven version> must
+# point at a commit on main. Bundles built off a dev branch stay in DEV.
+#
+# TRIGGER: workflow_dispatch (manual only)
+#
+name: Promote SDK release bundle
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Git tag, for example aerospike-connect-outbound-sdk-3.0.2-1
+        required: true
+        type: string
+      test:
+        description: Promote to TEST
+        required: true
+        type: boolean
+        default: false
+      stage:
+        description: Promote to STAGE (includes TEST if not already there)
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: sdk-promote-${{ inputs.version }}
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    name: Promote bundle
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        with:
+          egress-policy: audit
+
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Verify the bundle was built from main
+        id: verify
+        shell: bash
+        env:
+          GIT_TAG: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          if [[ "$GIT_TAG" =~ ^(aerospike-connect-elasticsearch-outbound-sdk|aerospike-connect-outbound-sdk)-([0-9]+\.[0-9]+\.[0-9]+-[0-9]+)$ ]]; then
+            artifact="${BASH_REMATCH[1]}"
+            bundle_version="${BASH_REMATCH[2]}"
+          elif [[ "$GIT_TAG" =~ ^(aerospike-connect-elasticsearch-outbound-sdk|aerospike-connect-outbound-sdk)-([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+            artifact="${BASH_REMATCH[1]}"
+            bundle_version="${BASH_REMATCH[2]}"
+          else
+            echo "Invalid git tag: $GIT_TAG" >&2
+            echo "Use <artifact>-X.Y.Z-N for QE or <artifact>-X.Y.Z for GA." >&2
+            echo "Artifacts: aerospike-connect-outbound-sdk, aerospike-connect-elasticsearch-outbound-sdk" >&2
+            exit 1
+          fi
+
+          git fetch origin main --tags
+          if ! git rev-parse -q --verify "refs/tags/${GIT_TAG}^{commit}" >/dev/null; then
+            echo "No tag $GIT_TAG in this repository" >&2
+            echo "Promotion requires a tag named <artifact>-<Maven version>." >&2
+            exit 1
+          fi
+          commit="$(git rev-parse "refs/tags/${GIT_TAG}^{commit}")"
+          if ! git merge-base --is-ancestor "$commit" origin/main; then
+            echo "Tag $GIT_TAG ($commit) is not on main" >&2
+            echo "Only bundles built from main can be promoted past DEV." >&2
+            exit 1
+          fi
+          echo "Tag $GIT_TAG is on main at $commit"
+          echo "bundle-name=$artifact" >> "$GITHUB_OUTPUT"
+          echo "bundle-version=$bundle_version" >> "$GITHUB_OUTPUT"
+
+      - name: Set up JFrog CLI
+        uses: step-security/setup-jfrog-cli@53aeacb709fce45d0baf69a13ec3342f7e2d71a9 # v5.1.0
+        env:
+          JF_URL: https://artifact.aerospike.io
+          JF_PROJECT: connect
+        with:
+          oidc-provider-name: gh-aerospike
+          oidc-audience: aerospike
+
+      - name: Resolve destination environments
+        id: resolve
+        env:
+          BUNDLE_NAME: ${{ steps.verify.outputs.bundle-name }}
+          BUNDLE_VERSION: ${{ steps.verify.outputs.bundle-version }}
+          WANT_TEST: ${{ inputs.test }}
+          WANT_STAGE: ${{ inputs.stage }}
+        run: |
+          set -euo pipefail
+          want_test=false
+          want_stage=false
+          if [[ "${WANT_TEST}" == "true" ]]; then
+            want_test=true
+          fi
+          if [[ "${WANT_STAGE}" == "true" ]]; then
+            want_stage=true
+          fi
+          if [[ "$want_test" != true && "$want_stage" != true ]]; then
+            echo "Select TEST and/or STAGE" >&2
+            exit 1
+          fi
+
+          completed=""
+          records_path="/lifecycle/api/v2/promotion/records/${BUNDLE_NAME}/${BUNDLE_VERSION}?project=connect"
+          if records="$(jf curl -sS -XGET "$records_path" 2>/dev/null)"; then
+            completed="$(printf '%s' "$records" | jq -r '
+              [.promotions[]? | select(.status == "COMPLETED") | .environment] | unique | .[]
+            ' 2>/dev/null || true)"
+            echo "Completed promotions:"
+            printf '%s\n' "${completed:-"(none found)"}"
+          else
+            echo "Could not list promotions; will promote TEST if STAGE is selected"
+          fi
+
+          on_env() {
+            printf '%s\n' "$completed" | grep -qx "$1"
+          }
+
+          promote_test=false
+          promote_stage=false
+          if [[ "$want_test" == true ]]; then
+            if on_env TEST; then
+              echo "Already on TEST; skipping TEST"
+            else
+              promote_test=true
+            fi
+          fi
+          if [[ "$want_stage" == true ]]; then
+            if on_env STAGE; then
+              echo "Already on STAGE; skipping STAGE"
+            else
+              promote_stage=true
+              if ! on_env TEST && [[ "$promote_test" != true ]]; then
+                echo "STAGE selected and not on TEST; including TEST"
+                promote_test=true
+              fi
+            fi
+          fi
+
+          if [[ "$promote_test" != true && "$promote_stage" != true ]]; then
+            echo "Nothing to promote; already at the selected environment(s)"
+          fi
+          echo "promote-test=$promote_test" >> "$GITHUB_OUTPUT"
+          echo "promote-stage=$promote_stage" >> "$GITHUB_OUTPUT"
+
+      - name: Promote to TEST
+        if: steps.resolve.outputs.promote-test == 'true'
+        uses: aerospike/shared-workflows/.github/actions/promote-release-bundle@7c8b65df2568974435ab8b40c9e9de6eae13b3bb # main, includes shared-workflows#293
+        with:
+          bundle-name: ${{ steps.verify.outputs.bundle-name }}
+          version: ${{ steps.verify.outputs.bundle-version }}
+          environment: TEST
+          jf-project: connect
+
+      - name: Promote to STAGE
+        if: steps.resolve.outputs.promote-stage == 'true'
+        uses: aerospike/shared-workflows/.github/actions/promote-release-bundle@7c8b65df2568974435ab8b40c9e9de6eae13b3bb # main, includes shared-workflows#293
+        with:
+          bundle-name: ${{ steps.verify.outputs.bundle-name }}
+          version: ${{ steps.verify.outputs.bundle-version }}
+          environment: STAGE
+          jf-project: connect

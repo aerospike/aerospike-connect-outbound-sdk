@@ -24,6 +24,7 @@ dependencies {
     api("co.elastic.clients:elasticsearch-java:9.4.3") {
         // Exclude unused vulnerable/incpmatible transitive dependencies
         exclude("io.opentelemetry", "opentelemetry-api")
+        exclude("org.apache.httpcomponents.client5", "httpclient5")
         exclude("org.apache.httpcomponents.core5", "httpcore5-h2")
         exclude("org.eclipse.parsson", "parsson")
         exclude("tools.jackson.core")
