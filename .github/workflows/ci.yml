@@ -64,7 +64,7 @@ jobs:
 
       - name: Set up Gradle
         if: steps.decide.outputs.run == 'true'
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
 
       - name: Build SDK
         if: steps.decide.outputs.run == 'true'
@@ -137,7 +137,7 @@ jobs:
 
       - name: Set up Gradle
         if: steps.decide.outputs.run == 'true'
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
 
       - name: Scan dependencies with Snyk
         if: steps.decide.outputs.run == 'true' && env.SNYK_TOKENS != ''
@@ -164,7 +164,7 @@ jobs:
           java-version: "21"
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
 
       - name: Build Maven examples
         run: mvn -B -Dstyle.color=never -f examples/maven -U clean package
