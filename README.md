@@ -121,3 +121,13 @@ dependencies {
 ## Examples
 
 See [gradle](/examples/gradle) and [maven](/examples/maven) examples folder.
+
+## Releasing
+
+Development lands on `main` via squash-merge. Each artifact ships on its own
+tag prefix (`aerospike-connect-outbound-sdk-…` or
+`aerospike-connect-elasticsearch-outbound-sdk-…`) and its own JFrog bundle.
+Tag `<artifact>-X.Y.Z-N` from any branch for a DEV try-out. For QE, tag `-N`
+from `main` and promote. If QE rejects, fix forward on `main` and tag a new
+N. After certification, tag GA (`<artifact>-X.Y.Z`) at the same commit as
+that `-N`. See [docs/releasing.md](docs/releasing.md).

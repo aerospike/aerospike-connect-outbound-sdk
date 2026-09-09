@@ -1,6 +1,34 @@
 version: 2
 updates:
-  - package-ecosystem: maven
-    directory: /examples/maven
+  - package-ecosystem: gradle
+    directory: /
+    target-branch: main
     schedule:
       interval: daily
+    # Examples are a separate Gradle build; skip them from the SDK scan.
+    exclude-paths:
+      - examples/**
+
+  # Keep example ecosystems configured so StepSecurity does not re-open them.
+  # open-pull-requests-limit: 0 still runs the scheduled scan, but opens no
+  # version-update PRs. Security-update PRs, if enabled at repo level, can
+  # still appear.
+  - package-ecosystem: gradle
+    directory: /examples/gradle
+    target-branch: main
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 0
+
+  - package-ecosystem: maven
+    directory: /examples/maven
+    target-branch: main
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 0
+
+  - package-ecosystem: github-actions
+    directory: /
+    target-branch: main
+    schedule:
+      interval: weekly
