@@ -21,7 +21,7 @@ dependencies {
     api("com.aerospike:aerospike-connect-outbound-sdk:3.0.1")
 
     // Elasticsearch client
-    api("co.elastic.clients:elasticsearch-java:9.4.3") {
+    api("co.elastic.clients:elasticsearch-java:9.5.3") {
         // Exclude unused vulnerable/incpmatible transitive dependencies
         exclude("io.opentelemetry", "opentelemetry-api")
         exclude("org.apache.httpcomponents.client5", "httpclient5")
