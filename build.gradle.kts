@@ -29,7 +29,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath("io.freefair.gradle:lombok-plugin:9.2.0")
+        classpath("io.freefair.gradle:lombok-plugin:9.5.0")
     }
 }
 
