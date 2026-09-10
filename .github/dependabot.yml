@@ -2,7 +2,7 @@ version: 2
 updates:
   - package-ecosystem: gradle
     directory: /
-    target-branch: main
+    target-branch: stage
     schedule:
       interval: daily
     # Examples are a separate Gradle build; skip them from the SDK scan.
@@ -15,20 +15,20 @@ updates:
   # still appear.
   - package-ecosystem: gradle
     directory: /examples/gradle
-    target-branch: main
+    target-branch: stage
     schedule:
       interval: daily
     open-pull-requests-limit: 0
 
   - package-ecosystem: maven
     directory: /examples/maven
-    target-branch: main
+    target-branch: stage
     schedule:
       interval: daily
     open-pull-requests-limit: 0
 
   - package-ecosystem: github-actions
     directory: /
-    target-branch: main
+    target-branch: stage
     schedule:
       interval: weekly
