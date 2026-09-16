@@ -64,7 +64,7 @@ jobs:
 
       - name: Set up Gradle
         if: steps.decide.outputs.run == 'true'
-        uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4.4.3
+        uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
 
       - name: Build SDK
         if: steps.decide.outputs.run == 'true'
@@ -137,7 +137,7 @@ jobs:
 
       - name: Set up Gradle
         if: steps.decide.outputs.run == 'true'
-        uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4.4.3
+        uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
 
       - name: Scan dependencies with Snyk
         if: steps.decide.outputs.run == 'true' && env.SNYK_TOKENS != ''
@@ -164,7 +164,7 @@ jobs:
           java-version: "21"
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4.4.3
+        uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
 
       - name: Build Maven examples
         run: mvn -B -Dstyle.color=never -f examples/maven -U clean package
