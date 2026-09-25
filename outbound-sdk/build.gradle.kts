@@ -22,15 +22,6 @@ dependencies {
     // Aerospike Java Client
     api("com.aerospike:aerospike-client-jdk8:9.3.0")
 
-    // Jackson annotations
-    api(
-        "com.fasterxml.jackson.core:jackson-annotations:${
-            project.extra["jacksonAnnotationVersion"]
-        }"
-    )
-    api(
-        "com.fasterxml.jackson.core:jackson-databind:${
-            project.extra["jacksonVersion"]
-        }"
-    )
+    api(libs.jackson.annotations)
+    api(libs.jackson.databind)
 }
