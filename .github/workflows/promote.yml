@@ -53,7 +53,7 @@ jobs:
           egress-policy: audit
 
       - name: Check out source
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           fetch-tags: true
@@ -170,7 +170,7 @@ jobs:
 
       - name: Promote to TEST
         if: steps.resolve.outputs.promote-test == 'true'
-        uses: aerospike/shared-workflows/.github/actions/promote-release-bundle@7c8b65df2568974435ab8b40c9e9de6eae13b3bb # main, includes shared-workflows#293
+        uses: aerospike/shared-workflows/.github/actions/promote-release-bundle@bb39c4ec073b5693438911e6eefca7782ea53e8d # main, includes shared-workflows#293
         with:
           bundle-name: ${{ steps.verify.outputs.bundle-name }}
           version: ${{ steps.verify.outputs.bundle-version }}
@@ -179,7 +179,7 @@ jobs:
 
       - name: Promote to STAGE
         if: steps.resolve.outputs.promote-stage == 'true'
-        uses: aerospike/shared-workflows/.github/actions/promote-release-bundle@7c8b65df2568974435ab8b40c9e9de6eae13b3bb # main, includes shared-workflows#293
+        uses: aerospike/shared-workflows/.github/actions/promote-release-bundle@bb39c4ec073b5693438911e6eefca7782ea53e8d # main, includes shared-workflows#293
         with:
           bundle-name: ${{ steps.verify.outputs.bundle-name }}
           version: ${{ steps.verify.outputs.bundle-version }}

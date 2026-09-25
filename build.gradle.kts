@@ -29,7 +29,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath("io.freefair.gradle:lombok-plugin:9.2.0")
+        classpath("io.freefair.gradle:lombok-plugin:9.7.0")
     }
 }
 
@@ -72,9 +72,6 @@ subprojects {
     }
 
     group = "com.aerospike"
-
-    project.extra["jacksonVersion"] = "2.22.1"
-    project.extra["jacksonAnnotationVersion"] = "2.21"
 
     setupJavaBuild()
     setupPublishingTasks()
