@@ -73,9 +73,6 @@ subprojects {
 
     group = "com.aerospike"
 
-    project.extra["jacksonVersion"] = "2.22.1"
-    project.extra["jacksonAnnotationVersion"] = "2.21"
-
     setupJavaBuild()
     setupPublishingTasks()
     setupVulnerabilityScanning()
