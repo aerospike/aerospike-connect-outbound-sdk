@@ -17,7 +17,7 @@
 #
 
 [versions]
-jackson = "2.22.1"
+jackson = "2.22.3"
 jackson-annotations = "2.22"
 
 [libraries]
