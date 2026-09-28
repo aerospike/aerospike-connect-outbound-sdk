@@ -15,6 +15,7 @@ on:
 permissions:
   contents: read
   pull-requests: read
+  id-token: write
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.event_name }}-${{ github.head_ref || github.ref_name }}
@@ -31,6 +32,8 @@ jobs:
         uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
         with:
           egress-policy: audit
+          allowed-endpoints: >
+            artifact.aerospike.io:443
 
       - name: Skip push CI when a PR is open
         id: decide
@@ -66,12 +69,23 @@ jobs:
         if: steps.decide.outputs.run == 'true'
         uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
 
+      - name: JFrog OIDC token
+        if: steps.decide.outputs.run == 'true'
+        id: jf
+        uses: ./.github/actions/jfrog-oidc-token
+
       - name: Build SDK
         if: steps.decide.outputs.run == 'true'
+        env:
+          CONNECT_SDK_DEV_REPO_USER: ${{ steps.jf.outputs.user }}
+          CONNECT_SDK_DEV_REPO_PASSWORD: ${{ steps.jf.outputs.token }}
         run: ./gradlew --no-daemon clean build
 
       - name: Check dependency upgrades
         if: steps.decide.outputs.run == 'true'
+        env:
+          CONNECT_SDK_DEV_REPO_USER: ${{ steps.jf.outputs.user }}
+          CONNECT_SDK_DEV_REPO_PASSWORD: ${{ steps.jf.outputs.token }}
         run: >-
           ./gradlew --no-daemon dependencyUpdates
           -Drevision=release
@@ -104,6 +118,8 @@ jobs:
         uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
         with:
           egress-policy: audit
+          allowed-endpoints: >
+            artifact.aerospike.io:443
 
       - name: Skip push CI when a PR is open
         id: decide
@@ -139,8 +155,16 @@ jobs:
         if: steps.decide.outputs.run == 'true'
         uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
 
+      - name: JFrog OIDC token
+        if: steps.decide.outputs.run == 'true'
+        id: jf
+        uses: ./.github/actions/jfrog-oidc-token
+
       - name: Scan dependencies with Snyk
         if: steps.decide.outputs.run == 'true' && env.SNYK_TOKENS != ''
+        env:
+          CONNECT_SDK_DEV_REPO_USER: ${{ steps.jf.outputs.user }}
+          CONNECT_SDK_DEV_REPO_PASSWORD: ${{ steps.jf.outputs.token }}
         run: ./gradlew --no-daemon snyk-test
 
   examples:

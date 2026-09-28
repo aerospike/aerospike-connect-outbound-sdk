@@ -193,7 +193,6 @@ jobs:
         fi
         # Elasticsearch compiles against the published outbound SDK in connect
         # Maven DEV. execute-build already logged JFrog CLI in via OIDC.
-        export USE_PUBLISHED_OUTBOUND_SDK=true
         export CONNECT_SDK_DEV_REPO_USER="${CONNECT_SDK_DEV_REPO_USER:-${JF_USER:-}}"
         export CONNECT_SDK_DEV_REPO_PASSWORD="${CONNECT_SDK_DEV_REPO_PASSWORD:-${JF_ACCESS_TOKEN:-}}"
         ./gradlew --no-daemon \

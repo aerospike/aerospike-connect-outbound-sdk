@@ -16,17 +16,9 @@
  *  the License.
  */
 
-import groovy.util.Node
-import org.gradle.api.publish.PublishingExtension
-import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.kotlin.dsl.getByType
-import org.gradle.kotlin.dsl.named
-
-val outboundSdkVersion = "3.0.2-1"
-
 dependencies {
-    // Published outbound SDK (3.0.2-1 is in connect Maven DEV).
-    api("com.aerospike:aerospike-connect-outbound-sdk:$outboundSdkVersion")
+    // Maven GAV in connect DEV (logical GA line is still 3.0.2).
+    api("com.aerospike:aerospike-connect-outbound-sdk:3.0.2-1")
 
     // Elasticsearch client
     api("co.elastic.clients:elasticsearch-java:9.4.3") {
@@ -38,44 +30,4 @@ dependencies {
         exclude("tools.jackson.core")
         exclude("tools.jackson")
     }
-}
-
-// CI compiles against in-repo sources so GitHub Actions does not need JFrog.
-// Release sets USE_PUBLISHED_OUTBOUND_SDK=true to resolve the DEV GAV.
-val usePublishedOutboundSdk =
-    providers.environmentVariable("USE_PUBLISHED_OUTBOUND_SDK")
-        .orElse(providers.gradleProperty("usePublishedOutboundSdk"))
-        .map { it.equals("true", ignoreCase = true) }
-        .orElse(false)
-
-if (!usePublishedOutboundSdk.get()) {
-    configurations.configureEach {
-        resolutionStrategy.dependencySubstitution {
-            substitute(module("com.aerospike:aerospike-connect-outbound-sdk"))
-                .using(project(":aerospike-connect-outbound-sdk"))
-        }
-    }
-}
-
-afterEvaluate {
-    extensions.getByType<PublishingExtension>().publications
-        .named<MavenPublication>("mavenJava") {
-            pom.withXml {
-                asNode().children().filterIsInstance<Node>().forEach { node ->
-                    if (!node.name().toString().endsWith("dependencies")) {
-                        return@forEach
-                    }
-                    node.children().filterIsInstance<Node>().forEach { dep ->
-                        val children = dep.children().filterIsInstance<Node>()
-                        val artifactId = children
-                            .firstOrNull { it.name().toString().endsWith("artifactId") }
-                            ?.text()
-                        if (artifactId == "aerospike-connect-outbound-sdk") {
-                            children.first { it.name().toString().endsWith("version") }
-                                .setValue(outboundSdkVersion)
-                        }
-                    }
-                }
-            }
-        }
 }

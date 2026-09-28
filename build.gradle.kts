@@ -71,14 +71,7 @@ subprojects {
         mavenLocal()
         mavenCentral()
     }
-    if (providers.environmentVariable("USE_PUBLISHED_OUTBOUND_SDK")
-            .orElse(providers.gradleProperty("usePublishedOutboundSdk"))
-            .map { it.equals("true", ignoreCase = true) }
-            .orElse(false)
-            .get()
-    ) {
-        addConnectSdkDevMavenRepository()
-    }
+    addConnectSdkDevMavenRepository()
 
     group = "com.aerospike"
 

@@ -27,7 +27,7 @@ import org.gradle.kotlin.dsl.repositories
  * Credentials (first match wins):
  * - Gradle properties `connectSDKDevRepoUser` / `connectSDKDevRepoPassword`
  * - `CONNECT_SDK_DEV_REPO_USER` / `CONNECT_SDK_DEV_REPO_PASSWORD`
- * - JFrog CLI OIDC: `JF_USER` / `JF_ACCESS_TOKEN`
+ * - JFrog CLI / GitHub OIDC: `JF_USER` / `JF_ACCESS_TOKEN`
  */
 fun Project.addConnectSdkDevMavenRepository() {
     val user = firstNonBlank(
@@ -45,7 +45,7 @@ fun Project.addConnectSdkDevMavenRepository() {
         maven {
             name = "connectMavenDev"
             url = uri(
-                "https://aerospike.jfrog.io/artifactory/connect-maven-dev-local/"
+                "https://artifact.aerospike.io/artifactory/connect-maven-dev-local/"
             )
             if (user != null && password != null) {
                 credentials {

@@ -1,0 +1,65 @@
+name: JFrog OIDC token
+description: Exchange GitHub OIDC for a JFrog access token without installing JFrog CLI.
+
+outputs:
+  user:
+    description: JFrog username from the access token
+    value: ${{ steps.exchange.outputs.user }}
+  token:
+    description: JFrog access token
+    value: ${{ steps.exchange.outputs.token }}
+
+runs:
+  using: composite
+  steps:
+    - name: Exchange GitHub OIDC for JFrog access token
+      id: exchange
+      shell: bash
+      env:
+        JF_URL: https://artifact.aerospike.io
+        OIDC_AUDIENCE: aerospike
+        OIDC_PROVIDER: gh-aerospike
+      run: |
+        set -euo pipefail
+        request_url="${ACTIONS_ID_TOKEN_REQUEST_URL}"
+        if [[ "${request_url}" == *"?"* ]]; then
+          request_url="${request_url}&audience=${OIDC_AUDIENCE}"
+        else
+          request_url="${request_url}?audience=${OIDC_AUDIENCE}"
+        fi
+        github_jwt="$(curl -fsSL \
+          -H "Authorization: Bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" \
+          "${request_url}" | jq -r .value)"
+        if [[ -z "${github_jwt}" || "${github_jwt}" == "null" ]]; then
+          echo "Failed to mint a GitHub OIDC token" >&2
+          exit 1
+        fi
+        response="$(curl -fsSL -X POST "${JF_URL}/access/api/v1/oidc/token" \
+          -H "Content-Type: application/json" \
+          -d "$(jq -n \
+            --arg token "${github_jwt}" \
+            --arg provider "${OIDC_PROVIDER}" \
+            '{
+              grant_type: "urn:ietf:params:oauth:grant-type:token-exchange",
+              subject_token_type: "urn:ietf:params:oauth:token-type:id_token",
+              subject_token: $token,
+              provider_name: $provider
+            }')")"
+        access_token="$(printf '%s' "${response}" | jq -r '.access_token // empty')"
+        if [[ -z "${access_token}" ]]; then
+          echo "JFrog OIDC token exchange failed" >&2
+          printf '%s\n' "${response}" | jq -c 'del(.access_token) | del(.token)' >&2 || true
+          exit 1
+        fi
+        echo "::add-mask::${access_token}"
+        user="$(python3 - "${access_token}" <<'PY'
+import base64, json, sys
+token = sys.argv[1]
+payload = token.split(".")[1]
+payload += "=" * ((4 - len(payload) % 4) % 4)
+claims = json.loads(base64.urlsafe_b64decode(payload.encode()))
+print(claims.get("sub") or claims.get("username") or "oidc")
+PY
+)"
+        echo "user=${user}" >> "${GITHUB_OUTPUT}"
+        echo "token=${access_token}" >> "${GITHUB_OUTPUT}"
