@@ -191,6 +191,10 @@ jobs:
           echo "$MODULE_DIR/gradle.properties version ($gradle_version) must match bundle logical version ($LOGICAL_VERSION)" >&2
           exit 1
         fi
+        # Elasticsearch compiles against the published outbound SDK in connect
+        # Maven DEV. execute-build already logged JFrog CLI in via OIDC.
+        export CONNECT_SDK_DEV_REPO_USER="${CONNECT_SDK_DEV_REPO_USER:-${JF_USER:-}}"
+        export CONNECT_SDK_DEV_REPO_PASSWORD="${CONNECT_SDK_DEV_REPO_PASSWORD:-${JF_ACCESS_TOKEN:-}}"
         ./gradlew --no-daemon \
           -Pversion="$MAVEN_VERSION" \
           ":$ARTIFACT:clean" \

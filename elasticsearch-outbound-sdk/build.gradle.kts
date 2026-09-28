@@ -17,8 +17,8 @@
  */
 
 dependencies {
-    // Aerospike connect outbound sdk
-    api(project(":aerospike-connect-outbound-sdk"))
+    // Published outbound SDK (3.0.2-1 is in connect Maven DEV).
+    api("com.aerospike:aerospike-connect-outbound-sdk:3.0.2-1")
 
     // Elasticsearch client
     api("co.elastic.clients:elasticsearch-java:9.4.3") {

@@ -16,6 +16,7 @@
  *  the License.
  */
 
+import com.aerospike.connect.addConnectSdkDevMavenRepository
 import com.aerospike.connect.configureDependencyUpdate
 import com.aerospike.connect.setupJavaBuild
 import com.aerospike.connect.setupPublishingTasks
@@ -70,6 +71,7 @@ subprojects {
         mavenLocal()
         mavenCentral()
     }
+    addConnectSdkDevMavenRepository()
 
     group = "com.aerospike"
 
