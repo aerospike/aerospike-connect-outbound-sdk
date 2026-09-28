@@ -15,7 +15,6 @@ on:
 permissions:
   contents: read
   pull-requests: read
-  id-token: write
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.event_name }}-${{ github.head_ref || github.ref_name }}
@@ -67,28 +66,12 @@ jobs:
         if: steps.decide.outputs.run == 'true'
         uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
 
-      - name: Set up JFrog CLI
-        if: steps.decide.outputs.run == 'true'
-        id: jf
-        uses: step-security/setup-jfrog-cli@53aeacb709fce45d0baf69a13ec3342f7e2d71a9 # v5.1.0
-        env:
-          JF_URL: https://artifact.aerospike.io
-        with:
-          oidc-provider-name: gh-aerospike
-          oidc-audience: aerospike
-
       - name: Build SDK
         if: steps.decide.outputs.run == 'true'
-        env:
-          CONNECT_SDK_DEV_REPO_USER: ${{ steps.jf.outputs.oidc-user }}
-          CONNECT_SDK_DEV_REPO_PASSWORD: ${{ steps.jf.outputs.oidc-token }}
         run: ./gradlew --no-daemon clean build
 
       - name: Check dependency upgrades
         if: steps.decide.outputs.run == 'true'
-        env:
-          CONNECT_SDK_DEV_REPO_USER: ${{ steps.jf.outputs.oidc-user }}
-          CONNECT_SDK_DEV_REPO_PASSWORD: ${{ steps.jf.outputs.oidc-token }}
         run: >-
           ./gradlew --no-daemon dependencyUpdates
           -Drevision=release
@@ -156,21 +139,8 @@ jobs:
         if: steps.decide.outputs.run == 'true'
         uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
 
-      - name: Set up JFrog CLI
-        if: steps.decide.outputs.run == 'true'
-        id: jf
-        uses: step-security/setup-jfrog-cli@53aeacb709fce45d0baf69a13ec3342f7e2d71a9 # v5.1.0
-        env:
-          JF_URL: https://artifact.aerospike.io
-        with:
-          oidc-provider-name: gh-aerospike
-          oidc-audience: aerospike
-
       - name: Scan dependencies with Snyk
         if: steps.decide.outputs.run == 'true' && env.SNYK_TOKENS != ''
-        env:
-          CONNECT_SDK_DEV_REPO_USER: ${{ steps.jf.outputs.oidc-user }}
-          CONNECT_SDK_DEV_REPO_PASSWORD: ${{ steps.jf.outputs.oidc-token }}
         run: ./gradlew --no-daemon snyk-test
 
   examples:
