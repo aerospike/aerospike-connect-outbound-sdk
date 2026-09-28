@@ -193,8 +193,14 @@ jobs:
         fi
         # Elasticsearch compiles against the published outbound SDK in connect
         # Maven DEV. execute-build already logged JFrog CLI in via OIDC.
+        # CLI OIDC often sets JF_ACCESS_TOKEN without JF_USER; Gradle still
+        # needs a password, and derives the username from the JWT if needed.
         export CONNECT_SDK_DEV_REPO_USER="${CONNECT_SDK_DEV_REPO_USER:-${JF_USER:-}}"
         export CONNECT_SDK_DEV_REPO_PASSWORD="${CONNECT_SDK_DEV_REPO_PASSWORD:-${JF_ACCESS_TOKEN:-}}"
+        if [[ -z "${CONNECT_SDK_DEV_REPO_PASSWORD}" ]]; then
+          echo "JF_ACCESS_TOKEN is not set; cannot resolve connect Maven DEV" >&2
+          exit 1
+        fi
         ./gradlew --no-daemon \
           -Pversion="$MAVEN_VERSION" \
           ":$ARTIFACT:clean" \

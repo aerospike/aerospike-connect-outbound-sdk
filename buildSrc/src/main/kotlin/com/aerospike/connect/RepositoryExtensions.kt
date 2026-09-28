@@ -20,6 +20,7 @@ package com.aerospike.connect
 
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.repositories
+import java.util.Base64
 
 /**
  * Resolve QE/DEV SDK artifacts from connect Maven DEV.
@@ -28,17 +29,21 @@ import org.gradle.kotlin.dsl.repositories
  * - Gradle properties `connectSDKDevRepoUser` / `connectSDKDevRepoPassword`
  * - `CONNECT_SDK_DEV_REPO_USER` / `CONNECT_SDK_DEV_REPO_PASSWORD`
  * - JFrog CLI / GitHub OIDC: `JF_USER` / `JF_ACCESS_TOKEN`
+ *
+ * JFrog CLI OIDC often exports only `JF_ACCESS_TOKEN`. A token without a
+ * username still authenticates; the JWT `sub` is used when no user is set.
  */
 fun Project.addConnectSdkDevMavenRepository() {
-    val user = firstNonBlank(
-        findProperty("connectSDKDevRepoUser") as String?,
-        System.getenv("CONNECT_SDK_DEV_REPO_USER"),
-        System.getenv("JF_USER")
-    )
     val password = firstNonBlank(
         findProperty("connectSDKDevRepoPassword") as String?,
         System.getenv("CONNECT_SDK_DEV_REPO_PASSWORD"),
         System.getenv("JF_ACCESS_TOKEN")
+    )
+    val user = firstNonBlank(
+        findProperty("connectSDKDevRepoUser") as String?,
+        System.getenv("CONNECT_SDK_DEV_REPO_USER"),
+        System.getenv("JF_USER"),
+        jwtSubject(password)
     )
 
     repositories {
@@ -47,9 +52,9 @@ fun Project.addConnectSdkDevMavenRepository() {
             url = uri(
                 "https://artifact.aerospike.io/artifactory/connect-maven-dev-local/"
             )
-            if (user != null && password != null) {
+            if (password != null) {
                 credentials {
-                    username = user
+                    username = user ?: "oidc"
                     this.password = password
                 }
             }
@@ -59,3 +64,23 @@ fun Project.addConnectSdkDevMavenRepository() {
 
 private fun firstNonBlank(vararg values: String?): String? =
     values.firstOrNull { !it.isNullOrBlank() }
+
+private fun jwtSubject(token: String?): String? {
+    if (token.isNullOrBlank()) {
+        return null
+    }
+    val parts = token.split('.')
+    if (parts.size < 2) {
+        return null
+    }
+    return try {
+        val padded = parts[1] + "=".repeat((4 - parts[1].length % 4) % 4)
+        val json = String(Base64.getUrlDecoder().decode(padded))
+        Regex("\"sub\"\\s*:\\s*\"([^\"]+)\"")
+            .find(json)
+            ?.groupValues
+            ?.get(1)
+    } catch (_: Exception) {
+        null
+    }
+}
