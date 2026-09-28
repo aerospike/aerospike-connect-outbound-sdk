@@ -52,14 +52,6 @@ runs:
           exit 1
         fi
         echo "::add-mask::${access_token}"
-        user="$(python3 - "${access_token}" <<'PY'
-import base64, json, sys
-token = sys.argv[1]
-payload = token.split(".")[1]
-payload += "=" * ((4 - len(payload) % 4) % 4)
-claims = json.loads(base64.urlsafe_b64decode(payload.encode()))
-print(claims.get("sub") or claims.get("username") or "oidc")
-PY
-)"
+        user="$(python3 -c 'import base64,json,sys; t=sys.argv[1]; p=t.split(".")[1]; p+="="*((4-len(p)%4)%4); c=json.loads(base64.urlsafe_b64decode(p.encode())); print(c.get("sub") or c.get("username") or "oidc")' "${access_token}")"
         echo "user=${user}" >> "${GITHUB_OUTPUT}"
         echo "token=${access_token}" >> "${GITHUB_OUTPUT}"
