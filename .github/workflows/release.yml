@@ -268,7 +268,7 @@ jobs:
             --tag="$ANNOTATE_TAG"
 
       - name: Promote to DEV
-        uses: aerospike/shared-workflows/.github/actions/promote-release-bundle@dc2cdd913a4699948fbe024a85a42c354339ac15 # main, includes shared-workflows#293
+        uses: aerospike/shared-workflows/.github/actions/promote-release-bundle@eca1c56305c1fad8ac4369758664f6590d046141 # main, includes shared-workflows#293
         with:
           bundle-name: ${{ needs.release-metadata.outputs.artifact }}
           version: ${{ needs.release-metadata.outputs.version }}
