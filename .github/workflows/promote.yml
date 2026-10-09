@@ -95,7 +95,7 @@ jobs:
           echo "bundle-version=$bundle_version" >> "$GITHUB_OUTPUT"
 
       - name: Set up JFrog CLI
-        uses: step-security/setup-jfrog-cli@53aeacb709fce45d0baf69a13ec3342f7e2d71a9 # v5.1.0
+        uses: step-security/setup-jfrog-cli@f67dd6dcfe5fab8d1ebd695c456631275009a39d # v5.2.0
         env:
           JF_URL: https://artifact.aerospike.io
           JF_PROJECT: connect
@@ -170,7 +170,7 @@ jobs:
 
       - name: Promote to TEST
         if: steps.resolve.outputs.promote-test == 'true'
-        uses: aerospike/shared-workflows/.github/actions/promote-release-bundle@bb39c4ec073b5693438911e6eefca7782ea53e8d # main, includes shared-workflows#293
+        uses: aerospike/shared-workflows/.github/actions/promote-release-bundle@eca1c56305c1fad8ac4369758664f6590d046141 # main, includes shared-workflows#293
         with:
           bundle-name: ${{ steps.verify.outputs.bundle-name }}
           version: ${{ steps.verify.outputs.bundle-version }}
@@ -179,7 +179,7 @@ jobs:
 
       - name: Promote to STAGE
         if: steps.resolve.outputs.promote-stage == 'true'
-        uses: aerospike/shared-workflows/.github/actions/promote-release-bundle@bb39c4ec073b5693438911e6eefca7782ea53e8d # main, includes shared-workflows#293
+        uses: aerospike/shared-workflows/.github/actions/promote-release-bundle@eca1c56305c1fad8ac4369758664f6590d046141 # main, includes shared-workflows#293
         with:
           bundle-name: ${{ steps.verify.outputs.bundle-name }}
           version: ${{ steps.verify.outputs.bundle-version }}
