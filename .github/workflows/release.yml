@@ -170,7 +170,7 @@ jobs:
   build-sign-deploy:
     name: Build, sign, and deploy
     needs: release-metadata
-    uses: aerospike/shared-workflows/.github/workflows/reusable_artifacts-cicd.yaml@39b94aea7c29ee73ee97ea079f16936b474cad6e # main, includes shared-workflows#293
+    uses: aerospike/shared-workflows/.github/workflows/reusable_artifacts-cicd.yaml@bb61e6883b4a54ee307a33d64e5ee254911b42f7 # main, includes shared-workflows#293
     with:
       gh-workflows-ref: 7c8b65df2568974435ab8b40c9e9de6eae13b3bb
       gh-artifact-directory: dist
