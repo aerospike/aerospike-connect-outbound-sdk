@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43 # v2.22.3
         with:
           egress-policy: audit
 
@@ -95,7 +95,7 @@ jobs:
           echo "bundle-version=$bundle_version" >> "$GITHUB_OUTPUT"
 
       - name: Set up JFrog CLI
-        uses: step-security/setup-jfrog-cli@53aeacb709fce45d0baf69a13ec3342f7e2d71a9 # v5.1.0
+        uses: step-security/setup-jfrog-cli@9d5fe0e81fc593a6c0c39bf83ad9a7b45587eed0 # v5.3.1
         env:
           JF_URL: https://artifact.aerospike.io
           JF_PROJECT: connect
@@ -170,7 +170,7 @@ jobs:
 
       - name: Promote to TEST
         if: steps.resolve.outputs.promote-test == 'true'
-        uses: aerospike/shared-workflows/.github/actions/promote-release-bundle@bb39c4ec073b5693438911e6eefca7782ea53e8d # main, includes shared-workflows#293
+        uses: aerospike/shared-workflows/.github/actions/promote-release-bundle@bb61e6883b4a54ee307a33d64e5ee254911b42f7 # main, includes shared-workflows#293
         with:
           bundle-name: ${{ steps.verify.outputs.bundle-name }}
           version: ${{ steps.verify.outputs.bundle-version }}
@@ -179,7 +179,7 @@ jobs:
 
       - name: Promote to STAGE
         if: steps.resolve.outputs.promote-stage == 'true'
-        uses: aerospike/shared-workflows/.github/actions/promote-release-bundle@bb39c4ec073b5693438911e6eefca7782ea53e8d # main, includes shared-workflows#293
+        uses: aerospike/shared-workflows/.github/actions/promote-release-bundle@bb61e6883b4a54ee307a33d64e5ee254911b42f7 # main, includes shared-workflows#293
         with:
           bundle-name: ${{ steps.verify.outputs.bundle-name }}
           version: ${{ steps.verify.outputs.bundle-version }}
